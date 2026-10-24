@@ -103,6 +103,7 @@ function useReveal() {
 function Saturno() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null);
   useReveal();
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 30);
@@ -111,7 +112,7 @@ function Saturno() {
     return () => window.removeEventListener("scroll", on);
   }, []);
   useEffect(() => {
-    const k = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const k = (e: KeyboardEvent) => { if (e.key === "Escape") { setOpen(false); setSelectedImage(null); } };
     window.addEventListener("keydown", k);
     return () => window.removeEventListener("keydown", k);
   }, []);
@@ -171,17 +172,17 @@ function Saturno() {
             <div className="max-w-xl text-primary-foreground">
               <p className="hero-eyebrow animate-rise text-xs font-bold uppercase tracking-[0.32em] opacity-90" style={{ animationDelay: ".05s" }}><span className="hero-eyebrow-line" /> Aclimação · São Paulo</p>
               <h1 className="hero-title animate-rise mt-5 font-serif font-semibold leading-[0.88]" style={{ animationDelay: ".1s" }}>
-                HOJE A FOME<br /><span className="hero-title-accent">TEM DESTINO.</span>
+                SEU PRÓXIMO<br /><span className="hero-title-accent">HAMBÚRGUER FAVORITO.</span>
               </h1>
               <p className="animate-rise mt-5 max-w-md text-base leading-relaxed opacity-90 md:text-lg" style={{ animationDelay: ".2s" }}>
-                Uma vontade impossível de ignorar. Descubra o Saturno Bistrô & Burger e fale direto com a nossa equipe.
+                Hambúrgueres artesanais, combinações irresistíveis e aquele sabor que transforma uma refeição em um momento especial.
               </p>
               <div className="animate-rise mt-8 flex flex-col gap-3 sm:flex-row" style={{ animationDelay: ".3s" }}>
-                <a href="#cardapio" className={btnPrimary}>
-                  VER O CARDÁPIO <ArrowRight className="h-4 w-4" />
+                <a href={wa()} target="_blank" rel="noopener noreferrer" className={btnPrimary}>
+                  FAZER PEDIDO AGORA <ArrowRight className="h-4 w-4" />
                 </a>
-                <a href={wa()} target="_blank" rel="noopener noreferrer" className={btnGhost}>
-                  <MessageCircle className="h-4 w-4" /> PEDIR PELO WHATSAPP
+                <a href="#cardapio" className={btnGhost}>
+                  CONHEÇA O CARDÁPIO <ArrowRight className="h-4 w-4" />
                 </a>
               </div>
               <p className="animate-rise mt-6 flex items-center gap-2 text-sm opacity-80" style={{ animationDelay: ".4s" }}>
@@ -264,11 +265,26 @@ function Saturno() {
           <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5">
             {gallery.map((g) => (
               <figure key={g.alt} className="reveal group overflow-hidden rounded-xl">
-                <img src={g.src} alt={g.alt} width={1024} height={1024} loading="lazy" className="aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <button type="button" onClick={() => setSelectedImage(g)} className="block w-full cursor-zoom-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" aria-label={`Ampliar imagem: ${g.alt}`}>
+                  <img src={g.src} alt={g.alt} width={1024} height={1024} loading="lazy" className="aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                </button>
               </figure>
             ))}
           </div>
           <p className="mt-4 text-xs text-muted-foreground">Imagens ilustrativas.</p>
+        </section>
+
+        {/* CTA DE CONVERSÃO */}
+        <section className="saturno-cta relative isolate overflow-hidden py-16 text-primary-foreground md:py-24">
+          <div className="saturno-cta-glow absolute inset-0 -z-10" aria-hidden="true" />
+          <div className="reveal mx-auto flex max-w-6xl flex-col items-start justify-between gap-8 px-5 md:flex-row md:items-center">
+            <div className="max-w-2xl">
+              <p className="text-xs font-bold uppercase tracking-[0.32em] text-primary">É hora de matar a vontade</p>
+              <h2 className="section-display mt-3 font-serif text-4xl font-semibold md:text-6xl">BATEU A VONTADE? <span className="saturno-gold">VAMOS RESOLVER ISSO.</span></h2>
+              <p className="mt-4 max-w-xl leading-relaxed text-primary-foreground/85">Consulte as opções disponíveis e fale diretamente com a equipe do Saturno pelo WhatsApp.</p>
+            </div>
+            <a href={wa()} target="_blank" rel="noopener noreferrer" className={`${btnPrimary} shrink-0`}><MessageCircle className="h-4 w-4" /> FAZER PEDIDO AGORA</a>
+          </div>
         </section>
 
         {/* CONTATO */}
@@ -297,6 +313,13 @@ function Saturno() {
           </div>
         </section>
       </main>
+
+      {selectedImage && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Imagem ampliada" onClick={() => setSelectedImage(null)}>
+          <button type="button" onClick={() => setSelectedImage(null)} className="absolute right-4 top-4 grid h-12 w-12 place-items-center rounded-full border border-white/30 bg-black/40 text-white transition hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" aria-label="Fechar imagem ampliada"><X className="h-6 w-6" /></button>
+          <img src={selectedImage.src} alt={selectedImage.alt} className="max-h-[88svh] max-w-full rounded-xl object-contain shadow-2xl" onClick={(e) => e.stopPropagation()} />
+        </div>
+      )}
 
       <footer className="border-t border-border bg-background pb-28 pt-14 md:pb-14">
         <div className="mx-auto grid max-w-6xl gap-8 px-5 md:grid-cols-3">
