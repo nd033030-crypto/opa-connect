@@ -1,0 +1,1 @@
+OPA CONNECT — teste de permissão de escrita. Este arquivo pode ser removido após a confirmação.
