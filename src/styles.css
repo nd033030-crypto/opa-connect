@@ -48,8 +48,8 @@
   --color-ring-offset-background: var(--background);
   --color-primary-deep: var(--primary-deep);
   --color-whatsapp: var(--whatsapp);
-  --font-serif: "Fraunces", Georgia, serif;
-  --font-sans: "DM Sans", system-ui, sans-serif;
+  --font-serif: "Bebas Neue", "Oswald", Impact, sans-serif;
+  --font-sans: "Manrope", "DM Sans", system-ui, sans-serif;
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -118,4 +118,62 @@ body { font-family: var(--font-sans); }
   .animate-rise { animation: none; }
   .js .reveal { opacity: 1; transform: none; transition: none; }
   * { transition-duration: 0ms !important; }
+}
+
+
+/* SATURNO BRAND REFINEMENT — bold editorial typography and premium food styling */
+:root {
+  --background: #f5f7fa;
+  --foreground: #21160f;
+  --card: #fffdf9;
+  --card-foreground: #21160f;
+  --primary: #754205;
+  --primary-deep: #24150c;
+  --primary-foreground: #f5f7fa;
+  --secondary: #eadcc9;
+  --secondary-foreground: #321d0c;
+  --muted: #eee8df;
+  --muted-foreground: #6e6258;
+  --accent: #e8d5b8;
+  --accent-foreground: #321d0c;
+  --border: #dfd4c7;
+  --input: #dfd4c7;
+  --ring: #754205;
+  --shadow-soft: 0 18px 48px -24px rgb(36 21 12 / 48%);
+  --shadow-lift: 0 28px 64px -28px rgb(36 21 12 / 55%);
+  --gradient-hero: linear-gradient(90deg, rgb(20 12 7 / 91%) 0%, rgb(28 16 8 / 76%) 38%, rgb(28 16 8 / 28%) 72%, rgb(28 16 8 / 8%) 100%);
+}
+
+.font-serif { font-family: "Bebas Neue", "Oswald", Impact, sans-serif; letter-spacing: .015em; }
+h1, h2, h3, h4 { text-wrap: balance; }
+.brand-lockup { display: inline-block; font-family: "Bebas Neue", Impact, sans-serif; font-size: 1.9rem; letter-spacing: .045em; text-transform: uppercase; line-height: .82; }
+.brand-lockup::before { content: ""; display: inline-block; width: .52em; height: .52em; margin-right: .24em; border: 2px solid currentColor; border-radius: 50%; box-shadow: .12em .12em 0 -.03em currentColor; transform: rotate(-25deg); vertical-align: .04em; }
+.brand-subtitle { margin-top: .45rem; font-size: .47em; letter-spacing: .31em; line-height: 1.1; }
+.hero-title { max-width: 820px; font-size: clamp(4rem, 9.6vw, 8.7rem); letter-spacing: -.018em; line-height: .82 !important; text-transform: uppercase; text-shadow: 0 5px 28px rgb(0 0 0 / 22%); }
+.hero-title-accent { color: #f1c98d; }
+.hero-eyebrow { display: flex; align-items: center; gap: .75rem; color: #f4d7ac; }
+.hero-eyebrow-line { display: inline-block; width: 2.4rem; height: 2px; background: #d6a35e; }
+.hero-title + p { max-width: 34rem; font-size: clamp(1rem, 1.5vw, 1.25rem); }
+#inicio .btn-primary, #inicio a[class*="bg-primary"] { box-shadow: 0 12px 28px rgb(0 0 0 / 24%); }
+#inicio a { font-weight: 800; letter-spacing: .045em; text-transform: uppercase; }
+.section-display { letter-spacing: -.005em; line-height: .94; text-transform: uppercase; }
+.menu-category { font-size: clamp(1.9rem, 3vw, 2.65rem); letter-spacing: .01em; text-transform: uppercase; }
+#cardapio article { border-radius: 1rem; box-shadow: 0 10px 35px rgb(36 21 12 / 5%); }
+#cardapio article:hover { border-color: #b99265; box-shadow: 0 24px 55px rgb(36 21 12 / 13%); }
+#cardapio article h4 { font-size: 1.65rem; line-height: .98; text-transform: uppercase; }
+#galeria figure { border-radius: .5rem; }
+#contato h2 { max-width: 12ch; }
+footer .font-serif { letter-spacing: .01em; }
+a, button { -webkit-tap-highlight-color: transparent; }
+::selection { color: #f5f7fa; background: #754205; }
+@media (max-width: 640px) {
+  .brand-lockup { font-size: 1.55rem; }
+  .hero-title { font-size: clamp(3.55rem, 17vw, 6rem); line-height: .86 !important; }
+  #inicio { min-height: 90svh; }
+  #inicio .max-w-xl { max-width: 100%; }
+  #inicio .animate-rise.mt-8 { gap: .65rem; }
+  .section-display { line-height: .92; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-title { text-shadow: none; }
 }
