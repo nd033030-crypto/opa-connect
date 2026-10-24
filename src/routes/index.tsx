@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowRight, Clock3, MapPin, Menu, MessageCircle, Phone, X } from "lucide-react";
+import { ArrowRight, Clock3, MapPin, Menu, Phone, X } from "lucide-react";
 import "../barone.css";
 
 export const Route = createFileRoute("/")({ component: Barone });
