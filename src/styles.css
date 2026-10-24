@@ -177,3 +177,61 @@ a, button { -webkit-tap-highlight-color: transparent; }
 @media (prefers-reduced-motion: reduce) {
   .hero-title { text-shadow: none; }
 }
+
+
+/* Saturno Bistrô & Burger — premium palette and motion polish */
+:root {
+  --background: #15120f;
+  --foreground: #f5ebdd;
+  --card: #211a15;
+  --card-foreground: #f5ebdd;
+  --popover: #211a15;
+  --popover-foreground: #f5ebdd;
+  --primary: #d39549;
+  --primary-deep: #6b0b00;
+  --primary-foreground: #15120f;
+  --secondary: #34251b;
+  --secondary-foreground: #f5ebdd;
+  --muted: #2a211b;
+  --muted-foreground: #c4b4a2;
+  --accent: #3b281b;
+  --accent-foreground: #f5ebdd;
+  --border: #4a3525;
+  --input: #4a3525;
+  --ring: #d39549;
+  --whatsapp: #25d366;
+  --shadow-soft: 0 18px 48px -24px rgb(0 0 0 / 65%);
+  --shadow-lift: 0 28px 64px -28px rgb(0 0 0 / 78%);
+  --gradient-hero: linear-gradient(90deg, rgb(21 18 15 / 94%) 0%, rgb(21 18 15 / 78%) 38%, rgb(21 18 15 / 30%) 72%, rgb(21 18 15 / 12%) 100%);
+}
+body { background: #15120f; color: #f5ebdd; }
+#sobre, #galeria, footer { background-color: #15120f; }
+#cardapio { background-color: #211a15; }
+#cardapio article { background-color: #191511; border-color: rgb(211 149 73 / 24%); }
+#cardapio article p { color: #c4b4a2; }
+#sobre .text-muted-foreground, #galeria .text-muted-foreground, footer .text-muted-foreground { color: #c4b4a2; }
+.brand-lockup, footer .text-primary { color: #d39549; }
+.hero-title-accent, .saturno-gold { color: #d39549; }
+#contato { background: linear-gradient(135deg, #6b0b00 0%, #3b0803 100%); }
+.saturno-cta { background: linear-gradient(120deg, #6b0b00 0%, #3c0803 55%, #21140d 100%); }
+.saturno-cta-glow { background: radial-gradient(ellipse at 82% 50%, rgb(211 149 73 / 19%), transparent 44%); pointer-events: none; }
+.bg-whatsapp { background-color: #25d366; color: #092c16; }
+#inicio .hero-title { max-width: 950px; }
+#inicio .hero-title-accent { display: inline-block; }
+#inicio a[class*="bg-primary"] { background: #d39549; color: #15120f; }
+#inicio a[class*="border"] { border-color: rgb(245 235 221 / 45%); color: #f5ebdd; }
+a:focus-visible, button:focus-visible { outline-offset: 4px; }
+#cardapio article:hover { border-color: #d39549; box-shadow: 0 24px 55px rgb(0 0 0 / 35%); }
+#cardapio article h4 { color: #f5ebdd; }
+#cardapio .text-primary { color: #e5b36f; }
+#cardapio a[class*="border-primary"] { border-color: #d39549; color: #e5b36f; }
+#cardapio a[class*="border-primary"]:hover { background: #d39549; color: #15120f; }
+#contato a[class*="bg-primary-foreground"] { background: #f5ebdd; color: #6b0b00; }
+header .bg-primary { background: #d39549; color: #15120f; }
+@media (hover: hover) and (pointer: fine) {
+  #galeria figure img { will-change: transform; }
+  .saturno-cta a:hover { box-shadow: 0 12px 36px rgb(211 149 73 / 22%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .saturno-cta-glow { display: none; }
+}
