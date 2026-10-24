@@ -1,353 +1,92 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, Clock3, MapPin, Menu, MessageCircle, Phone, X } from "lucide-react";
-import hero from "@/assets/hero-burger.jpg";
-import burgerFries from "@/assets/burger-fries.jpg";
-import fries from "@/assets/fries.jpg";
-import bacon from "@/assets/bacon-burger.jpg";
-import combo from "@/assets/combo.jpg";
-import rings from "@/assets/onion-rings.jpg";
-import kitchen from "@/assets/kitchen.jpg";
-import chicken from "@/assets/chicken-burger.jpg";
+import { ArrowRight, Clock3, MapPin, Menu, MessageCircle, Minus, Plus, ShoppingBag, Trash2, X } from "lucide-react";
 
-const TITLE = "Saturno Bistrô & Burger | Hamburgueria Artesanal na Aclimação, São Paulo";
-const DESC =
-  "Hamburgueria artesanal na Aclimação, São Paulo. Conheça o cardápio do Saturno Bistrô & Burger e faça seu pedido pelo WhatsApp.";
-
+const business = {
+ name: "Dona Alexandrina", slogan: "O sabor, que abraça",
+ address: "R. Sampaio Viana, 409 - Paraíso, São Paulo - SP, 04004-001, Brasil",
+ phone: "(11) 3885-9831", whatsapp: "551138859831", hours: "Segunda a sábado, das 9h às 19h",
+};
+const wa = (message = "Olá! Conheci a Dona Alexandrina pelo site e gostaria de saber mais sobre os produtos.") => `https://wa.me/${business.whatsapp}?text=${encodeURIComponent(message)}`;
+const maps = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(business.address)}`;
+const embed = `https://maps.google.com/maps?q=${encodeURIComponent(business.address)}&z=16&output=embed`;
+const photo = (id: string, width = 1000) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=85`;
+const images = {
+ hero: photo("photo-1509440159596-0249088772ff", 1800),
+ bread: photo("photo-1549931319-a545dcf3bc73"),
+ croissant: photo("photo-1555507036-ab1f4038808a"),
+ coffee: photo("photo-1509042239860-f550ce710b93"),
+ pastry: photo("photo-1484723091739-30a097e8f929"),
+ cake: photo("photo-1464305795204-6f5bbfc7fb81"),
+ sandwich: photo("photo-1528735602780-2552fd46c7af"),
+ espresso: photo("photo-1511920170033-f8396924c348"),
+};
+type Product = { id: string; name: string; category: string; image: string };
+const products: Product[] = [
+ {id:"p1",name:"Pão francês",category:"Pães",image:images.bread},
+ {id:"p2",name:"Pão de queijo",category:"Pães",image:images.pastry},
+ {id:"p3",name:"Pães especiais",category:"Pães",image:images.hero},
+ {id:"s1",name:"Coxinha",category:"Salgados",image:images.sandwich},
+ {id:"s2",name:"Esfiha",category:"Salgados",image:images.pastry},
+ {id:"s3",name:"Empadas",category:"Salgados",image:images.sandwich},
+ {id:"d1",name:"Croissant doce",category:"Doces",image:images.croissant},
+ {id:"d2",name:"Bolos",category:"Doces",image:images.cake},
+ {id:"d3",name:"Doces variados",category:"Doces",image:images.pastry},
+ {id:"b1",name:"Café expresso",category:"Bebidas",image:images.espresso},
+ {id:"b2",name:"Cappuccino",category:"Bebidas",image:images.coffee},
+ {id:"b3",name:"Sucos",category:"Bebidas",image:images.coffee},
+];
+const navigation = [["Início","#inicio"],["Sobre","#sobre"],["Cardápio","#cardapio"],["Galeria","#galeria"],["Localização","#localizacao"],["Contato","#contato"]] as const;
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: TITLE },
-      { name: "description", content: DESC },
-      { property: "og:title", content: TITLE },
-      { property: "og:description", content: DESC },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
-  component: Saturno,
+ head: () => ({
+  meta: [
+   {title:"Dona Alexandrina | Padaria no Paraíso, São Paulo"},
+   {name:"description",content:"Conheça a Dona Alexandrina na Rua Sampaio Viana, 409, Paraíso, São Paulo. O sabor, que abraça. Consulte produtos e entre em contato."},
+   {property:"og:title",content:"Dona Alexandrina | O sabor, que abraça"},
+   {property:"og:description",content:"Padaria no Paraíso, São Paulo. Conheça nossos sabores e fale com a equipe."},
+   {property:"og:type",content:"website"},
+   {property:"og:image",content:images.hero},
+  ],
+  scripts:[{type:"application/ld+json",children:JSON.stringify({"@context":"https://schema.org","@type":"Bakery",name:business.name,address:{"@type":"PostalAddress",streetAddress:"R. Sampaio Viana, 409",addressLocality:"São Paulo",addressRegion:"SP",postalCode:"04004-001",addressCountry:"BR"},telephone:"+551138859831",openingHoursSpecification:[{"@type":"OpeningHoursSpecification",dayOfWeek:["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],opens:"09:00",closes:"19:00"}]})}],
+ }),
+ component: Home,
 });
-
-const PHONE = "5511986979286";
-const ADDRESS = "R. Saturno, 132 - Aclimação, São Paulo - SP, 01531-030";
-const wa = (msg = "Olá! Encontrei o Saturno Bistrô & Burger pelo site e gostaria de conhecer o cardápio e fazer um pedido.") =>
-  `https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`;
-const MAP = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ADDRESS)}`;
-const EMBED = `https://maps.google.com/maps?q=${encodeURIComponent(ADDRESS)}&z=16&output=embed`;
-
-const nav = [
-  ["Início", "#inicio"],
-  ["Sobre", "#sobre"],
-  ["Cardápio", "#cardapio"],
-  ["Galeria", "#galeria"],
-  ["Contato", "#contato"],
-] as const;
-
-// Itens demonstrativos — substitua pelo cardápio real (nome, descrição, preço e foto).
-type Item = { name: string; desc: string; img: string; price?: string };
-const menu: { category: string; items: Item[] }[] = [
-  {
-    category: "Hambúrgueres artesanais",
-    items: [
-      { name: "Clássico da Casa", desc: "Pão brioche, carne grelhada, cheddar, alface, tomate e cebola roxa.", img: hero },
-      { name: "Bacon & Cebola", desc: "Carne grelhada, queijo derretido, bacon crocante e cebola caramelizada.", img: bacon },
-      { name: "Frango Crocante", desc: "Frango empanado, picles e salada de repolho cremosa.", img: chicken },
-      { name: "X-Salada", desc: "Hambúrguer, queijo, alface, tomate e molho.", img: hero },
-    ],
-  },
-  {
-    category: "Combos",
-    items: [
-      { name: "Combo Burger + Fritas", desc: "Hambúrguer, porção de fritas e bebida.", img: combo },
-      { name: "Combo Duplo", desc: "Dois blends com cheddar e picles, acompanhado de fritas.", img: burgerFries },
-    ],
-  },
-  {
-    category: "Acompanhamentos",
-    items: [
-      { name: "Batatas Rústicas", desc: "Fritas douradas com ervas e molho da casa.", img: fries },
-      { name: "Onion Rings", desc: "Anéis de cebola empanados e crocantes.", img: rings },
-      { name: "Mandioca Frita", desc: "Porção dourada e crocante para acompanhar seu pedido.", img: fries },
-    ],
-  },
-];
-
-const gallery = [
-  { src: hero, alt: "Hambúrguer artesanal com cheddar derretido sobre tábua de madeira" },
-  { src: kitchen, alt: "Mãos finalizando um hambúrguer duplo com queijo na cozinha" },
-  { src: fries, alt: "Batatas rústicas com ervas em cesta metálica" },
-  { src: bacon, alt: "Hambúrguer com bacon crocante e cebola caramelizada" },
-  { src: rings, alt: "Onion rings empanados com molho" },
-  { src: combo, alt: "Combo com hambúrguer, fritas e refrigerante" },
-];
-
-const btn =
-  "inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 text-sm font-semibold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2";
-const btnPrimary = `${btn} bg-primary text-primary-foreground hover:bg-primary-deep hover:-translate-y-0.5 shadow-soft`;
-const btnGhost = `${btn} border border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground/10`;
-const btnOutline = `${btn} border border-primary text-primary hover:bg-primary hover:text-primary-foreground`;
-
-function useReveal() {
-  useEffect(() => {
-    document.documentElement.classList.add("js");
-    const els = document.querySelectorAll(".reveal");
-    const io = new IntersectionObserver(
-      (es) => es.forEach((e) => e.isIntersecting && (e.target.classList.add("in"), io.unobserve(e.target))),
-      { threshold: 0.12 },
-    );
-    els.forEach((el) => io.observe(el));
-    return () => io.disconnect();
-  }, []);
-}
-
-function Saturno() {
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null);
-  useReveal();
-  useEffect(() => {
-    const on = () => setScrolled(window.scrollY > 30);
-    on();
-    window.addEventListener("scroll", on, { passive: true });
-    return () => window.removeEventListener("scroll", on);
-  }, []);
-  useEffect(() => {
-    const k = (e: KeyboardEvent) => { if (e.key === "Escape") { setOpen(false); setSelectedImage(null); } };
-    window.addEventListener("keydown", k);
-    return () => window.removeEventListener("keydown", k);
-  }, []);
-
-  return (
-    <div className="bg-background text-foreground">
-      <header
-        className={`fixed inset-x-0 top-0 z-40 transition-all duration-300 ${
-          scrolled || open ? "bg-background/95 shadow-soft backdrop-blur" : "bg-transparent"
-        }`}
-      >
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 md:h-20">
-          <a href="#inicio" className={`brand-lockup font-serif text-xl font-semibold leading-none md:text-2xl ${scrolled || open ? "text-primary" : "text-primary-foreground"}`}>
-            Saturno <span className="brand-subtitle block text-[0.65rem] font-sans font-bold uppercase tracking-[0.34em] opacity-90">Bistrô & Burger</span>
-          </a>
-          <nav aria-label="Principal" className="hidden items-center gap-8 md:flex">
-            {nav.map(([l, h]) => (
-              <a key={h} href={h} className={`text-sm font-medium transition-colors hover:text-primary ${scrolled ? "text-foreground" : "text-primary-foreground/90 hover:text-primary-foreground"}`}>
-                {l}
-              </a>
-            ))}
-            <a href={wa()} target="_blank" rel="noopener noreferrer" className={btnPrimary}>
-              Fazer pedido
-            </a>
-          </nav>
-          <button
-            className={`grid h-11 w-11 place-items-center rounded-full md:hidden ${scrolled || open ? "text-foreground" : "text-primary-foreground"}`}
-            aria-label={open ? "Fechar menu" : "Abrir menu"}
-            aria-expanded={open}
-            aria-controls="menu-mobile"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <X /> : <Menu />}
-          </button>
-        </div>
-        {open && (
-          <nav id="menu-mobile" aria-label="Menu mobile" className="border-t border-border bg-background px-5 pb-6 md:hidden">
-            {nav.map(([l, h]) => (
-              <a key={h} href={h} onClick={() => setOpen(false)} className="block border-b border-border py-4 font-serif text-lg">
-                {l}
-              </a>
-            ))}
-            <a href={wa()} target="_blank" rel="noopener noreferrer" className={`${btnPrimary} mt-5 w-full`}>
-              Fazer pedido
-            </a>
-          </nav>
-        )}
-      </header>
-
-      <main>
-        {/* HERO */}
-        <section id="inicio" className="relative flex min-h-[92svh] items-end overflow-hidden bg-primary-deep md:items-center">
-          <img src={hero} alt="Hambúrguer artesanal com pão brioche, cheddar derretido e salada fresca" width={1600} height={1072} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover object-[70%_center]" />
-          <div className="bg-hero-overlay absolute inset-0" />
-          <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-primary-deep/90 to-transparent md:hidden" />
-          <div className="relative mx-auto w-full max-w-6xl px-5 pb-16 pt-28 md:pb-0">
-            <div className="max-w-xl text-primary-foreground">
-              <p className="hero-eyebrow animate-rise text-xs font-bold uppercase tracking-[0.32em] opacity-90" style={{ animationDelay: ".05s" }}><span className="hero-eyebrow-line" /> Aclimação · São Paulo</p>
-              <h1 className="hero-title animate-rise mt-5 font-serif font-semibold leading-[0.88]" style={{ animationDelay: ".1s" }}>
-                SEU PRÓXIMO<br /><span className="hero-title-accent">HAMBÚRGUER FAVORITO.</span>
-              </h1>
-              <p className="animate-rise mt-5 max-w-md text-base leading-relaxed opacity-90 md:text-lg" style={{ animationDelay: ".2s" }}>
-                Hambúrgueres artesanais, combinações irresistíveis e aquele sabor que transforma uma refeição em um momento especial.
-              </p>
-              <div className="animate-rise mt-8 flex flex-col gap-3 sm:flex-row" style={{ animationDelay: ".3s" }}>
-                <a href={wa()} target="_blank" rel="noopener noreferrer" className={btnPrimary}>
-                  FAZER PEDIDO AGORA <ArrowRight className="h-4 w-4" />
-                </a>
-                <a href="#cardapio" className={btnGhost}>
-                  CONHEÇA O CARDÁPIO <ArrowRight className="h-4 w-4" />
-                </a>
-              </div>
-              <p className="animate-rise mt-6 flex items-center gap-2 text-sm opacity-80" style={{ animationDelay: ".4s" }}>
-                <Clock3 className="h-4 w-4" /> Seg a sáb, 9h às 19h
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* SOBRE */}
-        <section id="sobre" className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-20 md:grid-cols-2 md:py-28">
-          <div className="reveal overflow-hidden rounded-2xl shadow-lift">
-            <img src={kitchen} alt="Hambúrguer duplo sendo finalizado na cozinha" width={1024} height={1280} loading="lazy" className="aspect-[4/5] w-full object-cover" />
-          </div>
-          <div className="reveal">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">Sobre o bistrô</p>
-            <h2 className="section-display mt-3 font-serif text-3xl font-semibold leading-tight md:text-5xl">FEITO PRA MARCAR. <span className="text-primary">FEITO PRA SATURNO.</span></h2>
-            <div className="mt-6 space-y-4 leading-relaxed text-muted-foreground">
-              <p>O Saturno Bistrô & Burger fica na R. Saturno, na Aclimação, e é uma ótima escolha para quem procura um bom hambúrguer em São Paulo.</p>
-              <p>Cada pedido é pensado para chegar bonito e saboroso — do pão à última batata. Conheça as opções do cardápio e fale direto com a equipe pelo WhatsApp.</p>
-            </div>
-            <a href="#cardapio" className={`${btnOutline} mt-8`}>
-              Ver cardápio <ArrowRight className="h-4 w-4" />
-            </a>
-          </div>
-        </section>
-
-        {/* CARDÁPIO */}
-        <section id="cardapio" className="bg-card py-20 md:py-28">
-          <div className="mx-auto max-w-6xl px-5">
-            <div className="reveal max-w-2xl">
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">Cardápio</p>
-              <h2 className="section-display mt-3 font-serif text-3xl font-semibold md:text-5xl">ESCOLHA SUA PRÓXIMA OBSESSÃO.</h2>
-              <p className="mt-4 text-muted-foreground">
-                Itens demonstrativos. Consulte disponibilidade e valores pelo WhatsApp.
-              </p>
-            </div>
-            {menu.map((cat) => (
-              <div key={cat.category} className="mt-14">
-                <h3 className="menu-category reveal border-b border-border pb-3 font-serif text-2xl font-semibold">{cat.category}</h3>
-                <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                  {cat.items.map((it) => (
-                    <article key={it.name} className="reveal group flex flex-col overflow-hidden rounded-2xl border border-border bg-background transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
-                      <div className="overflow-hidden">
-                        <img src={it.img} alt={it.name} width={1024} height={1024} loading="lazy" className="aspect-[4/3] w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                      </div>
-                      <div className="flex flex-1 flex-col p-5">
-                        <h4 className="font-serif text-xl font-semibold">{it.name}</h4>
-                        <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{it.desc}</p>
-                        <p className="mt-4 text-sm font-semibold text-primary">{it.price ?? "Consulte o valor"}</p>
-                        <a
-                          href={wa(`Olá, Saturno Bistrô & Burger! Gostaria de pedir: ${it.name}. Está disponível?`)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className={`${btnOutline} mt-4 w-full`}
-                          aria-label={`Pedir ${it.name} pelo WhatsApp`}
-                        >
-                          <MessageCircle className="h-4 w-4" /> Pedir pelo WhatsApp
-                        </a>
-                      </div>
-                    </article>
-                  ))}
-                </div>
-              </div>
-            ))}
-            <div className="mt-14 text-center">
-              <a href={wa()} target="_blank" rel="noopener noreferrer" className={btnPrimary}>
-                Fazer pedido agora
-              </a>
-            </div>
-          </div>
-        </section>
-
-        {/* GALERIA */}
-        <section id="galeria" className="mx-auto max-w-6xl px-5 py-20 md:py-28">
-          <div className="reveal max-w-2xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">Galeria</p>
-            <h2 className="section-display mt-3 font-serif text-3xl font-semibold md:text-5xl">OLHOU. DEU VONTADE.</h2>
-          </div>
-          <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5">
-            {gallery.map((g) => (
-              <figure key={g.alt} className="reveal group overflow-hidden rounded-xl">
-                <button type="button" onClick={() => setSelectedImage(g)} className="block w-full cursor-zoom-in focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" aria-label={`Ampliar imagem: ${g.alt}`}>
-                  <img src={g.src} alt={g.alt} width={1024} height={1024} loading="lazy" className="aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                </button>
-              </figure>
-            ))}
-          </div>
-          <p className="mt-4 text-xs text-muted-foreground">Imagens ilustrativas.</p>
-        </section>
-
-        {/* CTA DE CONVERSÃO */}
-        <section className="saturno-cta relative isolate overflow-hidden py-16 text-primary-foreground md:py-24">
-          <div className="saturno-cta-glow absolute inset-0 -z-10" aria-hidden="true" />
-          <div className="reveal mx-auto flex max-w-6xl flex-col items-start justify-between gap-8 px-5 md:flex-row md:items-center">
-            <div className="max-w-2xl">
-              <p className="text-xs font-bold uppercase tracking-[0.32em] text-primary">É hora de matar a vontade</p>
-              <h2 className="section-display mt-3 font-serif text-4xl font-semibold md:text-6xl">BATEU A VONTADE? <span className="saturno-gold">VAMOS RESOLVER ISSO.</span></h2>
-              <p className="mt-4 max-w-xl leading-relaxed text-primary-foreground/85">Consulte as opções disponíveis e fale diretamente com a equipe do Saturno pelo WhatsApp.</p>
-            </div>
-            <a href={wa()} target="_blank" rel="noopener noreferrer" className={`${btnPrimary} shrink-0`}><MessageCircle className="h-4 w-4" /> FAZER PEDIDO AGORA</a>
-          </div>
-        </section>
-
-        {/* CONTATO */}
-        <section id="contato" className="bg-primary-deep py-20 text-primary-foreground md:py-28">
-          <div className="mx-auto grid max-w-6xl gap-10 px-5 md:grid-cols-2">
-            <div className="reveal">
-              <p className="text-xs font-semibold uppercase tracking-[0.3em] opacity-70">Contato</p>
-              <h2 className="section-display mt-3 font-serif text-3xl font-semibold md:text-5xl">A FOME TE TROUXE ATÉ AQUI.</h2>
-              <ul className="mt-8 space-y-5">
-                <li className="flex gap-3"><MapPin className="mt-0.5 h-5 w-5 shrink-0 opacity-80" /><span>{ADDRESS}, Brasil</span></li>
-                <li className="flex gap-3"><Phone className="mt-0.5 h-5 w-5 shrink-0 opacity-80" /><a href={wa()} target="_blank" rel="noopener noreferrer" className="underline-offset-4 hover:underline">(11) 98697-9286</a></li>
-                <li className="flex gap-3"><Clock3 className="mt-0.5 h-5 w-5 shrink-0 opacity-80" /><span>Segunda a sábado, das 9h às 19h</span></li>
-              </ul>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <a href={wa()} target="_blank" rel="noopener noreferrer" className={`${btn} bg-primary-foreground text-primary-deep hover:-translate-y-0.5`}>
-                  <MessageCircle className="h-4 w-4" /> Conversar no WhatsApp
-                </a>
-                <a href={MAP} target="_blank" rel="noopener noreferrer" className={btnGhost}>
-                  <MapPin className="h-4 w-4" /> Abrir no Google Maps
-                </a>
-              </div>
-            </div>
-            <div className="reveal overflow-hidden rounded-2xl border border-primary-foreground/15">
-              <iframe title="Mapa do Saturno Bistrô & Burger" src={EMBED} loading="lazy" className="h-80 w-full md:h-full md:min-h-96" referrerPolicy="no-referrer-when-downgrade" />
-            </div>
-          </div>
-        </section>
-      </main>
-
-      {selectedImage && (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Imagem ampliada" onClick={() => setSelectedImage(null)}>
-          <button type="button" onClick={() => setSelectedImage(null)} className="absolute right-4 top-4 grid h-12 w-12 place-items-center rounded-full border border-white/30 bg-black/40 text-white transition hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" aria-label="Fechar imagem ampliada"><X className="h-6 w-6" /></button>
-          <img src={selectedImage.src} alt={selectedImage.alt} className="max-h-[88svh] max-w-full rounded-xl object-contain shadow-2xl" onClick={(e) => e.stopPropagation()} />
-        </div>
-      )}
-
-      <footer className="border-t border-border bg-background pb-28 pt-14 md:pb-14">
-        <div className="mx-auto grid max-w-6xl gap-8 px-5 md:grid-cols-3">
-          <div>
-            <p className="font-serif text-2xl font-semibold text-primary">Saturno Bistrô & Burger</p>
-            <p className="mt-3 text-sm text-muted-foreground">R. Saturno, 132 · Aclimação, São Paulo</p>
-            <p className="text-sm text-muted-foreground">Seg a sáb, 9h às 19h</p>
-          </div>
-          <nav aria-label="Rodapé" className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
-            {nav.map(([l, h]) => <a key={h} href={h} className="hover:text-primary">{l}</a>)}
-          </nav>
-          <div>
-            <p className="font-serif text-lg">Bateu a vontade? Fale com o Saturno pelo WhatsApp.</p>
-            <a href={wa()} target="_blank" rel="noopener noreferrer" className={`${btnPrimary} mt-4`}>(11) 98697-9286</a>
-          </div>
-        </div>
-        <p className="mx-auto mt-10 max-w-6xl px-5 text-xs text-muted-foreground">© {new Date().getFullYear()} Saturno Bistrô & Burger</p>
-      </footer>
-
-      <a
-        href={wa()}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Fazer pedido pelo WhatsApp"
-        className="fixed bottom-5 right-5 z-30 grid h-14 w-14 place-items-center rounded-full bg-whatsapp text-primary-foreground shadow-lift transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-      >
-        <MessageCircle className="h-6 w-6" />
-      </a>
-    </div>
-  );
+function Home(){
+ const [menu,setMenu]=useState(false);
+ const [scrolled,setScrolled]=useState(false);
+ const [cart,setCart]=useState<Record<string,number>>({});
+ const [cartOpen,setCartOpen]=useState(false);
+ const [name,setName]=useState("");
+ const [gallery,setGallery]=useState<string|null>(null);
+ const [category,setCategory]=useState("Todos");
+ const [toast,setToast]=useState("");
+ const total=Object.values(cart).reduce((a,b)=>a+b,0);
+ const change=(id:string,n:number)=>setCart(old=>{const next={...old};if(n<=0)delete next[id];else next[id]=n;return next});
+ useEffect(()=>{const fn=()=>setScrolled(window.scrollY>30);fn();window.addEventListener("scroll",fn,{passive:true});return()=>window.removeEventListener("scroll",fn)},[]);
+ useEffect(()=>{const fn=(e:KeyboardEvent)=>{if(e.key==="Escape"){setGallery(null);setCartOpen(false);setMenu(false)}};window.addEventListener("keydown",fn);return()=>window.removeEventListener("keydown",fn)},[]);
+ useEffect(()=>{if(!("IntersectionObserver" in window))return;const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("visible");io.unobserve(e.target)}}),{threshold:.1});document.querySelectorAll(".reveal").forEach(e=>io.observe(e));return()=>io.disconnect()},[category]);
+ const order=()=>{const lines=products.filter(p=>cart[p.id]).map(p=>`• ${p.name} — ${cart[p.id]} unidade(s)`);const msg=`Olá! Conheci a Dona Alexandrina pelo site. Meu nome é ${name.trim()}. Gostaria de consultar disponibilidade e preços destes itens demonstrativos:\n\n${lines.join("\n")}\n\nPodem me informar os valores e as modalidades de atendimento disponíveis? Aguardo a confirmação da equipe. Obrigado!`;window.open(wa(msg),"_blank","noopener,noreferrer")};
+ const add=(id:string)=>{change(id,(cart[id]||0)+1);setToast("Produto adicionado ao carrinho");window.setTimeout(()=>setToast(""),1800)};
+ return <div className="site">
+  <header className={`header ${scrolled||menu?"scrolled":""}`}>
+   <div className="container header-inner"><a className="brand" href="#inicio" onClick={()=>setMenu(false)}>DONA ALEXANDRINA <small>{business.slogan}</small></a>
+    <nav className="desktop-nav" aria-label="Navegação principal">{navigation.map(([n,h])=><a key={h} href={h}>{n}</a>)}<a className="pill pill-gold" href={wa()} target="_blank" rel="noopener noreferrer">Fazer pedido</a></nav>
+    <div className="header-actions"><button className="cart-toggle" onClick={()=>setCartOpen(true)} aria-label={`Abrir carrinho com ${total} itens`}><ShoppingBag size={21}/><span>{total}</span></button><button className="mobile-toggle" aria-label={menu?"Fechar menu":"Abrir menu"} aria-expanded={menu} onClick={()=>setMenu(!menu)}>{menu?<X/>:<Menu/>}</button></div>
+   </div>
+   {menu&&<nav className="mobile-nav" aria-label="Menu mobile">{navigation.map(([n,h])=><a href={h} key={h} onClick={()=>setMenu(false)}>{n}</a>)}<a href={wa()} target="_blank" rel="noopener noreferrer" onClick={()=>setMenu(false)}>Fazer pedido</a></nav>}
+  </header>
+  <main>
+   <section id="inicio" className="hero"><img src={images.hero} alt="Fotografia ilustrativa de pães artesanais dourados" fetchPriority="high" width="1800" height="1200"/><div className="hero-shade"/><div className="container hero-content"><p className="eyebrow hero-rise">PADARIA & GASTRONOMIA • PARAÍSO, SP</p><h1 className="hero-rise">{business.slogan}</h1><p className="hero-sub hero-rise">Seu momento mais gostoso do dia, no coração do Paraíso.</p><div className="hero-buttons hero-rise"><a className="pill pill-gold" href={wa()} target="_blank" rel="noopener noreferrer">Fazer pedido agora <ArrowRight size={18}/></a><a className="pill pill-outline" href="#cardapio">Explorar cardápio</a></div><span className="hero-caption">Fotografia gastronômica ilustrativa</span></div></section>
+   <section id="sobre" className="section about container"><div className="about-photo reveal"><img src={images.croissant} alt="Croissant folhado em fotografia gastronômica ilustrativa" loading="lazy" width="1000" height="1100"/></div><div className="about-copy reveal"><span className="eyebrow">UM CONVITE ESPECIAL</span><h2>Um convite para saborear bons momentos.</h2><div className="gold-line"/><p>Na Dona Alexandrina, cada visita é uma oportunidade de transformar uma pausa do dia em um momento especial.</p><p>Localizada no Paraíso, em São Paulo, nossa padaria convida você a conhecer nossos sabores e encontrar aquele acompanhamento perfeito para o café, para uma pausa ou para compartilhar.</p><p>Venha nos visitar e descubra o sabor que abraça.</p><a className="text-link" href={maps} target="_blank" rel="noopener noreferrer">Como chegar <ArrowRight size={18}/></a></div></section>
+   <section id="cardapio" className="section menu-section"><div className="container"><div className="section-heading reveal"><span className="eyebrow">NOSSA SELEÇÃO</span><h2>Sabores para cada momento.</h2><p>Encontre algo especial para deixar seu dia ainda mais gostoso.</p><p className="disclaimer">Cardápio demonstrativo: produtos, imagens, disponibilidade e preços sujeitos à confirmação da equipe.</p></div><div className="filters" role="group" aria-label="Filtrar produtos">{["Todos","Pães","Salgados","Doces","Bebidas"].map(c=><button key={c} aria-pressed={category===c} className={category===c?"active":""} onClick={()=>setCategory(c)}>{c}</button>)}</div><div className="product-grid">{products.filter(p=>category==="Todos"||p.category===category).map(p=><article className="product reveal" key={p.id}><div className="product-image"><img src={p.image} alt={`Imagem gastronômica ilustrativa para ${p.name}`} loading="lazy" width="1000" height="800" onError={e=>{e.currentTarget.style.opacity="0"}}/></div><div className="product-info"><span className="eyebrow">{p.category}</span><h3>{p.name}</h3><p>Opção ilustrativa. Consulte ingredientes e disponibilidade.</p><div className="product-bottom"><span>Consultar preço</span><button onClick={()=>add(p.id)} aria-label={`Adicionar ${p.name} ao carrinho`}><Plus size={18}/> Adicionar</button></div></div></article>)}</div><div className="menu-note">Os produtos apresentados são sugestões para demonstração, não um cardápio oficial.</div></div></section>
+   <section id="galeria" className="section gallery-section container"><div className="section-heading reveal"><span className="eyebrow">UMA PAUSA PARA OS SENTIDOS</span><h2>Detalhes que despertam o apetite.</h2><p>Fotografias gastronômicas ilustrativas; não representam necessariamente produtos ou ambiente da padaria.</p></div><div className="gallery-grid">{[images.bread,images.coffee,images.cake,images.croissant,images.pastry,images.espresso].map((src,i)=><button key={i} className={`gallery-item gallery-item-${i}`} onClick={()=>setGallery(src)} aria-label={`Ampliar fotografia gastronômica ${i+1}`}><img src={src} alt={["Pães artesanais","Café","Doce artesanal","Croissant","Preparação gastronômica","Café expresso"][i]+" — imagem ilustrativa"} loading="lazy" width="1000" height="1000"/></button>)}</div></section>
+   <section className="invitation"><div className="container reveal"><span className="eyebrow">DONA ALEXANDRINA</span><h2>Seu próximo momento especial começa aqui.</h2><p>Consulte nossos sabores diretamente com a equipe.</p><a className="pill pill-gold" href={wa()} target="_blank" rel="noopener noreferrer">Fazer pedido agora <ArrowRight size={18}/></a></div></section>
+   <section id="localizacao" className="section contact-section"><div className="container contact-grid"><div id="contato" className="reveal"><span className="eyebrow">VISITE-NOS</span><h2>Venha conhecer a Dona Alexandrina.</h2><div className="contact-detail"><MapPin/><div><strong>Endereço</strong><p>{business.address}</p></div></div><div className="contact-detail"><Clock3/><div><strong>Funcionamento informado</strong><p>{business.hours}</p></div></div><div className="contact-detail"><MessageCircle/><div><strong>Contato</strong><p><a href={`tel:+${business.whatsapp}`}>{business.phone}</a></p></div></div><div className="contact-buttons"><a className="pill pill-gold" href={wa()} target="_blank" rel="noopener noreferrer">Fazer pedido agora</a><a className="pill pill-dark" href={maps} target="_blank" rel="noopener noreferrer">Traçar rota <ArrowRight size={17}/></a></div></div><div className="map-frame reveal"><iframe title="Mapa da Rua Sampaio Viana, 409, Paraíso, São Paulo" src={embed} loading="lazy" referrerPolicy="no-referrer-when-downgrade"/></div></div></section>
+  </main>
+  <footer><div className="container footer-grid"><div><strong className="footer-brand">DONA ALEXANDRINA</strong><p>{business.slogan}</p><a className="pill pill-gold" href={wa()} target="_blank" rel="noopener noreferrer">Fazer pedido agora</a></div><nav aria-label="Links do rodapé">{navigation.map(([n,h])=><a key={h} href={h}>{n}</a>)}</nav><div><strong>Encontre-nos</strong><p>{business.address}</p><p>{business.hours}</p><p>{business.phone}</p></div></div><div className="container copyright">© {new Date().getFullYear()} Dona Alexandrina. Todos os direitos reservados.</div></footer>
+  <div className="floating-actions"><button className="floating-cart" onClick={()=>setCartOpen(true)} aria-label={`Abrir carrinho: ${total} itens`}><ShoppingBag size={23}/><span>{total}</span></button><a className="floating-wa" href={wa()} target="_blank" rel="noopener noreferrer" aria-label="Fale com nossa equipe pelo WhatsApp" title="Fale com nossa equipe"><MessageCircle size={26}/></a></div>
+  {toast&&<div role="status" className="toast">{toast}</div>}
+  {gallery&&<div className="lightbox" role="dialog" aria-modal="true" aria-label="Fotografia ampliada" onClick={()=>setGallery(null)}><button aria-label="Fechar fotografia" onClick={()=>setGallery(null)}><X/></button><img src={gallery} alt="Fotografia gastronômica ilustrativa ampliada" onClick={e=>e.stopPropagation()}/></div>}
+  {cartOpen&&<div className="cart-backdrop" onClick={()=>setCartOpen(false)}><aside className="cart-panel" role="dialog" aria-modal="true" aria-label="Carrinho de consulta" onClick={e=>e.stopPropagation()}><div className="cart-head"><div><span className="eyebrow">SEU MOMENTO ESPECIAL</span><h2>Meu carrinho ({total})</h2></div><button onClick={()=>setCartOpen(false)} aria-label="Fechar carrinho"><X/></button></div><p className="cart-disclaimer">Pedido de consulta: preços, disponibilidade e modalidades dependem da confirmação da equipe. Nenhuma compra é concluída pelo site.</p><div className="cart-items">{products.filter(p=>cart[p.id]).map(p=><div className="cart-item" key={p.id}><img src={p.image} alt="" width="80" height="80"/><div><strong>{p.name}</strong><small>Consultar preço</small><div className="quantity"><button aria-label={`Diminuir ${p.name}`} onClick={()=>change(p.id,cart[p.id]-1)}><Minus size={16}/></button><span>{cart[p.id]}</span><button aria-label={`Aumentar ${p.name}`} onClick={()=>change(p.id,cart[p.id]+1)}><Plus size={16}/></button><button className="remove" aria-label={`Remover ${p.name}`} onClick={()=>change(p.id,0)}><Trash2 size={16}/></button></div></div></div>)}{total===0&&<p>Seu carrinho está vazio. Explore o cardápio demonstrativo para começar.</p>}</div><div className="cart-footer"><label htmlFor="customer-name">Seu nome</label><input id="customer-name" value={name} maxLength={80} onChange={e=>setName(e.target.value)} placeholder="Como podemos chamar você?"/><p>Consulte retirada ou entrega diretamente com a equipe.</p><button className="pill pill-gold" disabled={!total||!name.trim()} onClick={order}>Consultar pedido no WhatsApp <ArrowRight size={18}/></button></div></aside></div>}
+ </div>
 }
