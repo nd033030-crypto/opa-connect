@@ -116,3 +116,64 @@ Inclua marca, endereço resumido, WhatsApp, horário, links rápidos e CTA final
 Implemente o site diretamente no projeto atual, não apenas o prompt. Ao concluir, informe os arquivos alterados, como executar o site e quais dados ainda precisam de confirmação, principalmente cardápio, preços e fotos reais.
 
 CRITÉRIO FINAL: o site precisa parecer uma campanha de uma hamburgueria artesanal premium, com fotografia gastronômica ULTRARREALISTA, identidade marrom e branco-gelo, tipografia editorial, animações suaves, carregamento rápido, acessibilidade e WhatsApp sempre acessível. A comida deve parecer fotografada de verdade e despertar apetite sem promessas inventadas.
+
+---
+
+## DIREÇÃO CRIATIVA EXTRA — MARCA FORTE, LETRAS MARCANTES E VISUAL MEMORÁVEL
+
+Esta seção complementa o prompt principal e é obrigatória. Não produza um site com aparência de documento, caderno, página simples com texto em fonte padrão ou template genérico de restaurante.
+
+### Tipografia com personalidade de hamburgueria
+
+- Use uma fonte display expressiva, encorpada e de alto impacto para títulos e chamadas principais. Priorize uma combinação como **Bebas Neue** ou **Oswald** para manchetes fortes com **DM Sans** ou **Manrope** nos textos de apoio.
+- Se a identidade pedir uma aparência mais artesanal e sofisticada, combine uma fonte display condensada com uma serifada editorial apenas em pequenos destaques. Não misture muitas fontes: no máximo duas famílias principais.
+- Crie títulos grandes, com escala tipográfica clara, pesos fortes, espaçamento cuidadosamente ajustado e quebras de linha intencionais.
+- Use letras maiúsculas apenas onde contribuírem para a identidade; mantenha os textos longos confortáveis de ler.
+- Dê destaque visual a palavras-chave usando contraste, peso, escala e composição — não use efeitos exagerados, contornos artificiais ou sombras pesadas.
+- Carregue as fontes de forma confiável e defina fontes alternativas para evitar que o layout quebre caso uma fonte externa não carregue.
+
+### Logo e assinatura visual
+
+Crie uma assinatura de marca reconhecível para “SATURNO BISTRÔ & BURGER”, com tratamento tipográfico próprio e aparência de marca real. Use uma composição forte entre o nome “SATURNO” e o complemento “BISTRÔ & BURGER”. Um símbolo inspirado em órbita/anel de Saturno pode ser usado de forma minimalista, integrado ao lettering, desde que não pareça clipart ou uma ilustração infantil. Não use emoji como logo. O símbolo deve funcionar em tamanhos pequenos, em fundos claros e escuros, e não deve competir com o nome.
+
+Se já houver logo aprovada no projeto, não a descarte: refine sua apresentação e preserve seus elementos reconhecíveis. Se não houver, crie uma solução tipográfica coerente e implementável em SVG/CSS, sem depender de um arquivo externo inexistente.
+
+### Frases de impacto — sem inventar fatos comerciais
+
+Use uma frase de marca curta e memorável em áreas visuais de destaque, por exemplo:
+- “MORDIDA MARCANTE. SABOR DE VERDADE.”
+- “HOJE A FOME TEM DESTINO.”
+- “SEU PRÓXIMO FAVORITO COMEÇA AQUI.”
+
+Escolha no máximo uma frase principal e, se necessário, uma frase secundária. Não espalhe slogans em todas as seções. Essas frases são propostas criativas de comunicação, não afirmações sobre ingredientes, origem, qualidade certificada ou história do estabelecimento. Preserve os dados comerciais confirmados e não invente promessas.
+
+### Composição visual de alto impacto
+
+- Faça o primeiro bloco visual parecer uma campanha gastronômica premium, com fotografia de hambúrguer grande e realista, tipografia forte, contraste refinado e CTA evidente.
+- Use áreas de respiro para que o site não fique lotado, equilibrando impacto e sofisticação.
+- Alterne fundos marrom profundo e branco-gelo de forma intencional, mantendo contraste de leitura.
+- Use detalhes gráficos discretos — linhas, selos tipográficos simples e divisórias elegantes — somente quando ajudarem a marca.
+- Botões devem parecer componentes reais de um produto profissional: boa altura, peso tipográfico, estados hover/focus/active e contraste acessível.
+- Evite cartões genéricos em excesso, texto centralizado em todas as seções, fontes padrão sem personalidade, gradientes aleatórios, brilho neon, excesso de sombras, animações exageradas e ícones decorativos sem propósito.
+
+### Realismo fotográfico — controle de qualidade
+
+Cada fotografia deve parecer uma foto comercial de alimento feita com câmera real e iluminação física coerente. Dê preferência a imagens com texturas naturais, pequenas imperfeições, ingredientes proporcionais, sombras consistentes e foco óptico plausível. Não use render 3D, desenho, comida de plástico, objetos flutuantes, ingredientes deformados nem fotos que pareçam claramente artificiais. Se não houver fonte confiável de imagens, deixe uma forma simples de trocar as imagens por fotos próprias autorizadas; nunca finja que imagens genéricas são fotos reais do Saturno.
+
+### Preservação e escopo
+
+Aprimore e implemente a experiência do Saturno no repositório, substituindo o conteúdo antigo de Barone Bebidas quando ele fizer parte da página que está sendo convertida. Preserve ferramentas, dependências e funcionalidades úteis existentes. Não mantenha textos, imagens ou identidade de bebidas por engano. Não remova recursos não relacionados sem necessidade. Não invente cardápio, preços, avaliações, promoções ou funcionalidades de compra online.
+
+### Verificação visual obrigatória
+
+Antes de concluir, confira a prévia em largura de celular e desktop e confirme:
+1. O nome Saturno Bistrô & Burger tem uma assinatura visual clara.
+2. A tipografia dos títulos é marcante e diferente do texto de corpo.
+3. O hero é impactante e a foto do hambúrguer parece fotografia real.
+4. O contraste marrom/branco-gelo mantém boa leitura.
+5. A interface continua organizada e profissional, não parecendo um documento.
+6. Todos os links e CTAs funcionam, especialmente o WhatsApp.
+7. Nenhum conteúdo antigo da Barone Bebidas permanece por engano.
+8. As informações comerciais existentes e confirmadas foram preservadas.
+
+**Não termine apenas salvando este arquivo de prompt. Use estas instruções para orientar a implementação real do site nos arquivos de código do repositório.**
