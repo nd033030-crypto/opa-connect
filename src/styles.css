@@ -22,3 +22,9 @@
 @media(max-width:1050px){.desktop-nav{display:none}.mobile-toggle{display:flex}.product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.container{width:min(100% - 32px,1200px)}.header-inner{height:72px}.hero{min-height:88svh;align-items:flex-end}.hero-shade{background:linear-gradient(0deg,#302018ed 0%,#30201888 63%,#30201833 100%)}.hero-content{padding-block:115px 55px}.hero h1{font-size:clamp(3.5rem,13vw,5.8rem)}.hero-buttons{flex-direction:column;align-items:stretch}.about,.contact-grid{grid-template-columns:1fr;gap:50px}.about-photo img{height:400px}.about-photo:after{inset:15px -8px -15px 8px}.product-grid{grid-template-columns:1fr;gap:18px}.gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:145px;gap:9px}.gallery-item-0,.gallery-item-3{grid-row:span 2}.footer-grid{grid-template-columns:1fr;gap:32px}.contact-buttons{flex-direction:column}.map-frame{height:340px}.floating-actions{right:14px;bottom:14px}.floating-actions>*{width:50px;height:50px}.section{padding-block:76px}.cart-panel{width:100%}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+/* Honest photo fallback: never display a different food as the named product. */
+.product-photo-pending,.product-image.photo-unavailable{width:100%;height:100%;min-height:230px;background:linear-gradient(135deg,#e6d4be,#c4a27d);color:#302018;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center}
+.product-photo-pending span{font-size:.62rem;font-weight:800;letter-spacing:.2em;color:#674d35}
+.product-photo-pending strong{font:600 clamp(1.35rem,2.5vw,2rem)/1.2 "Playfair Display",Georgia,serif}
+.product-photo-pending small{font-size:.73rem;line-height:1.5;color:#674d35}
