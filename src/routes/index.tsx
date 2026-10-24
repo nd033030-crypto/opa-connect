@@ -1,53 +1,328 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, Clock3, MapPin, Menu, Phone, X } from "lucide-react";
-import "../barone.css";
+import { ArrowRight, Clock3, MapPin, Menu, MessageCircle, Phone, X } from "lucide-react";
+import hero from "@/assets/hero-burger.jpg";
+import burgerFries from "@/assets/burger-fries.jpg";
+import fries from "@/assets/fries.jpg";
+import bacon from "@/assets/bacon-burger.jpg";
+import combo from "@/assets/combo.jpg";
+import rings from "@/assets/onion-rings.jpg";
+import kitchen from "@/assets/kitchen.jpg";
+import chicken from "@/assets/chicken-burger.jpg";
 
-export const Route = createFileRoute("/")({ component: Barone });
-const phone="5527997999150";
-const address="Av. Marfisa de Barros Leite, 320 - Amancio Pimenta, Afonso Cláudio - ES, 29600-000, Brasil";
-const wa=(message="Olá! Vim pelo site da Barone Bebidas e gostaria de consultar as bebidas disponíveis.")=>`https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-const map=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
-const embed=`https://maps.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
-const photos={
- hero:"https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=1800&q=82",
- about:"https://images.unsplash.com/photo-1516594915697-87eb3b1c14ea?auto=format&fit=crop&w=900&q=80",
- beer:"https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=750&q=78",
- wine:"https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=750&q=78",
- spirits:"https://images.unsplash.com/photo-1527281400683-1aae777175f8?auto=format&fit=crop&w=750&q=78",
- sparkling:"https://images.unsplash.com/photo-1528823872057-9c018a7a7553?auto=format&fit=crop&w=750&q=78",
- soft:"https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=750&q=78",
- ice:"https://images.unsplash.com/photo-1627903629592-128a8aee977b?auto=format&fit=crop&w=900&q=85",
- gallery1:"https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=950&q=80",
- gallery2:"https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=650&q=78",
- gallery3:"https://images.unsplash.com/photo-1527281400683-1aae777175f8?auto=format&fit=crop&w=650&q=78",
- gallery4:"https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=650&q=78",
- gallery5:"https://images.unsplash.com/photo-1516594915697-87eb3b1c14ea?auto=format&fit=crop&w=650&q=78"
-};
-const categories=[
- {name:"Cervejas",desc:"Consulte opções para reunir os amigos e celebrar.",img:photos.beer},
- {name:"Vinhos",desc:"Escolha uma opção para acompanhar bons momentos.",img:photos.wine},
- {name:"Destilados",desc:"Converse com a equipe sobre as opções disponíveis.",img:photos.spirits},
- {name:"Espumantes",desc:"Para brindar ocasiões que merecem atenção especial.",img:photos.sparkling},
- {name:"Bebidas sem álcool",desc:"Consulte alternativas para diferentes preferências.",img:photos.soft},
- {name:"Gelo e complementos",desc:"Verifique a disponibilidade para sua ocasião.",img:photos.ice}
+const TITLE = "Saturno Bistrô & Burger | Hamburgueria Artesanal na Aclimação, São Paulo";
+const DESC =
+  "Hamburgueria artesanal na Aclimação, São Paulo. Conheça o cardápio do Saturno Bistrô & Burger e faça seu pedido pelo WhatsApp.";
+
+export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: TITLE },
+      { name: "description", content: DESC },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESC },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
+  component: Saturno,
+});
+
+const PHONE = "5511986979286";
+const ADDRESS = "R. Saturno, 132 - Aclimação, São Paulo - SP, 01531-030";
+const wa = (msg = "Olá! Encontrei o Saturno Bistrô & Burger pelo site e gostaria de conhecer o cardápio e fazer um pedido.") =>
+  `https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`;
+const MAP = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(ADDRESS)}`;
+const EMBED = `https://maps.google.com/maps?q=${encodeURIComponent(ADDRESS)}&z=16&output=embed`;
+
+const nav = [
+  ["Início", "#inicio"],
+  ["Sobre", "#sobre"],
+  ["Cardápio", "#cardapio"],
+  ["Galeria", "#galeria"],
+  ["Contato", "#contato"],
+] as const;
+
+// Itens demonstrativos — substitua pelo cardápio real (nome, descrição, preço e foto).
+type Item = { name: string; desc: string; img: string; price?: string };
+const menu: { category: string; items: Item[] }[] = [
+  {
+    category: "Hambúrgueres artesanais",
+    items: [
+      { name: "Clássico da Casa", desc: "Pão brioche, carne grelhada, cheddar, alface, tomate e cebola roxa.", img: hero },
+      { name: "Bacon & Cebola", desc: "Carne grelhada, queijo derretido, bacon crocante e cebola caramelizada.", img: bacon },
+      { name: "Frango Crocante", desc: "Frango empanado, picles e salada de repolho cremosa.", img: chicken },
+    ],
+  },
+  {
+    category: "Combos",
+    items: [
+      { name: "Combo Burger + Fritas", desc: "Hambúrguer, porção de fritas e bebida.", img: combo },
+      { name: "Combo Duplo", desc: "Dois blends com cheddar e picles, acompanhado de fritas.", img: burgerFries },
+    ],
+  },
+  {
+    category: "Acompanhamentos",
+    items: [
+      { name: "Batatas Rústicas", desc: "Fritas douradas com ervas e molho da casa.", img: fries },
+      { name: "Onion Rings", desc: "Anéis de cebola empanados e crocantes.", img: rings },
+    ],
+  },
 ];
-const links=[["Início","#inicio"],["Sobre","#sobre"],["Bebidas","#bebidas"],["Galeria","#galeria"],["Localização","#localizacao"]];
-function WhatsAppIcon({size=21}:{size?:number}){return <svg width={size} height={size} viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16 .8A15.1 15.1 0 0 0 3 23.6L.8 31l7.6-2A15.2 15.2 0 1 0 16 .8Zm0 27.7a12.4 12.4 0 0 1-6.3-1.7l-.5-.3-4.5 1.2 1.2-4.4-.3-.5A12.5 12.5 0 1 1 16 28.5Zm6.9-9.4c-.4-.2-2.2-1.1-2.5-1.2-.3-.1-.6-.2-.8.2s-.9 1.2-1.1 1.4c-.2.2-.4.3-.8.1-.4-.2-1.6-.6-3-1.9-1.1-1-1.9-2.2-2.1-2.6-.2-.4 0-.6.2-.8l.6-.7.4-.6c.1-.2 0-.5 0-.7l-1.2-2.8c-.3-.7-.6-.6-.8-.6h-.7c-.3 0-.7.1-1 .5-.4.4-1.3 1.3-1.3 3.1s1.4 3.6 1.6 3.8c.2.2 2.8 4.3 6.8 6 .9.4 1.6.6 2.1.8.9.3 1.7.3 2.3.2.7-.1 2.2-.9 2.5-1.8.3-.9.3-1.7.2-1.8-.1-.2-.3-.3-.7-.5Z"/></svg>}
-function Barone(){
- const [menu,setMenu]=useState(false);
- useEffect(()=>{if(typeof window==="undefined")return;const root=document.querySelector(".barone");const nodes=document.querySelectorAll(".barone .reveal");if(!("IntersectionObserver" in window)||window.matchMedia("(prefers-reduced-motion: reduce)").matches){nodes.forEach(n=>n.classList.add("is-visible"));return;}root?.classList.add("motion-ready");const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("is-visible");observer.unobserve(entry.target);}})},{threshold:.09,rootMargin:"0px 0px -25px 0px"});nodes.forEach(n=>observer.observe(n));return()=>observer.disconnect();},[]);
- return <div className="barone">
- <header className="site-header"><div className="container header-inner"><a className="logo" href="#inicio" aria-label="Barone Bebidas, início">BARONE<span>B E B I D A S</span></a><nav className={`nav-links ${menu?"open":""}`} aria-label="Navegação principal">{links.map(([name,url])=><a key={url} href={url} onClick={()=>setMenu(false)}>{name}</a>)}</nav><a className="btn btn-red header-cta" href={wa()} target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={16}/> Fale com a gente</a><button className="menu-toggle" aria-label={menu?"Fechar menu":"Abrir menu"} aria-expanded={menu} onClick={()=>setMenu(!menu)}>{menu?<X size={23}/>:<Menu size={23}/>}</button></div></header>
- <main>
- <section id="inicio" className="hero"><img className="hero-bg" src={photos.hero} alt="Composição ilustrativa de garrafas e taças de vinho" fetchPriority="high"/><div className="container hero-content"><div className="eyebrow">BARONE BEBIDAS • AFONSO CLÁUDIO — ES</div><h1>Sua próxima escolha de bebida começa na <em>Barone.</em></h1><p>Na Av. Marfisa de Barros Leite, em Afonso Cláudio, a Barone Bebidas é o endereço para quem procura praticidade na hora de escolher suas bebidas. Entre em contato e consulte nossas opções.</p><div className="hero-actions"><a className="btn btn-red" href={wa()} target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={18}/> Fale com a gente <ArrowRight size={16}/></a><a className="btn btn-outline" href="#sobre">Conheça a Barone</a></div><div className="hero-detail"><i/> Av. Marfisa de Barros Leite, 320 • Amancio Pimenta</div></div></section>
- <section id="sobre" className="section-pad"><div className="container about reveal"><div className="about-visual"><img src={photos.about} alt="Imagem ilustrativa de seleção de bebidas" loading="lazy" decoding="async"/><div className="about-stamp">Boas escolhas. Bons momentos.</div></div><div className="about-copy"><span className="eyebrow">SOBRE A BARONE</span><h2>A escolha certa para brindar bons momentos.</h2><p>A Barone Bebidas está localizada na Av. Marfisa de Barros Leite, no bairro Amancio Pimenta, em Afonso Cláudio. Um endereço para quem procura bebidas e quer resolver sua compra com praticidade.</p><p>Seja para organizar um encontro, preparar uma comemoração ou escolher algo para uma ocasião especial, você pode falar diretamente com a equipe e consultar as opções disponíveis.</p><p>Estamos à disposição de segunda a sábado, das 9h às 19h.</p><a className="btn btn-red" href={wa()} target="_blank" rel="noopener noreferrer">Conversar com a Barone <ArrowRight size={16}/></a></div></div></section>
- <section id="bebidas" className="section-pad dark-section"><div className="container"><div className="section-head reveal"><span className="eyebrow">EXPLORE AS CATEGORIAS</span><h2>Encontre a bebida para cada ocasião.</h2><p>Explore algumas categorias e fale com a nossa equipe para consultar marcas, disponibilidade e valores.</p></div><div className="catalog">{categories.map(c=><article className="drink-card reveal" key={c.name}><div className="img-wrap"><img src={c.img} alt={`Fotografia ilustrativa: ${c.name}`} loading="lazy" decoding="async"/></div><div className="drink-body"><h3>{c.name}</h3><p>{c.desc}</p><a href={wa(`Olá! Encontrei a Barone Bebidas pelo site e gostaria de consultar as opções de ${c.name.toLowerCase()} disponíveis.`)} target="_blank" rel="noopener noreferrer">Consultar disponibilidade <ArrowRight size={15}/></a></div></article>)}</div><p className="catalog-note">Categorias sugeridas para apresentação. Consulte a loja para confirmar produtos, marcas, preços e disponibilidade.</p></div></section>
- <section className="conversion"><div className="container conversion-inner reveal"><div><h2>Já sabe o que está procurando?</h2><p>Fale diretamente com a Barone Bebidas e consulte as opções disponíveis sem complicação.</p></div><a className="btn" href={wa()} target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={18}/> Fale com a gente pelo WhatsApp</a></div></section>
- <section id="galeria" className="section-pad"><div className="container"><div className="section-head"><span className="eyebrow">INSPIRAÇÃO PARA SUA ESCOLHA</span><h2>Um pouco do universo Barone.</h2><p>Inspirações do universo de bebidas para você encontrar ideias para seu próximo momento especial.</p></div><div className="gallery reveal">{[photos.gallery1,photos.gallery2,photos.gallery3,photos.gallery4,photos.gallery5].map((src,i)=><figure key={src+i}><img src={src} alt={["Taça de vinho em composição ilustrativa","Cerveja em fotografia ilustrativa","Destilados em fotografia ilustrativa","Drinque em fotografia ilustrativa","Seleção de bebidas em fotografia ilustrativa"][i]} loading="lazy" decoding="async"/></figure>)}</div><p className="gallery-caption">Imagens ilustrativas. Fotos reais da Barone Bebidas poderão ser inseridas posteriormente.</p></div></section>
- <section id="localizacao" className="section-pad" style={{background:"#efede9"}}><div className="container contact reveal"><div className="contact-copy"><span className="eyebrow">VENHA NOS ENCONTRAR</span><h2>A Barone está pertinho de você.</h2><p>Confira nosso endereço, horário e fale diretamente com a equipe antes de sair de casa.</p><div className="contact-item"><MapPin size={21}/><div><strong>Endereço</strong><p>Av. Marfisa de Barros Leite, 320<br/>Amancio Pimenta<br/>Afonso Cláudio - ES • CEP 29600-000</p></div></div><div className="contact-item"><Clock3 size={21}/><div><strong>Funcionamento</strong><p>Segunda a sábado • 9h às 19h</p></div></div><div className="contact-item"><Phone size={21}/><div><strong>WhatsApp</strong><p>(27) 99799-9150</p></div></div><div className="contact-actions"><a className="btn btn-red" href={wa()} target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={17}/> Fale com a gente</a><a className="btn btn-map" href={map} target="_blank" rel="noopener noreferrer"><MapPin size={17}/> Como chegar</a></div></div><iframe className="map" src={embed} title="Mapa da localização da Barone Bebidas em Afonso Cláudio" loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen/></div></section>
- </main>
- <footer className="footer"><div className="container"><div className="footer-grid"><div><a className="logo" href="#inicio">BARONE<span>B E B I D A S</span></a><p style={{marginTop:21}}>Boas escolhas merecem bons momentos.</p><a className="btn btn-red" style={{marginTop:19}} href={wa()} target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={16}/> Fale com a gente</a></div><div><h3>Links rápidos</h3><nav className="footer-nav" aria-label="Links do rodapé">{links.map(([name,url])=><a key={url} href={url}>{name}</a>)}</nav></div><div><h3>Contato e localização</h3><p>{address}</p><p><a href={wa()} target="_blank" rel="noopener noreferrer">(27) 99799-9150</a></p><p>Segunda a sábado, das 9h às 19h</p></div></div><div className="footer-bottom">© {new Date().getFullYear()} Barone Bebidas. Todos os direitos reservados.</div></div></footer>
- <a className="floating-wa" href={wa()} target="_blank" rel="noopener noreferrer" aria-label="Fale com a Barone Bebidas pelo WhatsApp"><WhatsAppIcon size={24}/><span>Fale com a gente</span></a>
- </div>
+
+const gallery = [
+  { src: hero, alt: "Hambúrguer artesanal com cheddar derretido sobre tábua de madeira" },
+  { src: kitchen, alt: "Mãos finalizando um hambúrguer duplo com queijo na cozinha" },
+  { src: fries, alt: "Batatas rústicas com ervas em cesta metálica" },
+  { src: bacon, alt: "Hambúrguer com bacon crocante e cebola caramelizada" },
+  { src: rings, alt: "Onion rings empanados com molho" },
+  { src: combo, alt: "Combo com hambúrguer, fritas e refrigerante" },
+];
+
+const btn =
+  "inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 text-sm font-semibold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2";
+const btnPrimary = `${btn} bg-primary text-primary-foreground hover:bg-primary-deep hover:-translate-y-0.5 shadow-soft`;
+const btnGhost = `${btn} border border-primary-foreground/40 text-primary-foreground hover:bg-primary-foreground/10`;
+const btnOutline = `${btn} border border-primary text-primary hover:bg-primary hover:text-primary-foreground`;
+
+function useReveal() {
+  useEffect(() => {
+    document.documentElement.classList.add("js");
+    const els = document.querySelectorAll(".reveal");
+    const io = new IntersectionObserver(
+      (es) => es.forEach((e) => e.isIntersecting && (e.target.classList.add("in"), io.unobserve(e.target))),
+      { threshold: 0.12 },
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+}
+
+function Saturno() {
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  useReveal();
+  useEffect(() => {
+    const on = () => setScrolled(window.scrollY > 30);
+    on();
+    window.addEventListener("scroll", on, { passive: true });
+    return () => window.removeEventListener("scroll", on);
+  }, []);
+  useEffect(() => {
+    const k = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", k);
+    return () => window.removeEventListener("keydown", k);
+  }, []);
+
+  return (
+    <div className="bg-background text-foreground">
+      <header
+        className={`fixed inset-x-0 top-0 z-40 transition-all duration-300 ${
+          scrolled || open ? "bg-background/95 shadow-soft backdrop-blur" : "bg-transparent"
+        }`}
+      >
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 md:h-20">
+          <a href="#inicio" className={`font-serif text-xl font-semibold leading-none md:text-2xl ${scrolled || open ? "text-primary" : "text-primary-foreground"}`}>
+            Saturno <span className="block text-[0.65rem] font-sans font-semibold uppercase tracking-[0.3em] opacity-80">Bistrô & Burger</span>
+          </a>
+          <nav aria-label="Principal" className="hidden items-center gap-8 md:flex">
+            {nav.map(([l, h]) => (
+              <a key={h} href={h} className={`text-sm font-medium transition-colors hover:text-primary ${scrolled ? "text-foreground" : "text-primary-foreground/90 hover:text-primary-foreground"}`}>
+                {l}
+              </a>
+            ))}
+            <a href={wa()} target="_blank" rel="noopener noreferrer" className={btnPrimary}>
+              Fazer pedido
+            </a>
+          </nav>
+          <button
+            className={`grid h-11 w-11 place-items-center rounded-full md:hidden ${scrolled || open ? "text-foreground" : "text-primary-foreground"}`}
+            aria-label={open ? "Fechar menu" : "Abrir menu"}
+            aria-expanded={open}
+            aria-controls="menu-mobile"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <X /> : <Menu />}
+          </button>
+        </div>
+        {open && (
+          <nav id="menu-mobile" aria-label="Menu mobile" className="border-t border-border bg-background px-5 pb-6 md:hidden">
+            {nav.map(([l, h]) => (
+              <a key={h} href={h} onClick={() => setOpen(false)} className="block border-b border-border py-4 font-serif text-lg">
+                {l}
+              </a>
+            ))}
+            <a href={wa()} target="_blank" rel="noopener noreferrer" className={`${btnPrimary} mt-5 w-full`}>
+              Fazer pedido
+            </a>
+          </nav>
+        )}
+      </header>
+
+      <main>
+        {/* HERO */}
+        <section id="inicio" className="relative flex min-h-[92svh] items-end overflow-hidden bg-primary-deep md:items-center">
+          <img src={hero} alt="Hambúrguer artesanal com pão brioche, cheddar derretido e salada fresca" width={1600} height={1072} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover object-[70%_center]" />
+          <div className="bg-hero-overlay absolute inset-0" />
+          <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-primary-deep/90 to-transparent md:hidden" />
+          <div className="relative mx-auto w-full max-w-6xl px-5 pb-16 pt-28 md:pb-0">
+            <div className="max-w-xl text-primary-foreground">
+              <p className="animate-rise text-xs font-semibold uppercase tracking-[0.3em] opacity-80">Aclimação · São Paulo</p>
+              <h1 className="animate-rise mt-4 font-serif text-4xl font-semibold leading-[1.05] sm:text-5xl md:text-6xl" style={{ animationDelay: ".1s" }}>
+                Seu próximo hambúrguer favorito está aqui.
+              </h1>
+              <p className="animate-rise mt-5 max-w-md text-base leading-relaxed opacity-90 md:text-lg" style={{ animationDelay: ".2s" }}>
+                Sabores marcantes, ingredientes selecionados e uma experiência feita para quem ama comer bem.
+              </p>
+              <div className="animate-rise mt-8 flex flex-col gap-3 sm:flex-row" style={{ animationDelay: ".3s" }}>
+                <a href="#cardapio" className={btnPrimary}>
+                  Conhecer o cardápio <ArrowRight className="h-4 w-4" />
+                </a>
+                <a href={wa()} target="_blank" rel="noopener noreferrer" className={btnGhost}>
+                  <MessageCircle className="h-4 w-4" /> Pedir pelo WhatsApp
+                </a>
+              </div>
+              <p className="animate-rise mt-6 flex items-center gap-2 text-sm opacity-80" style={{ animationDelay: ".4s" }}>
+                <Clock3 className="h-4 w-4" /> Seg a sáb, 9h às 19h
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* SOBRE */}
+        <section id="sobre" className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-20 md:grid-cols-2 md:py-28">
+          <div className="reveal overflow-hidden rounded-2xl shadow-lift">
+            <img src={kitchen} alt="Hambúrguer duplo sendo finalizado na cozinha" width={1024} height={1280} loading="lazy" className="aspect-[4/5] w-full object-cover" />
+          </div>
+          <div className="reveal">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">Sobre o bistrô</p>
+            <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight md:text-5xl">Muito sabor em cada detalhe.</h2>
+            <div className="mt-6 space-y-4 leading-relaxed text-muted-foreground">
+              <p>O Saturno Bistrô & Burger fica na R. Saturno, na Aclimação, e é uma ótima escolha para quem procura um bom hambúrguer em São Paulo.</p>
+              <p>Cada pedido é pensado para chegar bonito e saboroso — do pão à última batata. Conheça as opções do cardápio e fale direto com a equipe pelo WhatsApp.</p>
+            </div>
+            <a href="#cardapio" className={`${btnOutline} mt-8`}>
+              Ver cardápio <ArrowRight className="h-4 w-4" />
+            </a>
+          </div>
+        </section>
+
+        {/* CARDÁPIO */}
+        <section id="cardapio" className="bg-card py-20 md:py-28">
+          <div className="mx-auto max-w-6xl px-5">
+            <div className="reveal max-w-2xl">
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">Cardápio</p>
+              <h2 className="mt-3 font-serif text-3xl font-semibold md:text-5xl">Escolha o seu e peça pelo WhatsApp.</h2>
+              <p className="mt-4 text-muted-foreground">
+                Itens demonstrativos. Consulte disponibilidade e valores pelo WhatsApp.
+              </p>
+            </div>
+            {menu.map((cat) => (
+              <div key={cat.category} className="mt-14">
+                <h3 className="reveal border-b border-border pb-3 font-serif text-2xl font-semibold">{cat.category}</h3>
+                <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  {cat.items.map((it) => (
+                    <article key={it.name} className="reveal group flex flex-col overflow-hidden rounded-2xl border border-border bg-background transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
+                      <div className="overflow-hidden">
+                        <img src={it.img} alt={it.name} width={1024} height={1024} loading="lazy" className="aspect-[4/3] w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                      </div>
+                      <div className="flex flex-1 flex-col p-5">
+                        <h4 className="font-serif text-xl font-semibold">{it.name}</h4>
+                        <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{it.desc}</p>
+                        <p className="mt-4 text-sm font-semibold text-primary">{it.price ?? "Consulte o valor"}</p>
+                        <a
+                          href={wa(`Olá, Saturno Bistrô & Burger! Gostaria de pedir: ${it.name}. Está disponível?`)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`${btnOutline} mt-4 w-full`}
+                          aria-label={`Pedir ${it.name} pelo WhatsApp`}
+                        >
+                          <MessageCircle className="h-4 w-4" /> Pedir pelo WhatsApp
+                        </a>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            ))}
+            <div className="mt-14 text-center">
+              <a href={wa()} target="_blank" rel="noopener noreferrer" className={btnPrimary}>
+                Fazer pedido agora
+              </a>
+            </div>
+          </div>
+        </section>
+
+        {/* GALERIA */}
+        <section id="galeria" className="mx-auto max-w-6xl px-5 py-20 md:py-28">
+          <div className="reveal max-w-2xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">Galeria</p>
+            <h2 className="mt-3 font-serif text-3xl font-semibold md:text-5xl">Feito para abrir o apetite.</h2>
+          </div>
+          <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5">
+            {gallery.map((g) => (
+              <figure key={g.alt} className="reveal group overflow-hidden rounded-xl">
+                <img src={g.src} alt={g.alt} width={1024} height={1024} loading="lazy" className="aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              </figure>
+            ))}
+          </div>
+          <p className="mt-4 text-xs text-muted-foreground">Imagens ilustrativas.</p>
+        </section>
+
+        {/* CONTATO */}
+        <section id="contato" className="bg-primary-deep py-20 text-primary-foreground md:py-28">
+          <div className="mx-auto grid max-w-6xl gap-10 px-5 md:grid-cols-2">
+            <div className="reveal">
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] opacity-70">Contato</p>
+              <h2 className="mt-3 font-serif text-3xl font-semibold md:text-5xl">Estamos na Aclimação. Vamos conversar?</h2>
+              <ul className="mt-8 space-y-5">
+                <li className="flex gap-3"><MapPin className="mt-0.5 h-5 w-5 shrink-0 opacity-80" /><span>{ADDRESS}, Brasil</span></li>
+                <li className="flex gap-3"><Phone className="mt-0.5 h-5 w-5 shrink-0 opacity-80" /><a href={wa()} target="_blank" rel="noopener noreferrer" className="underline-offset-4 hover:underline">(11) 98697-9286</a></li>
+                <li className="flex gap-3"><Clock3 className="mt-0.5 h-5 w-5 shrink-0 opacity-80" /><span>Segunda a sábado, das 9h às 19h</span></li>
+              </ul>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <a href={wa()} target="_blank" rel="noopener noreferrer" className={`${btn} bg-primary-foreground text-primary-deep hover:-translate-y-0.5`}>
+                  <MessageCircle className="h-4 w-4" /> Conversar no WhatsApp
+                </a>
+                <a href={MAP} target="_blank" rel="noopener noreferrer" className={btnGhost}>
+                  <MapPin className="h-4 w-4" /> Abrir no Google Maps
+                </a>
+              </div>
+            </div>
+            <div className="reveal overflow-hidden rounded-2xl border border-primary-foreground/15">
+              <iframe title="Mapa do Saturno Bistrô & Burger" src={EMBED} loading="lazy" className="h-80 w-full md:h-full md:min-h-96" referrerPolicy="no-referrer-when-downgrade" />
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="border-t border-border bg-background pb-28 pt-14 md:pb-14">
+        <div className="mx-auto grid max-w-6xl gap-8 px-5 md:grid-cols-3">
+          <div>
+            <p className="font-serif text-2xl font-semibold text-primary">Saturno Bistrô & Burger</p>
+            <p className="mt-3 text-sm text-muted-foreground">R. Saturno, 132 · Aclimação, São Paulo</p>
+            <p className="text-sm text-muted-foreground">Seg a sáb, 9h às 19h</p>
+          </div>
+          <nav aria-label="Rodapé" className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+            {nav.map(([l, h]) => <a key={h} href={h} className="hover:text-primary">{l}</a>)}
+          </nav>
+          <div>
+            <p className="font-serif text-lg">Bateu a vontade? Fale com o Saturno pelo WhatsApp.</p>
+            <a href={wa()} target="_blank" rel="noopener noreferrer" className={`${btnPrimary} mt-4`}>(11) 98697-9286</a>
+          </div>
+        </div>
+        <p className="mx-auto mt-10 max-w-6xl px-5 text-xs text-muted-foreground">© {new Date().getFullYear()} Saturno Bistrô & Burger</p>
+      </footer>
+
+      <a
+        href={wa()}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Fazer pedido pelo WhatsApp"
+        className="fixed bottom-5 right-5 z-30 grid h-14 w-14 place-items-center rounded-full bg-whatsapp text-primary-foreground shadow-lift transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+      >
+        <MessageCircle className="h-6 w-6" />
+      </a>
+    </div>
+  );
 }
