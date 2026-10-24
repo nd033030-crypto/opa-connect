@@ -52,6 +52,7 @@ const menu: { category: string; items: Item[] }[] = [
       { name: "Clássico da Casa", desc: "Pão brioche, carne grelhada, cheddar, alface, tomate e cebola roxa.", img: hero },
       { name: "Bacon & Cebola", desc: "Carne grelhada, queijo derretido, bacon crocante e cebola caramelizada.", img: bacon },
       { name: "Frango Crocante", desc: "Frango empanado, picles e salada de repolho cremosa.", img: chicken },
+      { name: "X-Salada", desc: "Hambúrguer, queijo, alface, tomate e molho.", img: hero },
     ],
   },
   {
@@ -66,6 +67,7 @@ const menu: { category: string; items: Item[] }[] = [
     items: [
       { name: "Batatas Rústicas", desc: "Fritas douradas com ervas e molho da casa.", img: fries },
       { name: "Onion Rings", desc: "Anéis de cebola empanados e crocantes.", img: rings },
+      { name: "Mandioca Frita", desc: "Porção dourada e crocante para acompanhar seu pedido.", img: fries },
     ],
   },
 ];
