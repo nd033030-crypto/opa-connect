@@ -1,74 +1,52 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, Bike, Check, Heart, Menu, Minus, PackageCheck, Plus, Search, ShieldCheck, ShoppingBag, Sparkles, Trash2, Truck, X } from "lucide-react";
-import "../shop.css";
+import { useState } from "react";
+import { ArrowRight, Clock3, MapPin, Menu, MessageCircle, Phone, X } from "lucide-react";
+import "../barone.css";
 
-export const Route = createFileRoute("/")({ component: Store });
-
-type Product = { id: number; name: string; category: string; price: number; image: string; badge?: string };
-const images = {
- trampoline: "https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=700&q=85",
- bike: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=700&q=85",
- toy: "https://images.unsplash.com/photo-1558060370-d644479cb6f7?w=700&q=85",
- playground: "https://images.unsplash.com/photo-1564429238817-393bd4286b2d?w=700&q=85",
- tricycle: "https://images.unsplash.com/photo-1511994298241-608e28f14fde?w=700&q=85",
- inflatable: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=700&q=85",
- blocks: "https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=700&q=85",
- scooter: "https://images.unsplash.com/photo-1576435728678-68d0fbf94e91?w=700&q=85",
+export const Route = createFileRoute("/")({ component: Barone });
+const phone="5527997999150";
+const address="Av. Marfisa de Barros Leite, 320 - Amancio Pimenta, Afonso Cláudio - ES, 29600-000, Brasil";
+const wa=(message="Olá! Vim pelo site da Barone Bebidas e gostaria de consultar as bebidas disponíveis.")=>`https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+const map=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+const embed=`https://maps.google.com/maps?q=${encodeURIComponent(address)}&output=embed`;
+const photos={
+ hero:"https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=1800&q=82",
+ about:"https://images.unsplash.com/photo-1516594915697-87eb3b1c14ea?auto=format&fit=crop&w=900&q=80",
+ beer:"https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=750&q=78",
+ wine:"https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=750&q=78",
+ spirits:"https://images.unsplash.com/photo-1527281400683-1aae777175f8?auto=format&fit=crop&w=750&q=78",
+ sparkling:"https://images.unsplash.com/photo-1528823872057-9c018a7a7553?auto=format&fit=crop&w=750&q=78",
+ soft:"https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=750&q=78",
+ ice:"https://images.unsplash.com/photo-1513558161293-cdaf765edfd4?auto=format&fit=crop&w=750&q=78",
+ gallery1:"https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=950&q=80",
+ gallery2:"https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=650&q=78",
+ gallery3:"https://images.unsplash.com/photo-1527281400683-1aae777175f8?auto=format&fit=crop&w=650&q=78",
+ gallery4:"https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=650&q=78",
+ gallery5:"https://images.unsplash.com/photo-1516594915697-87eb3b1c14ea?auto=format&fit=crop&w=650&q=78"
 };
-const products: Product[] = [
- { id:1,name:"Cama elástica infantil com rede de proteção",category:"Camas elásticas",price:1299.9,image:images.trampoline,badge:"DESTAQUE" },
- { id:2,name:"Bicicleta infantil para novas aventuras",category:"Bicicletas",price:649.9,image:images.bike,badge:"POPULAR" },
- { id:3,name:"Kit de brinquedos educativos coloridos",category:"Brinquedos",price:119.9,image:images.toy },
- { id:4,name:"Playground infantil para muita diversão",category:"Playground",price:2499.9,image:images.playground,badge:"NOVIDADE" },
- { id:5,name:"Velocípede infantil três rodas",category:"Velocípedes",price:279.9,image:images.tricycle },
- { id:6,name:"Brinquedo inflável para recreação",category:"Infláveis",price:899.9,image:images.inflatable },
- { id:7,name:"Blocos de montar educativos",category:"Brinquedos",price:89.9,image:images.blocks,badge:"OFERTA" },
- { id:8,name:"Patinete infantil para passeio",category:"Velocípedes",price:329.9,image:images.scooter },
+const categories=[
+ {name:"Cervejas",desc:"Consulte opções para reunir os amigos e celebrar.",img:photos.beer},
+ {name:"Vinhos",desc:"Escolha uma opção para acompanhar bons momentos.",img:photos.wine},
+ {name:"Destilados",desc:"Converse com a equipe sobre as opções disponíveis.",img:photos.spirits},
+ {name:"Espumantes",desc:"Para brindar ocasiões que merecem atenção especial.",img:photos.sparkling},
+ {name:"Bebidas sem álcool",desc:"Consulte alternativas para diferentes preferências.",img:photos.soft},
+ {name:"Gelo e complementos",desc:"Verifique a disponibilidade para sua ocasião.",img:photos.ice}
 ];
-const categories = [
- {name:"Camas elásticas",image:images.trampoline},
- {name:"Bicicletas",image:images.bike},
- {name:"Velocípedes",image:images.tricycle},
- {name:"Brinquedos",image:images.blocks},
- {name:"Playground",image:images.playground},
-];
-const money=(n:number)=>new Intl.NumberFormat("pt-BR",{style:"currency",currency:"BRL"}).format(n);
-function Store(){
- const [category,setCategory]=useState("Todos");
- const [query,setQuery]=useState("");
- const [sort,setSort]=useState("featured");
- const [cart,setCart]=useState<Record<number,number>>({});
- const [favorites,setFavorites]=useState<number[]>([]);
- const [open,setOpen]=useState(false);
- const [ready,setReady]=useState(false);
- useEffect(()=>{try{setCart(JSON.parse(localStorage.getItem("opa-cart")||"{}"));setFavorites(JSON.parse(localStorage.getItem("opa-favorites")||"[]"));}catch{}setReady(true)},[]);
- useEffect(()=>{if(ready)localStorage.setItem("opa-cart",JSON.stringify(cart))},[cart,ready]);
- useEffect(()=>{if(ready)localStorage.setItem("opa-favorites",JSON.stringify(favorites))},[favorites,ready]);
- const visible=useMemo(()=>{let list=products.filter(p=>(category==="Todos"||p.category===category)&&(`${p.name} ${p.category}`.toLowerCase().includes(query.toLowerCase())));if(sort==="low")list=[...list].sort((a,b)=>a.price-b.price);if(sort==="high")list=[...list].sort((a,b)=>b.price-a.price);return list},[category,query,sort]);
- const qty=Object.values(cart).reduce((a,b)=>a+b,0);
- const total=products.reduce((a,p)=>a+p.price*(cart[p.id]||0),0);
- const add=(id:number)=>setCart(prev=>({...prev,[id]:(prev[id]||0)+1}));
- const change=(id:number,delta:number)=>setCart(prev=>{const next={...prev};next[id]=Math.max(0,(next[id]||0)+delta);if(!next[id])delete next[id];return next});
- const jump=(cat:string)=>{setCategory(cat);document.getElementById("catalogo")?.scrollIntoView({behavior:"smooth"})};
- return <main className="oc">
-  <div className="top">✨ OPA! A diversão começa aqui — conheça nosso catálogo de brinquedos e lazer</div>
-  <header className="wrap header">
-   <a href="/" className="brand" aria-label="OPA CONNECT início">OPA<span> </span><b>CONNECT.</b></a>
-   <label className="search"><Search size={19}/><input aria-label="Buscar produtos" value={query} onChange={e=>setQuery(e.target.value)} placeholder="O que você está procurando?"/></label>
-   <div className="actions"><button className="round" aria-label="Ver favoritos" onClick={()=>{setCategory("Todos");setQuery("");document.getElementById("catalogo")?.scrollIntoView({behavior:"smooth"})}}><Heart size={20}/></button><button className="round" aria-label={`Abrir carrinho com ${qty} itens`} onClick={()=>setOpen(true)}><ShoppingBag size={20}/>{qty>0&&<span className="count">{qty}</span>}</button></div>
-  </header>
-  <div className="wrap"><label className="search mobileSearch"><Search size={18}/><input aria-label="Buscar produtos" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Busque brinquedos, bicicletas..."/></label></div>
-  <nav className="nav" aria-label="Categorias"><div className="wrap navinner"><button onClick={()=>jump("Todos")}><Menu size={15} style={{display:"inline",marginRight:7}}/>Todos os produtos</button>{["Camas elásticas","Bicicletas","Velocípedes","Brinquedos","Playground","Infláveis"].map(c=><button key={c} onClick={()=>jump(c)}>{c}</button>)}</div></nav>
-  <div className="wrap">
-   <section className="hero"><div className="heroCopy"><span className="eyebrow">BEM-VINDO À OPA CONNECT</span><h1>Um mundo de <span>diversão</span> para explorar.</h1><p>Brinquedos, bicicletas, camas elásticas e muito mais. Descubra ideias para momentos inesquecíveis.</p><button className="primary" onClick={()=>jump("Todos")}>Explorar produtos <ArrowRight size={17}/></button></div><img className="heroArt" src="https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=1100&q=85" alt="Brinquedos coloridos para crianças"/></section>
-   <section className="benefits" aria-label="Diferenciais"><div className="benefit"><PackageCheck size={26}/><div><strong>Catálogo variado</strong><small>Opções para brincar e explorar</small></div></div><div className="benefit"><ShieldCheck size={26}/><div><strong>Escolha com tranquilidade</strong><small>Conheça os detalhes de cada item</small></div></div><div className="benefit"><Truck size={26}/><div><strong>Consulte a entrega</strong><small>Condições a confirmar com a loja</small></div></div></section>
-   <section><div className="sectionHead"><div><small>EXPLORE POR TIPO</small><h2>Encontre a diversão ideal</h2></div><span style={{fontSize:12,color:"#8b95a5"}}>Escolha sua categoria favorita</span></div><div className="categories">{categories.map(c=><button key={c.name} className={`category ${category===c.name?"active":""}`} onClick={()=>jump(c.name)}><img src={c.image} alt={c.name} loading="lazy"/><strong>{c.name}</strong></button>)}</div></section>
-   <section id="catalogo"><div className="sectionHead"><div><small>SELEÇÃO OPA CONNECT</small><h2>Produtos em destaque</h2></div><span style={{fontSize:12,color:"#8b95a5"}}>{visible.length} produtos</span></div><div className="filters"><div className="chips">{["Todos","Camas elásticas","Bicicletas","Velocípedes","Brinquedos","Playground","Infláveis"].map(c=><button className={`chip ${category===c?"selected":""}`} key={c} onClick={()=>setCategory(c)}>{c}</button>)}</div><select aria-label="Ordenar produtos" value={sort} onChange={e=>setSort(e.target.value)}><option value="featured">Destaques</option><option value="low">Menor preço</option><option value="high">Maior preço</option></select></div>
-   <div className="products">{visible.map(p=><article className="product" key={p.id}><div className="photo"><img src={p.image} alt={p.name} loading="lazy"/>{p.badge&&<span className="tag">{p.badge}</span>}<button className={`heart ${favorites.includes(p.id)?"on":""}`} aria-label={favorites.includes(p.id)?"Remover dos favoritos":"Adicionar aos favoritos"} onClick={()=>setFavorites(prev=>prev.includes(p.id)?prev.filter(x=>x!==p.id):[...prev,p.id])}><Heart size={17} fill={favorites.includes(p.id)?"currentColor":"none"}/></button></div><div className="info"><small>{p.category}</small><h3>{p.name}</h3><div className="price">{money(p.price)}</div><div className="priceNote">Valor ilustrativo · confirmar antes da venda</div><button className="add" onClick={()=>add(p.id)}><Plus size={16}/> Adicionar ao carrinho</button></div></article>)}</div>{visible.length===0&&<div className="empty">Nenhum produto encontrado. Tente outra busca ou categoria.</div>}</section>
-   <section className="banner"><div><h2>Prontos para uma nova aventura?</h2><p>Encontre opções para brincar, aprender e aproveitar cada momento.</p></div><button onClick={()=>jump("Todos")}>Ver catálogo completo →</button></section>
-  </div>
-  <footer className="footer"><div className="wrap"><div><div className="brand">OPA <b>CONNECT.</b></div><p>Um universo de diversão em cada descoberta.</p></div><div><strong>Informações importantes</strong><p>Loja demonstrativa: fotos, produtos e preços ilustrativos.<br/>Pagamento, estoque, frete e contato comercial ainda precisam de configuração.</p></div><div><strong>Explore</strong><p><button onClick={()=>jump("Todos")}>Todos os produtos</button></p><p><button onClick={()=>setOpen(true)}>Meu carrinho</button></p></div></div></footer>
-  {open&&<><button className="overlay" aria-label="Fechar carrinho" onClick={()=>setOpen(false)}></button><aside className="drawer" role="dialog" aria-modal="true" aria-label="Carrinho de compras"><div className="drawerHeader"><h2>Meu carrinho ({qty})</h2><button aria-label="Fechar" onClick={()=>setOpen(false)}><X size={22}/></button></div><div className="drawerBody">{qty===0?<div className="empty"><ShoppingBag size={40} style={{margin:"0 auto 15px"}}/>Seu carrinho está vazio.<p style={{marginTop:10}}>Explore nossos produtos e adicione seus favoritos!</p><button className="primary" style={{marginTop:20}} onClick={()=>setOpen(false)}>Continuar comprando</button></div>:products.filter(p=>cart[p.id]).map(p=><div className="cartLine" key={p.id}><img src={p.image} alt={p.name}/><div style={{flex:1}}><strong style={{fontSize:13}}>{p.name}</strong><p style={{fontSize:13,fontWeight:800,marginTop:6}}>{money(p.price*(cart[p.id]||0))}</p><div className="qty"><button aria-label="Diminuir quantidade" onClick={()=>change(p.id,-1)}><Minus size={13}/></button><span>{cart[p.id]}</span><button aria-label="Aumentar quantidade" onClick={()=>change(p.id,1)}><Plus size={13}/></button><button aria-label="Remover item" style={{marginLeft:"auto",color:"#d14c5d"}} onClick={()=>setCart(prev=>{const n={...prev};delete n[p.id];return n})}><Trash2 size={15}/></button></div></div></div>)}</div><div className="drawerFoot"><div style={{display:"flex",justifyContent:"space-between",fontWeight:900}}><span>Subtotal ilustrativo</span><span>{money(total)}</span></div><button className="primary" disabled>Finalizar pedido — em configuração</button><p className="notice">O checkout ficará disponível após cadastrar dados reais da loja, formas de pagamento e entrega. Nenhuma cobrança é realizada nesta demonstração.</p></div></aside></>}
- </main>;
+const links=[["Início","#inicio"],["Sobre","#sobre"],["Bebidas","#bebidas"],["Galeria","#galeria"],["Localização","#localizacao"]];
+function WhatsAppIcon({size=21}:{size?:number}){return <svg width={size} height={size} viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16 .8A15.1 15.1 0 0 0 3 23.6L.8 31l7.6-2A15.2 15.2 0 1 0 16 .8Zm0 27.7a12.4 12.4 0 0 1-6.3-1.7l-.5-.3-4.5 1.2 1.2-4.4-.3-.5A12.5 12.5 0 1 1 16 28.5Zm6.9-9.4c-.4-.2-2.2-1.1-2.5-1.2-.3-.1-.6-.2-.8.2s-.9 1.2-1.1 1.4c-.2.2-.4.3-.8.1-.4-.2-1.6-.6-3-1.9-1.1-1-1.9-2.2-2.1-2.6-.2-.4 0-.6.2-.8l.6-.7.4-.6c.1-.2 0-.5 0-.7l-1.2-2.8c-.3-.7-.6-.6-.8-.6h-.7c-.3 0-.7.1-1 .5-.4.4-1.3 1.3-1.3 3.1s1.4 3.6 1.6 3.8c.2.2 2.8 4.3 6.8 6 .9.4 1.6.6 2.1.8.9.3 1.7.3 2.3.2.7-.1 2.2-.9 2.5-1.8.3-.9.3-1.7.2-1.8-.1-.2-.3-.3-.7-.5Z"/></svg>}
+function Barone(){
+ const [menu,setMenu]=useState(false);
+ return <div className="barone">
+ <header className="site-header"><div className="container header-inner"><a className="logo" href="#inicio" aria-label="Barone Bebidas, início">BARONE<span>B E B I D A S</span></a><nav className={`nav-links ${menu?"open":""}`} aria-label="Navegação principal">{links.map(([name,url])=><a key={url} href={url} onClick={()=>setMenu(false)}>{name}</a>)}</nav><a className="btn btn-red header-cta" href={wa()} target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={16}/> Fale com a gente</a><button className="menu-toggle" aria-label={menu?"Fechar menu":"Abrir menu"} aria-expanded={menu} onClick={()=>setMenu(!menu)}>{menu?<X size={23}/>:<Menu size={23}/>}</button></div></header>
+ <main>
+ <section id="inicio" className="hero"><img className="hero-bg" src={photos.hero} alt="Composição ilustrativa de garrafas e taças de vinho" fetchPriority="high"/><div className="container hero-content"><div className="eyebrow">BARONE BEBIDAS • AFONSO CLÁUDIO — ES</div><h1>Sua próxima escolha de bebida começa na <em>Barone.</em></h1><p>Na Av. Marfisa de Barros Leite, em Afonso Cláudio, a Barone Bebidas é o endereço para quem procura praticidade na hora de escolher suas bebidas. Entre em contato e consulte nossas opções.</p><div className="hero-actions"><a className="btn btn-red" href={wa()} target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={18}/> Fale com a gente <ArrowRight size={16}/></a><a className="btn btn-outline" href="#sobre">Conheça a Barone</a></div><div className="hero-detail"><i/> Av. Marfisa de Barros Leite, 320 • Amancio Pimenta</div></div></section>
+ <section id="sobre" className="section-pad"><div className="container about"><div className="about-visual"><img src={photos.about} alt="Imagem ilustrativa de seleção de bebidas" loading="lazy" decoding="async"/><div className="about-stamp">Boas escolhas. Bons momentos.</div></div><div className="about-copy"><span className="eyebrow">SOBRE A BARONE</span><h2>A escolha certa para brindar bons momentos.</h2><p>A Barone Bebidas está localizada na Av. Marfisa de Barros Leite, no bairro Amancio Pimenta, em Afonso Cláudio. Um endereço para quem procura bebidas e quer resolver sua compra com praticidade.</p><p>Seja para organizar um encontro, preparar uma comemoração ou escolher algo para uma ocasião especial, você pode falar diretamente com a equipe e consultar as opções disponíveis.</p><p>Estamos à disposição de segunda a sábado, das 9h às 19h.</p><a className="btn btn-red" href={wa()} target="_blank" rel="noopener noreferrer">Conversar com a Barone <ArrowRight size={16}/></a></div></div></section>
+ <section id="bebidas" className="section-pad dark-section"><div className="container"><div className="section-head"><span className="eyebrow">EXPLORE AS CATEGORIAS</span><h2>Encontre a bebida para cada ocasião.</h2><p>Explore algumas categorias e fale com a nossa equipe para consultar marcas, disponibilidade e valores.</p></div><div className="catalog">{categories.map(c=><article className="drink-card" key={c.name}><div className="img-wrap"><img src={c.img} alt={`Fotografia ilustrativa: ${c.name}`} loading="lazy" decoding="async"/></div><div className="drink-body"><h3>{c.name}</h3><p>{c.desc}</p><a href={wa(`Olá! Encontrei a Barone Bebidas pelo site e gostaria de consultar as opções de ${c.name.toLowerCase()} disponíveis.`)} target="_blank" rel="noopener noreferrer">Consultar disponibilidade <ArrowRight size={15}/></a></div></article>)}</div><p className="catalog-note">Categorias sugeridas para apresentação. Consulte a loja para confirmar produtos, marcas, preços e disponibilidade.</p></div></section>
+ <section className="conversion"><div className="container conversion-inner"><div><h2>Já sabe o que está procurando?</h2><p>Fale diretamente com a Barone Bebidas e consulte as opções disponíveis sem complicação.</p></div><a className="btn" href={wa()} target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={18}/> Fale com a gente pelo WhatsApp</a></div></section>
+ <section id="galeria" className="section-pad"><div className="container"><div className="section-head"><span className="eyebrow">INSPIRAÇÃO PARA SUA ESCOLHA</span><h2>Um pouco do universo Barone.</h2><p>Inspirações do universo de bebidas para você encontrar ideias para seu próximo momento especial.</p></div><div className="gallery">{[photos.gallery1,photos.gallery2,photos.gallery3,photos.gallery4,photos.gallery5].map((src,i)=><figure key={src+i}><img src={src} alt={["Taça de vinho em composição ilustrativa","Cerveja em fotografia ilustrativa","Destilados em fotografia ilustrativa","Drinque em fotografia ilustrativa","Seleção de bebidas em fotografia ilustrativa"][i]} loading="lazy" decoding="async"/></figure>)}</div><p className="gallery-caption">Imagens ilustrativas. Fotos reais da Barone Bebidas poderão ser inseridas posteriormente.</p></div></section>
+ <section id="localizacao" className="section-pad" style={{background:"#efede9"}}><div className="container contact"><div className="contact-copy"><span className="eyebrow">VENHA NOS ENCONTRAR</span><h2>A Barone está pertinho de você.</h2><p>Confira nosso endereço, horário e fale diretamente com a equipe antes de sair de casa.</p><div className="contact-item"><MapPin size={21}/><div><strong>Endereço</strong><p>Av. Marfisa de Barros Leite, 320<br/>Amancio Pimenta<br/>Afonso Cláudio - ES • CEP 29600-000</p></div></div><div className="contact-item"><Clock3 size={21}/><div><strong>Funcionamento</strong><p>Segunda a sábado • 9h às 19h</p></div></div><div className="contact-item"><Phone size={21}/><div><strong>WhatsApp</strong><p>(27) 99799-9150</p></div></div><div className="contact-actions"><a className="btn btn-red" href={wa()} target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={17}/> Fale com a gente</a><a className="btn btn-map" href={map} target="_blank" rel="noopener noreferrer"><MapPin size={17}/> Como chegar</a></div></div><iframe className="map" src={embed} title="Mapa da localização da Barone Bebidas em Afonso Cláudio" loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen/></div></section>
+ </main>
+ <footer className="footer"><div className="container"><div className="footer-grid"><div><a className="logo" href="#inicio">BARONE<span>B E B I D A S</span></a><p style={{marginTop:21}}>Boas escolhas merecem bons momentos.</p><a className="btn btn-red" style={{marginTop:19}} href={wa()} target="_blank" rel="noopener noreferrer"><WhatsAppIcon size={16}/> Fale com a gente</a></div><div><h3>Links rápidos</h3><nav className="footer-nav" aria-label="Links do rodapé">{links.map(([name,url])=><a key={url} href={url}>{name}</a>)}</nav></div><div><h3>Contato e localização</h3><p>{address}</p><p><a href={wa()} target="_blank" rel="noopener noreferrer">(27) 99799-9150</a></p><p>Segunda a sábado, das 9h às 19h</p></div></div><div className="footer-bottom">© {new Date().getFullYear()} Barone Bebidas. Todos os direitos reservados.</div></div></footer>
+ <a className="floating-wa" href={wa()} target="_blank" rel="noopener noreferrer" aria-label="Fale com a Barone Bebidas pelo WhatsApp"><WhatsAppIcon size={24}/><span>Fale com a gente</span></a>
+ </div>
 }
