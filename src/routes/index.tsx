@@ -122,8 +122,8 @@ function Saturno() {
         }`}
       >
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 md:h-20">
-          <a href="#inicio" className={`font-serif text-xl font-semibold leading-none md:text-2xl ${scrolled || open ? "text-primary" : "text-primary-foreground"}`}>
-            Saturno <span className="block text-[0.65rem] font-sans font-semibold uppercase tracking-[0.3em] opacity-80">Bistrô & Burger</span>
+          <a href="#inicio" className={`brand-lockup font-serif text-xl font-semibold leading-none md:text-2xl ${scrolled || open ? "text-primary" : "text-primary-foreground"}`}>
+            Saturno <span className="brand-subtitle block text-[0.65rem] font-sans font-bold uppercase tracking-[0.34em] opacity-90">Bistrô & Burger</span>
           </a>
           <nav aria-label="Principal" className="hidden items-center gap-8 md:flex">
             {nav.map(([l, h]) => (
@@ -167,19 +167,19 @@ function Saturno() {
           <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-primary-deep/90 to-transparent md:hidden" />
           <div className="relative mx-auto w-full max-w-6xl px-5 pb-16 pt-28 md:pb-0">
             <div className="max-w-xl text-primary-foreground">
-              <p className="animate-rise text-xs font-semibold uppercase tracking-[0.3em] opacity-80">Aclimação · São Paulo</p>
-              <h1 className="animate-rise mt-4 font-serif text-4xl font-semibold leading-[1.05] sm:text-5xl md:text-6xl" style={{ animationDelay: ".1s" }}>
-                Seu próximo hambúrguer favorito está aqui.
+              <p className="hero-eyebrow animate-rise text-xs font-bold uppercase tracking-[0.32em] opacity-90" style={{ animationDelay: ".05s" }}><span className="hero-eyebrow-line" /> Aclimação · São Paulo</p>
+              <h1 className="hero-title animate-rise mt-5 font-serif font-semibold leading-[0.88]" style={{ animationDelay: ".1s" }}>
+                HOJE A FOME<br /><span className="hero-title-accent">TEM DESTINO.</span>
               </h1>
               <p className="animate-rise mt-5 max-w-md text-base leading-relaxed opacity-90 md:text-lg" style={{ animationDelay: ".2s" }}>
-                Sabores marcantes, ingredientes selecionados e uma experiência feita para quem ama comer bem.
+                Uma vontade impossível de ignorar. Descubra o Saturno Bistrô & Burger e fale direto com a nossa equipe.
               </p>
               <div className="animate-rise mt-8 flex flex-col gap-3 sm:flex-row" style={{ animationDelay: ".3s" }}>
                 <a href="#cardapio" className={btnPrimary}>
-                  Conhecer o cardápio <ArrowRight className="h-4 w-4" />
+                  VER O CARDÁPIO <ArrowRight className="h-4 w-4" />
                 </a>
                 <a href={wa()} target="_blank" rel="noopener noreferrer" className={btnGhost}>
-                  <MessageCircle className="h-4 w-4" /> Pedir pelo WhatsApp
+                  <MessageCircle className="h-4 w-4" /> PEDIR PELO WHATSAPP
                 </a>
               </div>
               <p className="animate-rise mt-6 flex items-center gap-2 text-sm opacity-80" style={{ animationDelay: ".4s" }}>
@@ -196,7 +196,7 @@ function Saturno() {
           </div>
           <div className="reveal">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">Sobre o bistrô</p>
-            <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight md:text-5xl">Muito sabor em cada detalhe.</h2>
+            <h2 className="section-display mt-3 font-serif text-3xl font-semibold leading-tight md:text-5xl">FEITO PRA MARCAR. <span className="text-primary">FEITO PRA SATURNO.</span></h2>
             <div className="mt-6 space-y-4 leading-relaxed text-muted-foreground">
               <p>O Saturno Bistrô & Burger fica na R. Saturno, na Aclimação, e é uma ótima escolha para quem procura um bom hambúrguer em São Paulo.</p>
               <p>Cada pedido é pensado para chegar bonito e saboroso — do pão à última batata. Conheça as opções do cardápio e fale direto com a equipe pelo WhatsApp.</p>
@@ -212,14 +212,14 @@ function Saturno() {
           <div className="mx-auto max-w-6xl px-5">
             <div className="reveal max-w-2xl">
               <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">Cardápio</p>
-              <h2 className="mt-3 font-serif text-3xl font-semibold md:text-5xl">Escolha o seu e peça pelo WhatsApp.</h2>
+              <h2 className="section-display mt-3 font-serif text-3xl font-semibold md:text-5xl">ESCOLHA SUA PRÓXIMA OBSESSÃO.</h2>
               <p className="mt-4 text-muted-foreground">
                 Itens demonstrativos. Consulte disponibilidade e valores pelo WhatsApp.
               </p>
             </div>
             {menu.map((cat) => (
               <div key={cat.category} className="mt-14">
-                <h3 className="reveal border-b border-border pb-3 font-serif text-2xl font-semibold">{cat.category}</h3>
+                <h3 className="menu-category reveal border-b border-border pb-3 font-serif text-2xl font-semibold">{cat.category}</h3>
                 <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                   {cat.items.map((it) => (
                     <article key={it.name} className="reveal group flex flex-col overflow-hidden rounded-2xl border border-border bg-background transition-all duration-300 hover:-translate-y-1 hover:shadow-lift">
@@ -257,7 +257,7 @@ function Saturno() {
         <section id="galeria" className="mx-auto max-w-6xl px-5 py-20 md:py-28">
           <div className="reveal max-w-2xl">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">Galeria</p>
-            <h2 className="mt-3 font-serif text-3xl font-semibold md:text-5xl">Feito para abrir o apetite.</h2>
+            <h2 className="section-display mt-3 font-serif text-3xl font-semibold md:text-5xl">OLHOU. DEU VONTADE.</h2>
           </div>
           <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5">
             {gallery.map((g) => (
@@ -274,7 +274,7 @@ function Saturno() {
           <div className="mx-auto grid max-w-6xl gap-10 px-5 md:grid-cols-2">
             <div className="reveal">
               <p className="text-xs font-semibold uppercase tracking-[0.3em] opacity-70">Contato</p>
-              <h2 className="mt-3 font-serif text-3xl font-semibold md:text-5xl">Estamos na Aclimação. Vamos conversar?</h2>
+              <h2 className="section-display mt-3 font-serif text-3xl font-semibold md:text-5xl">A FOME TE TROUXE ATÉ AQUI.</h2>
               <ul className="mt-8 space-y-5">
                 <li className="flex gap-3"><MapPin className="mt-0.5 h-5 w-5 shrink-0 opacity-80" /><span>{ADDRESS}, Brasil</span></li>
                 <li className="flex gap-3"><Phone className="mt-0.5 h-5 w-5 shrink-0 opacity-80" /><a href={wa()} target="_blank" rel="noopener noreferrer" className="underline-offset-4 hover:underline">(11) 98697-9286</a></li>
