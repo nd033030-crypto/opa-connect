@@ -17,7 +17,7 @@ const photos={
  spirits:"https://images.unsplash.com/photo-1527281400683-1aae777175f8?auto=format&fit=crop&w=750&q=78",
  sparkling:"https://images.unsplash.com/photo-1528823872057-9c018a7a7553?auto=format&fit=crop&w=750&q=78",
  soft:"https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=750&q=78",
- ice:"/ice-barone.svg",
+ ice:"https://images.unsplash.com/photo-1627903629592-128a8aee977b?auto=format&fit=crop&w=900&q=85",
  gallery1:"https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=950&q=80",
  gallery2:"https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=650&q=78",
  gallery3:"https://images.unsplash.com/photo-1527281400683-1aae777175f8?auto=format&fit=crop&w=650&q=78",
