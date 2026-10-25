@@ -76,3 +76,27 @@ body{background:#0f0f10;color:#f8f3ed}
 .floating-cart{background:#0f0f10}
 .cart-head,.cart-panel{color:#0f0f10}
 @media(max-width:700px){.hero-shade{background:linear-gradient(0deg,#0f0f10f0,#0f0f1099 65%,#0f0f1044)}}
+
+/* Premium cinematic motion and floating WhatsApp */
+.scroll-progress{position:fixed;top:0;left:0;height:3px;background:#b28962;z-index:100;pointer-events:none;transition:width .08s linear}
+@media(prefers-reduced-motion:no-preference){
+.reveal{animation:none;opacity:1;transform:none;transition:opacity .75s cubic-bezier(.2,.7,.2,1),transform .75s cubic-bezier(.2,.7,.2,1)}
+@supports(selector(:not(.visible))){.reveal:not(.visible){opacity:.01;transform:translateY(28px)}}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.about-photo.reveal:not(.visible){transform:translateX(-28px)}
+.about-copy.reveal:not(.visible){transform:translateX(28px)}
+.product.reveal:not(.visible){transform:translateY(32px)}
+.gallery-item img{transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+}
+.floating-actions{z-index:50;bottom:24px;right:24px}
+.wa-wrap{position:relative;display:grid;place-items:center;width:56px;height:56px}
+.floating-actions .wa-wrap{border-radius:50%;box-shadow:none}
+.floating-wa{position:relative;display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:#25d366;color:#073b1a;box-shadow:0 9px 28px #0005;transition:transform .3s,box-shadow .3s;isolation:isolate}
+.floating-wa::before{content:"";position:absolute;inset:-1px;border:2px solid #25d366;border-radius:50%;z-index:-1;animation:whatsapp-ring 2.6s ease-out infinite;pointer-events:none}
+.floating-wa:hover,.floating-wa:focus-visible{transform:scale(1.09);box-shadow:0 13px 34px #25d36670}
+.wa-tooltip{position:absolute;right:68px;top:50%;transform:translate(7px,-50%);background:#0f0f10;color:#fff;padding:9px 13px;border:1px solid #b2896266;border-radius:9px;white-space:nowrap;font-size:.78rem;box-shadow:0 8px 24px #0003;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s}
+.wa-tooltip.show,.wa-wrap:hover .wa-tooltip,.wa-wrap:focus-within .wa-tooltip{opacity:1;transform:translate(0,-50%)}
+@keyframes whatsapp-ring{0%{transform:scale(1);opacity:.65}75%,100%{transform:scale(1.55);opacity:0}}
+.cart-image-placeholder{display:block;width:76px;height:76px;flex-shrink:0;background:linear-gradient(135deg,#e8d7c5,#b28962);border-radius:5px}
+@media(max-width:700px){.floating-actions{bottom:24px;right:24px}.wa-tooltip{right:64px}}
+@media(prefers-reduced-motion:reduce){.floating-wa::before{animation:none;opacity:0}.floating-wa,.wa-tooltip,.reveal{transition:none!important;animation:none!important;opacity:1;transform:none}.wa-tooltip:not(.show){opacity:0}}
