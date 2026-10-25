@@ -3,18 +3,17 @@ import { useEffect, useState } from "react";
 import { ArrowRight, Clock3, MapPin, Menu, MessageCircle, Minus, Plus, ShoppingBag, Trash2, X } from "lucide-react";
 
 const business = {
- name: "Dona Alexandrina", slogan: "O sabor, que abraça",
- address: "R. Sampaio Viana, 409 - Paraíso, São Paulo - SP, 04004-001, Brasil",
- phone: "(11) 3885-9831", whatsapp: "551138859831", hours: "Segunda a sábado, das 9h às 19h",
+ name: "Praça da Moça Café", slogan: "Qualidade que você merece",
+ address: "R. Cel. Xavier de Toledo - Centro Histórico de São Paulo, São Paulo - SP, 01048-900, Brasil",
+ phone: "(11) 94524-6513", whatsapp: "5511945246513", hours: "Segunda a sábado, das 9h às 19h",
 };
-const wa = (message = "Olá! Conheci a Dona Alexandrina pelo site e gostaria de saber mais sobre os produtos.") => `https://wa.me/${business.whatsapp}?text=${encodeURIComponent(message)}`;
+const wa = (message = "Olá! Conheci a Praça da Moça Café pelo site e gostaria de consultar o cardápio.") => `https://wa.me/${business.whatsapp}?text=${encodeURIComponent(message)}`;
 const maps = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(business.address)}`;
-// Google Maps iframe embed URL for the complete supplied street address (no API key required).
 const embed = `https://www.google.com/maps?q=${encodeURIComponent(business.address)}&z=17&output=embed`;
 const photo = (id: string, width = 1000) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=85`;
 const images = {
- hero: photo("photo-1509440159596-0249088772ff", 1800),
- bread: photo("photo-1549931319-a545dcf3bc73"),
+ hero: photo("photo-1442512595331-e89e73853f31", 1800),
+ bread: photo("photo-1555507036-ab1f4038808a"),
  croissant: photo("photo-1555507036-ab1f4038808a"),
  coffee: photo("photo-1509042239860-f550ce710b93"),
  pastry: photo("photo-1484723091739-30a097e8f929"),
@@ -24,31 +23,31 @@ const images = {
 };
 type Product = { id: string; name: string; category: string; image: string };
 const products: Product[] = [
- {id:"p1",name:"Pão francês",category:"Pães",image:""},
- {id:"p2",name:"Pão de queijo",category:"Pães",image:""},
- {id:"p3",name:"Pães especiais",category:"Pães",image:images.bread},
- {id:"s1",name:"Coxinha",category:"Salgados",image:""},
- {id:"s2",name:"Esfiha",category:"Salgados",image:""},
- {id:"s3",name:"Empadas",category:"Salgados",image:""},
- {id:"d1",name:"Croissant doce",category:"Doces",image:""},
- {id:"d2",name:"Bolos",category:"Doces",image:images.cake},
- {id:"d3",name:"Doces variados",category:"Doces",image:""},
- {id:"b1",name:"Café expresso",category:"Bebidas",image:images.espresso},
- {id:"b2",name:"Cappuccino",category:"Bebidas",image:""},
- {id:"b3",name:"Sucos",category:"Bebidas",image:""},
+ {id:"c1",name:"Café expresso",category:"Cafés",image:images.espresso},
+ {id:"c2",name:"Café coado",category:"Cafés",image:images.coffee},
+ {id:"c3",name:"Cappuccino",category:"Cafés",image:""},
+ {id:"c4",name:"Latte",category:"Cafés",image:""},
+ {id:"d1",name:"Bolo artesanal",category:"Doces",image:images.cake},
+ {id:"d2",name:"Croissant",category:"Doces",image:images.croissant},
+ {id:"d3",name:"Cookie",category:"Doces",image:""},
+ {id:"s1",name:"Sanduíche",category:"Salgados",image:images.sandwich},
+ {id:"s2",name:"Pão de queijo",category:"Salgados",image:""},
+ {id:"b1",name:"Chocolate quente",category:"Bebidas",image:""},
+ {id:"b2",name:"Suco natural",category:"Bebidas",image:""},
+ {id:"b3",name:"Chá",category:"Bebidas",image:""},
 ];
 const navigation = [["Início","#inicio"],["Sobre","#sobre"],["Cardápio","#cardapio"],["Galeria","#galeria"],["Localização","#localizacao"],["Contato","#contato"]] as const;
 export const Route = createFileRoute("/")({
  head: () => ({
   meta: [
-   {title:"Dona Alexandrina | Padaria no Paraíso, São Paulo"},
-   {name:"description",content:"Conheça a Dona Alexandrina na Rua Sampaio Viana, 409, Paraíso, São Paulo. O sabor, que abraça. Consulte produtos e entre em contato."},
-   {property:"og:title",content:"Dona Alexandrina | O sabor, que abraça"},
-   {property:"og:description",content:"Padaria no Paraíso, São Paulo. Conheça nossos sabores e fale com a equipe."},
+   {title:"Praça da Moça Café | Cafeteria no Centro Histórico de São Paulo"},
+   {name:"description",content:"Conheça a Praça da Moça Café na R. Cel. Xavier de Toledo, Centro Histórico de São Paulo. Qualidade que você merece. Consulte o cardápio pelo WhatsApp."},
+   {property:"og:title",content:"Praça da Moça Café | Qualidade que você merece"},
+   {property:"og:description",content:"Cafeteria no Centro Histórico de São Paulo. Consulte nossos produtos e fale com a equipe."},
    {property:"og:type",content:"website"},
    {property:"og:image",content:images.hero},
   ],
-  scripts:[{type:"application/ld+json",children:JSON.stringify({"@context":"https://schema.org","@type":"Bakery",name:business.name,address:{"@type":"PostalAddress",streetAddress:"R. Sampaio Viana, 409",addressLocality:"São Paulo",addressRegion:"SP",postalCode:"04004-001",addressCountry:"BR"},telephone:"+551138859831",openingHoursSpecification:[{"@type":"OpeningHoursSpecification",dayOfWeek:["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],opens:"09:00",closes:"19:00"}]})}],
+  scripts:[{type:"application/ld+json",children:JSON.stringify({"@context":"https://schema.org","@type":"CafeOrCoffeeShop",name:business.name,address:{"@type":"PostalAddress",streetAddress:"R. Cel. Xavier de Toledo",addressLocality:"São Paulo",addressRegion:"SP",postalCode:"01048-900",addressCountry:"BR"},telephone:"+5511945246513",openingHoursSpecification:[{"@type":"OpeningHoursSpecification",dayOfWeek:["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],opens:"09:00",closes:"19:00"}]})}],
  }),
  component: Home,
 });
@@ -66,22 +65,22 @@ function Home(){
  useEffect(()=>{const fn=()=>setScrolled(window.scrollY>30);fn();window.addEventListener("scroll",fn,{passive:true});return()=>window.removeEventListener("scroll",fn)},[]);
  useEffect(()=>{const fn=(e:KeyboardEvent)=>{if(e.key==="Escape"){setGallery(null);setCartOpen(false);setMenu(false)}};window.addEventListener("keydown",fn);return()=>window.removeEventListener("keydown",fn)},[]);
  useEffect(()=>{if(!("IntersectionObserver" in window))return;const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("visible");io.unobserve(e.target)}}),{threshold:.1});document.querySelectorAll(".reveal").forEach(e=>io.observe(e));return()=>io.disconnect()},[category]);
- const order=()=>{const lines=products.filter(p=>cart[p.id]).map(p=>`• ${p.name} — ${cart[p.id]} unidade(s)`);const msg=`Olá! Conheci a Dona Alexandrina pelo site. Meu nome é ${name.trim()}. Gostaria de consultar disponibilidade e preços destes itens demonstrativos:\n\n${lines.join("\n")}\n\nPodem me informar os valores e as modalidades de atendimento disponíveis? Aguardo a confirmação da equipe. Obrigado!`;window.open(wa(msg),"_blank","noopener,noreferrer")};
+ const order=()=>{const lines=products.filter(p=>cart[p.id]).map(p=>`• ${p.name} — ${cart[p.id]} unidade(s)`);const msg=`Olá! Conheci a Praça da Moça Café pelo site. Meu nome é ${name.trim()}. Gostaria de consultar disponibilidade e preços destes itens demonstrativos:\n\n${lines.join("\n")}\n\nPodem me informar os valores e as modalidades de atendimento disponíveis? Aguardo a confirmação da equipe. Obrigado!`;window.open(wa(msg),"_blank","noopener,noreferrer")};
  const add=(id:string)=>{change(id,(cart[id]||0)+1);setToast("Produto adicionado ao carrinho");window.setTimeout(()=>setToast(""),1800)};
  return <div className="site">
   <header className={`header ${scrolled||menu?"scrolled":""}`}>
-   <div className="container header-inner"><a className="brand" href="#inicio" onClick={()=>setMenu(false)}>DONA ALEXANDRINA <small>{business.slogan}</small></a>
+   <div className="container header-inner"><a className="brand" href="#inicio" onClick={()=>setMenu(false)}>PRAÇA DA MOÇA CAFÉ <small>{business.slogan}</small></a>
     <nav className="desktop-nav" aria-label="Navegação principal">{navigation.map(([n,h])=><a key={h} href={h}>{n}</a>)}<a className="pill pill-gold" href={wa()} target="_blank" rel="noopener noreferrer">Fazer pedido</a></nav>
     <div className="header-actions"><button className="cart-toggle" onClick={()=>setCartOpen(true)} aria-label={`Abrir carrinho com ${total} itens`}><ShoppingBag size={21}/><span>{total}</span></button><button className="mobile-toggle" aria-label={menu?"Fechar menu":"Abrir menu"} aria-expanded={menu} onClick={()=>setMenu(!menu)}>{menu?<X/>:<Menu/>}</button></div>
    </div>
    {menu&&<nav className="mobile-nav" aria-label="Menu mobile">{navigation.map(([n,h])=><a href={h} key={h} onClick={()=>setMenu(false)}>{n}</a>)}<a href={wa()} target="_blank" rel="noopener noreferrer" onClick={()=>setMenu(false)}>Fazer pedido</a></nav>}
   </header>
   <main>
-   <section id="inicio" className="hero"><img src={images.hero} alt="Fotografia ilustrativa de pães artesanais dourados" fetchPriority="high" width="1800" height="1200"/><div className="hero-shade"/><div className="container hero-content"><p className="eyebrow hero-rise">PADARIA & GASTRONOMIA • PARAÍSO, SP</p><h1 className="hero-rise">{business.slogan}</h1><p className="hero-sub hero-rise">Seu momento mais gostoso do dia, no coração do Paraíso.</p><div className="hero-buttons hero-rise"><a className="pill pill-gold" href={wa()} target="_blank" rel="noopener noreferrer">Fazer pedido agora <ArrowRight size={18}/></a><a className="pill pill-outline" href="#cardapio">Explorar cardápio</a></div><span className="hero-caption">Fotografia gastronômica ilustrativa</span></div></section>
-   <section id="sobre" className="section about container"><div className="about-photo reveal"><img src={images.croissant} alt="Croissant folhado em fotografia gastronômica ilustrativa" loading="lazy" width="1000" height="1100"/></div><div className="about-copy reveal"><span className="eyebrow">UM CONVITE ESPECIAL</span><h2>Um convite para saborear bons momentos.</h2><div className="gold-line"/><p>Na Dona Alexandrina, cada visita é uma oportunidade de transformar uma pausa do dia em um momento especial.</p><p>Localizada no Paraíso, em São Paulo, nossa padaria convida você a conhecer nossos sabores e encontrar aquele acompanhamento perfeito para o café, para uma pausa ou para compartilhar.</p><p>Venha nos visitar e descubra o sabor que abraça.</p><a className="text-link" href={maps} target="_blank" rel="noopener noreferrer">Como chegar <ArrowRight size={18}/></a></div></section>
-   <section id="cardapio" className="section menu-section"><div className="container"><div className="section-heading reveal"><span className="eyebrow">NOSSA SELEÇÃO</span><h2>Sabores para cada momento.</h2><p>Encontre algo especial para deixar seu dia ainda mais gostoso.</p><p className="disclaimer">Cardápio demonstrativo: produtos, imagens, disponibilidade e preços sujeitos à confirmação da equipe.</p></div><div className="filters" role="group" aria-label="Filtrar produtos">{["Todos","Pães","Salgados","Doces","Bebidas"].map(c=><button key={c} aria-pressed={category===c} className={category===c?"active":""} onClick={()=>setCategory(c)}>{c}</button>)}</div><div className="product-grid">{products.filter(p=>category==="Todos"||p.category===category).map(p=><article className="product reveal" key={p.id}><div className="product-image">{p.image ? <img src={p.image} alt={`Fotografia gastronômica ilustrativa de ${p.name}`} loading="lazy" width="1000" height="800" onError={e=>{e.currentTarget.style.display="none";e.currentTarget.parentElement?.classList.add("photo-unavailable")}}/> : <div className="product-photo-pending" role="img" aria-label={`Fotografia de ${p.name} aguardando confirmação`}><span>FOTOGRAFIA EM ATUALIZAÇÃO</span><strong>{p.name}</strong><small>Imagem específica do produto em seleção</small></div>}</div><div className="product-info"><span className="eyebrow">{p.category} · SELEÇÃO ILUSTRATIVA</span><h3>{p.name}</h3><p>Opção ilustrativa. Consulte ingredientes e disponibilidade.</p><div className="product-bottom"><span>Consultar preço</span><button onClick={()=>add(p.id)} aria-label={`Adicionar ${p.name} ao carrinho`}><Plus size={18}/> Adicionar</button></div></div></article>)}</div><div className="menu-note">Os produtos apresentados são sugestões para demonstração, não um cardápio oficial.</div></div></section>
-   <section id="galeria" className="section gallery-section container"><div className="section-heading reveal"><span className="eyebrow">UMA PAUSA PARA OS SENTIDOS</span><h2>Detalhes que despertam o apetite.</h2><p>Fotografias gastronômicas ilustrativas; não representam necessariamente produtos ou ambiente da padaria.</p></div><div className="gallery-grid">{[images.bread,images.coffee,images.cake,images.croissant,images.pastry,images.espresso].map((src,i)=><button key={i} className={`gallery-item gallery-item-${i}`} onClick={()=>setGallery(src)} aria-label={`Ampliar fotografia gastronômica ${i+1}`}><img src={src} alt={["Pães artesanais","Café","Doce artesanal","Croissant","Preparação gastronômica","Café expresso"][i]+" — imagem ilustrativa"} loading="lazy" width="1000" height="1000"/></button>)}</div></section>
-   <section className="invitation"><div className="container reveal"><span className="eyebrow">DONA ALEXANDRINA</span><h2>Seu próximo momento especial começa aqui.</h2><p>Consulte nossos sabores diretamente com a equipe.</p><a className="pill pill-gold" href={wa()} target="_blank" rel="noopener noreferrer">Fazer pedido agora <ArrowRight size={18}/></a></div></section>
+   <section id="inicio" className="hero"><img src={images.hero} alt="Fotografia ilustrativa de pães artesanais dourados" fetchPriority="high" width="1800" height="1200"/><div className="hero-shade"/><div className="container hero-content"><p className="eyebrow hero-rise">CAFETERIA • CENTRO HISTÓRICO DE SÃO PAULO</p><h1 className="hero-rise">{business.slogan}</h1><p className="hero-sub hero-rise">Uma pausa com sabor no coração do Centro Histórico de São Paulo.</p><div className="hero-buttons hero-rise"><a className="pill pill-gold" href={wa()} target="_blank" rel="noopener noreferrer">Fazer pedido agora <ArrowRight size={18}/></a><a className="pill pill-outline" href="#cardapio">Explorar cardápio</a></div><span className="hero-caption">Fotografia gastronômica ilustrativa</span></div></section>
+   <section id="sobre" className="section about container"><div className="about-photo reveal"><img src={images.croissant} alt="Croissant folhado em fotografia gastronômica ilustrativa" loading="lazy" width="1000" height="1100"/></div><div className="about-copy reveal"><span className="eyebrow">UM CONVITE ESPECIAL</span><h2>Uma pausa especial no ritmo do centro.</h2><div className="gold-line"/><p>Entre compromissos, passeios e encontros pelo Centro Histórico, um bom café é um convite para aproveitar melhor o dia.</p><p>Na Praça da Moça Café, na região da Rua Cel. Xavier de Toledo, você encontra um ponto de contato para consultar opções de cafés e acompanhamentos diretamente com a equipe.</p><p>Consulte as opções disponíveis e planeje sua próxima pausa.</p><a className="text-link" href={maps} target="_blank" rel="noopener noreferrer">Como chegar <ArrowRight size={18}/></a></div></section>
+   <section id="cardapio" className="section menu-section"><div className="container"><div className="section-heading reveal"><span className="eyebrow">NOSSA SELEÇÃO</span><h2>Seu café, do seu jeito.</h2><p>Explore cafés e acompanhamentos. Consulte o cardápio atualizado com a equipe.</p><p className="disclaimer">Cardápio demonstrativo: produtos, imagens, disponibilidade e preços sujeitos à confirmação da equipe.</p></div><div className="filters" role="group" aria-label="Filtrar produtos">{["Todos","Cafés","Doces","Salgados","Bebidas"].map(c=><button key={c} aria-pressed={category===c} className={category===c?"active":""} onClick={()=>setCategory(c)}>{c}</button>)}</div><div className="product-grid">{products.filter(p=>category==="Todos"||p.category===category).map(p=><article className="product reveal" key={p.id}><div className="product-image">{p.image ? <img src={p.image} alt={`Fotografia gastronômica ilustrativa de ${p.name}`} loading="lazy" width="1000" height="800" onError={e=>{e.currentTarget.style.display="none";e.currentTarget.parentElement?.classList.add("photo-unavailable")}}/> : <div className="product-photo-pending" role="img" aria-label={`Fotografia de ${p.name} aguardando confirmação`}><span>FOTOGRAFIA EM ATUALIZAÇÃO</span><strong>{p.name}</strong><small>Imagem específica do produto em seleção</small></div>}</div><div className="product-info"><span className="eyebrow">{p.category} · SELEÇÃO ILUSTRATIVA</span><h3>{p.name}</h3><p>Opção ilustrativa. Consulte ingredientes e disponibilidade.</p><div className="product-bottom"><span>Consultar preço</span><button onClick={()=>add(p.id)} aria-label={`Adicionar ${p.name} ao carrinho`}><Plus size={18}/> Adicionar</button></div></div></article>)}</div><div className="menu-note">Itens apresentados como sugestões visuais; confirme o cardápio e os valores diretamente com a equipe.</div></div></section>
+   <section id="galeria" className="section gallery-section container"><div className="section-heading reveal"><span className="eyebrow">UMA PAUSA PARA OS SENTIDOS</span><h2>O prazer mora nos detalhes.</h2><p>Fotografias gastronômicas ilustrativas; não representam necessariamente produtos ou ambiente da padaria.</p></div><div className="gallery-grid">{[images.bread,images.coffee,images.cake,images.croissant,images.pastry,images.espresso].map((src,i)=><button key={i} className={`gallery-item gallery-item-${i}`} onClick={()=>setGallery(src)} aria-label={`Ampliar fotografia gastronômica ${i+1}`}><img src={src} alt={["Pães artesanais","Café","Doce artesanal","Croissant","Preparação gastronômica","Café expresso"][i]+" — imagem ilustrativa"} loading="lazy" width="1000" height="1000"/></button>)}</div></section>
+   <section className="invitation"><div className="container reveal"><span className="eyebrow">PRAÇA DA MOÇA CAFÉ</span><h2>Uma boa pausa começa com um café.</h2><p>Consulte nossos sabores diretamente com a equipe.</p><a className="pill pill-gold" href={wa()} target="_blank" rel="noopener noreferrer">Fazer pedido agora <ArrowRight size={18}/></a></div></section>
    <section id="localizacao" className="section where-section">
     <div className="container where-container">
       <div className="section-heading reveal">
@@ -90,14 +89,14 @@ function Home(){
         <p className="where-address"><MapPin size={22} aria-hidden="true" /> {business.address}</p>
       </div>
       <div className="where-map reveal">
-        <iframe title="Localização da Dona Alexandrina no Google Maps — Rua Sampaio Viana, 409" src={embed} loading="lazy" allowFullScreen referrerPolicy="no-referrer-when-downgrade" />
+        <iframe title="Localização da Praça da Moça Café no Google Maps — Rua Sampaio Viana, 409" src={embed} loading="lazy" allowFullScreen referrerPolicy="no-referrer-when-downgrade" />
       </div>
       <a className="pill pill-dark where-link" href={maps} target="_blank" rel="noopener noreferrer"><MapPin size={18}/> Abrir no Google Maps <ArrowRight size={17}/></a>
     </div>
    </section>
-   <section className="section contact-section"><div className="container contact-grid"><div id="contato" className="reveal"><span className="eyebrow">VISITE-NOS</span><h2>Venha conhecer a Dona Alexandrina.</h2><div className="contact-detail"><MapPin/><div><strong>Endereço</strong><p>{business.address}</p></div></div><div className="contact-detail"><Clock3/><div><strong>Funcionamento informado</strong><p>{business.hours}</p></div></div><div className="contact-detail"><MessageCircle/><div><strong>Contato</strong><p><a href={`tel:+${business.whatsapp}`}>{business.phone}</a></p></div></div><div className="contact-buttons"><a className="pill pill-gold" href={wa()} target="_blank" rel="noopener noreferrer">Fazer pedido agora</a><a className="pill pill-dark" href={maps} target="_blank" rel="noopener noreferrer">Traçar rota <ArrowRight size={17}/></a></div></div><div className="contact-editorial reveal"><img src={images.coffee} alt="Café servido em fotografia gastronômica ilustrativa" loading="lazy" width="1000" height="1000"/><div><span className="eyebrow">UM MOMENTO DE ACONCHEGO</span><p>Uma pausa especial no coração do Paraíso.</p></div></div></div></section>
+   <section className="section contact-section"><div className="container contact-grid"><div id="contato" className="reveal"><span className="eyebrow">VISITE-NOS</span><h2>Encontre a Praça da Moça Café.</h2><div className="contact-detail"><MapPin/><div><strong>Endereço</strong><p>{business.address}</p></div></div><div className="contact-detail"><Clock3/><div><strong>Funcionamento informado</strong><p>{business.hours}</p></div></div><div className="contact-detail"><MessageCircle/><div><strong>Contato</strong><p><a href={`tel:+${business.whatsapp}`}>{business.phone}</a></p></div></div><div className="contact-buttons"><a className="pill pill-gold" href={wa()} target="_blank" rel="noopener noreferrer">Fazer pedido agora</a><a className="pill pill-dark" href={maps} target="_blank" rel="noopener noreferrer">Traçar rota <ArrowRight size={17}/></a></div></div><div className="contact-editorial reveal"><img src={images.coffee} alt="Café servido em fotografia gastronômica ilustrativa" loading="lazy" width="1000" height="1000"/><div><span className="eyebrow">UM MOMENTO DE ACONCHEGO</span><p>Uma pausa no coração de São Paulo.</p></div></div></div></section>
   </main>
-  <footer><div className="container footer-grid"><div><strong className="footer-brand">DONA ALEXANDRINA</strong><p>{business.slogan}</p><a className="pill pill-gold" href={wa()} target="_blank" rel="noopener noreferrer">Fazer pedido agora</a></div><nav aria-label="Links do rodapé">{navigation.map(([n,h])=><a key={h} href={h}>{n}</a>)}</nav><div><strong>Encontre-nos</strong><p>{business.address}</p><p>{business.hours}</p><p>{business.phone}</p></div></div><div className="container copyright">© {new Date().getFullYear()} Dona Alexandrina. Todos os direitos reservados.</div></footer>
+  <footer><div className="container footer-grid"><div><strong className="footer-brand">PRAÇA DA MOÇA CAFÉ</strong><p>{business.slogan}</p><a className="pill pill-gold" href={wa()} target="_blank" rel="noopener noreferrer">Fazer pedido agora</a></div><nav aria-label="Links do rodapé">{navigation.map(([n,h])=><a key={h} href={h}>{n}</a>)}</nav><div><strong>Encontre-nos</strong><p>{business.address}</p><p>{business.hours}</p><p>{business.phone}</p></div></div><div className="container copyright">© {new Date().getFullYear()} Praça da Moça Café. Todos os direitos reservados.</div></footer>
   <div className="floating-actions"><button className="floating-cart" onClick={()=>setCartOpen(true)} aria-label={`Abrir carrinho: ${total} itens`}><ShoppingBag size={23}/><span>{total}</span></button><a className="floating-wa" href={wa()} target="_blank" rel="noopener noreferrer" aria-label="Fale com nossa equipe pelo WhatsApp" title="Fale com nossa equipe"><MessageCircle size={26}/></a></div>
   {toast&&<div role="status" className="toast">{toast}</div>}
   {gallery&&<div className="lightbox" role="dialog" aria-modal="true" aria-label="Fotografia ampliada" onClick={()=>setGallery(null)}><button aria-label="Fechar fotografia" onClick={()=>setGallery(null)}><X/></button><img src={gallery} alt="Fotografia gastronômica ilustrativa ampliada" onClick={e=>e.stopPropagation()}/></div>}
