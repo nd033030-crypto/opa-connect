@@ -49,3 +49,30 @@
 .product-bottom button{border-radius:4px;min-height:42px;transition:background .25s,transform .25s}
 .product-bottom button:hover{transform:translateY(-2px)}
 @media(max-width:700px){.where-map{border-radius:13px;aspect-ratio:16/10}.where-address{align-items:flex-start;text-align:left}.where-address svg{margin-top:3px}.where-link{width:100%}.contact-editorial,.contact-editorial img{min-height:310px}}
+
+/* Praça da Moça Café — refined espresso & bronze identity */
+:root{--background:#0f0f10;--foreground:#f8f3ed;--primary:#b28962;--primary-foreground:#0f0f10;--card:#1d1b19;--card-foreground:#f8f3ed;--border:#5a493a;--ring:#b28962}
+body{background:#0f0f10;color:#f8f3ed}
+.header.scrolled,footer{background:#0f0f10f5}
+.brand small,.eyebrow,.text-link,.contact-detail svg{color:#b28962}
+.pill-gold{background:#b28962;border-color:#b28962;color:#0f0f10}
+.pill-gold:hover{background:#d2ad89}
+.pill-dark{background:#0f0f10;border-color:#0f0f10;color:#f8f3ed}
+.hero{background:#0f0f10}.hero-shade{background:linear-gradient(90deg,#0f0f10f0 0%,#0f0f10b8 45%,#0f0f1030 100%)}
+.about,.gallery-section{background:#0f0f10;color:#f8f3ed}
+.about-copy p,.gallery-section .section-heading>p{color:#c7b8a9}
+.about-photo:after{border-color:#b28962}
+.gold-line{background:#b28962}
+.menu-section{background:#f3ece4;color:#0f0f10}
+.product{background:#fffcf8;border-color:#d7c4b2;box-shadow:0 8px 30px #0f0f100c}
+.product-info{color:#0f0f10}
+.product-bottom button{background:#0f0f10}
+.product-bottom button:hover{background:#b28962}
+.filters button.active,.filters button:hover{background:#0f0f10}
+.invitation{background:linear-gradient(110deg,#0f0f10,#443023)}
+.where-section{background:#f3ece4;color:#0f0f10}
+.where-map{box-shadow:0 25px 65px #0f0f102b}
+.contact-section{background:#fffcf8;color:#0f0f10}
+.floating-cart{background:#0f0f10}
+.cart-head,.cart-panel{color:#0f0f10}
+@media(max-width:700px){.hero-shade{background:linear-gradient(0deg,#0f0f10f0,#0f0f1099 65%,#0f0f1044)}}
