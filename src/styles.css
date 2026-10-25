@@ -100,3 +100,21 @@ body{background:#0f0f10;color:#f8f3ed}
 .cart-image-placeholder{display:block;width:76px;height:76px;flex-shrink:0;background:linear-gradient(135deg,#e8d7c5,#b28962);border-radius:5px}
 @media(max-width:700px){.floating-actions{bottom:24px;right:24px}.wa-tooltip{right:64px}}
 @media(prefers-reduced-motion:reduce){.floating-wa::before{animation:none;opacity:0}.floating-wa,.wa-tooltip,.reveal{transition:none!important;animation:none!important;opacity:1;transform:none}.wa-tooltip:not(.show){opacity:0}}
+
+/* Focused refinement: never leave a failed product photograph blank */
+.product-image.photo-unavailable{position:relative;background:linear-gradient(145deg,#d7b998,#a77e58);display:grid;place-items:center;min-height:230px}
+.product-image.photo-unavailable::after{content:attr(data-product) " · fotografia em atualização";display:block;max-width:85%;padding:18px;text-align:center;color:#302018;font:600 clamp(1.15rem,2.4vw,1.7rem)/1.4 "Playfair Display",Georgia,serif}
+.product-photo-pending{background:linear-gradient(145deg,#d7b998,#a77e58)}
+/* Refined editorial type and scroll entrance */
+.hero h1{font-family:"Playfair Display",Georgia,serif;font-weight:600;letter-spacing:-.055em}
+.section h2,.invitation h2{font-family:"Playfair Display",Georgia,serif;font-weight:600;letter-spacing:-.045em}
+.product-info h3{font-family:"Playfair Display",Georgia,serif;font-weight:650;letter-spacing:-.025em}
+@media(prefers-reduced-motion:no-preference){
+.motion-ready .about-photo.reveal:not(.visible){transform:translateX(-34px)}
+.motion-ready .about-copy.reveal:not(.visible){transform:translateX(34px)}
+.motion-ready .product.reveal:not(.visible){transform:translateY(42px) scale(.975)}
+.motion-ready .where-map.reveal:not(.visible){transform:translateY(35px) scale(.985)}
+.motion-ready .section-heading.reveal:not(.visible){transform:translateY(24px)}
+.reveal.visible{transition-duration:.85s}
+.product:hover{transform:translateY(-7px);box-shadow:0 25px 50px #0f0f1025}
+}
