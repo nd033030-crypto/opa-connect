@@ -161,3 +161,35 @@ body{background:#101115}
 .hero-depth span:nth-child(3){width:25vw;height:25vw;right:-7vw;top:30%}
 }
 @media(prefers-reduced-motion:reduce){.cinematic-hero .hero-video{display:none}.cinematic-hero>img,.hero-depth span{animation:none!important}}
+
+/* Native animated 3D coffee sculpture: no external video */
+.cinematic-hero{background:radial-gradient(ellipse at 77% 49%,#6b442a 0%,#251b17 35%,#090a0c 76%);min-height:100svh;perspective:1200px}
+.cinematic-hero .hero-shade{z-index:0;pointer-events:none;background:linear-gradient(90deg,#090a0cef 0%,#090a0cb8 36%,transparent 70%)}
+.cinematic-hero .hero-content{z-index:3;pointer-events:none}
+.cinematic-hero .hero-content a{pointer-events:auto}
+.hero-3d-stage{position:absolute;inset:0 0 0 37%;overflow:hidden;perspective:1000px;pointer-events:none;isolation:isolate}
+.coffee-aura{position:absolute;width:680px;height:680px;top:50%;left:57%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,#d4af3750 0%,#ac653c2c 32%,transparent 67%);filter:blur(28px);animation:aura-breathe 6s ease-in-out infinite alternate}
+.coffee-scene{position:absolute;width:390px;height:440px;top:52%;left:55%;transform-style:preserve-3d;transform:translate(-50%,-50%) rotateX(-16deg) rotateY(-24deg);animation:coffee-float 8s ease-in-out infinite alternate;filter:drop-shadow(28px 36px 25px #0008)}
+.coffee-cup{position:absolute;left:80px;top:145px;width:230px;height:195px;border-radius:18px 18px 92px 92px / 18px 18px 60px 60px;background:linear-gradient(105deg,#aaa3a0 0%,#fffefa 18%,#e9ded0 48%,#fffefa 72%,#a69b8e 100%);box-shadow:inset -17px -12px 24px #74604e4a,inset 15px 0 18px #fff9,0 16px 18px #0005;transform:translateZ(44px);overflow:visible}
+.coffee-rim{position:absolute;left:-4px;top:-28px;width:238px;height:75px;border-radius:50%;background:linear-gradient(135deg,#fff,#d4c9b8 55%,#fff);border:9px solid #f8f4ec;box-shadow:0 4px 8px #55402b8c,inset 0 4px 7px #574336;transform:rotateX(17deg);overflow:hidden}
+.coffee-liquid{position:absolute;inset:5px;border-radius:50%;background:radial-gradient(ellipse at 40% 35%,#bd8254,#704126 58%,#301a12 100%);box-shadow:inset 0 3px 9px #1c0d0b}
+.latte-art{position:absolute;inset:0;display:grid;place-items:center;color:#f7dfbb;font-size:57px;transform:rotate(-18deg);text-shadow:0 0 7px #fff8}
+.coffee-cup-shine{position:absolute;left:27px;top:55px;width:23px;height:92px;border-radius:50%;background:#fff8;filter:blur(11px)}
+.coffee-handle{position:absolute;left:276px;top:177px;width:96px;height:122px;border:26px solid #eee6db;border-left:15px solid #ddd0bf;border-radius:50%;box-shadow:inset -8px 4px 12px #48372c99,8px 8px 13px #0006;transform:translateZ(4px) rotate(-10deg)}
+.coffee-saucer{position:absolute;left:40px;top:311px;width:315px;height:92px;border-radius:50%;background:radial-gradient(ellipse,#b6a69a 0 30%,#faf4eb 32% 55%,#b0a293 68%,#f5f0e8 78%);box-shadow:0 16px 22px #0009;transform:translateZ(0) rotateX(20deg)}
+.coffee-shadow{position:absolute;left:70px;top:390px;width:300px;height:40px;border-radius:50%;background:#0008;filter:blur(17px);transform:translateZ(-60px)}
+.coffee-steam{position:absolute;top:4px;width:30px;height:138px;border-radius:50%;border-left:7px solid #ffffff6b;filter:blur(7px);opacity:0;animation:steam-rise 4s ease-out infinite}
+.steam-one{left:150px}.steam-two{left:198px;animation-delay:1.1s}.steam-three{left:242px;animation-delay:2.2s}
+.coffee-orbit{position:absolute;left:55%;top:52%;width:560px;height:560px;border:1px solid #d4af374f;border-radius:50%;transform:translate(-50%,-50%) rotateX(70deg) rotateZ(-22deg);box-shadow:0 0 40px #d4af3714;animation:orbit-turn 18s linear infinite}
+.orbit-two{width:680px;height:680px;animation-duration:25s;animation-direction:reverse;opacity:.45}
+.coffee-bean{position:absolute;width:28px;height:43px;border-radius:50%;background:linear-gradient(90deg,#32180e,#99552b 42%,#2b130b);box-shadow:inset 4px 0 5px #d0955a5e,6px 9px 12px #0007;animation:bean-drift 7s ease-in-out infinite alternate}
+.coffee-bean:after{content:"";position:absolute;left:48%;top:8%;height:84%;border-left:2px solid #1b0b06;border-radius:50%;transform:rotate(13deg)}
+.bean-one{top:24%;left:22%}.bean-two{top:68%;left:83%;animation-delay:-3s;transform:rotate(42deg)}.bean-three{top:77%;left:31%;animation-delay:-5s}
+@keyframes coffee-float{0%{transform:translate(-50%,-49%) rotateX(-17deg) rotateY(-27deg) rotateZ(-3deg)}50%{transform:translate(-50%,-53%) rotateX(-12deg) rotateY(4deg) rotateZ(1deg)}100%{transform:translate(-50%,-49%) rotateX(-17deg) rotateY(24deg) rotateZ(3deg)}}
+@keyframes steam-rise{0%{opacity:0;transform:translateY(34px) translateX(0) scale(.6)}30%{opacity:.5}100%{opacity:0;transform:translateY(-100px) translateX(23px) scale(1.5)}}
+@keyframes aura-breathe{to{opacity:.55;transform:translate(-50%,-50%) scale(1.18)}}
+@keyframes orbit-turn{to{transform:translate(-50%,-50%) rotateX(70deg) rotateZ(338deg)}}
+@keyframes bean-drift{to{translate:14px -24px;rotate:35deg}}
+@media(max-width:900px){.hero-3d-stage{inset:0;opacity:.72}.coffee-scene{left:64%;top:39%;scale:.75}.coffee-aura,.coffee-orbit{left:64%;top:39%}.cinematic-hero .hero-content{padding-top:420px}.cinematic-hero .hero-shade{background:linear-gradient(0deg,#090a0cf9 0%,#090a0cb0 48%,#090a0c20 100%)}}
+@media(max-width:600px){.hero-3d-stage{opacity:.76}.coffee-scene{left:51%;top:31%;scale:.54}.coffee-aura,.coffee-orbit{left:51%;top:31%}.cinematic-hero .hero-content{padding-top:370px;padding-bottom:65px}.cinematic-hero h1{font-size:clamp(3.15rem,12vw,5.2rem)}.coffee-bean{scale:.7}}
+@media(prefers-reduced-motion:reduce){.coffee-scene{animation:none;transform:translate(-50%,-50%) rotateX(-16deg) rotateY(-20deg)}.coffee-steam,.coffee-orbit,.coffee-bean,.coffee-aura{animation:none!important}.coffee-steam{opacity:.3}}
