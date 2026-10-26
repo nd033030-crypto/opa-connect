@@ -100,7 +100,7 @@ function Home(){
         <p className="where-address"><MapPin size={22} aria-hidden="true" /> {business.address}</p>
       </div>
       <div className="where-map reveal">
-        <iframe title="Localização da Lido Café no Google Maps — Rua Cel. Xavier de Toledo" src={embed} loading="lazy" allowFullScreen referrerPolicy="no-referrer-when-downgrade" />
+        <iframe title="Localização do Lido Café no Google Maps — Rua Manoel Coelho, 506" src={embed} loading="lazy" allowFullScreen referrerPolicy="no-referrer-when-downgrade" />
       </div>
       <a className="pill pill-dark where-link" href={maps} target="_blank" rel="noopener noreferrer"><MapPin size={18}/> Abrir no Google Maps <ArrowRight size={17}/></a>
     </div>
