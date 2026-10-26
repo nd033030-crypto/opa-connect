@@ -193,3 +193,27 @@ body{background:#101115}
 @media(max-width:900px){.hero-3d-stage{inset:0;opacity:.72}.coffee-scene{left:64%;top:39%;scale:.75}.coffee-aura,.coffee-orbit{left:64%;top:39%}.cinematic-hero .hero-content{padding-top:420px}.cinematic-hero .hero-shade{background:linear-gradient(0deg,#090a0cf9 0%,#090a0cb0 48%,#090a0c20 100%)}}
 @media(max-width:600px){.hero-3d-stage{opacity:.76}.coffee-scene{left:51%;top:31%;scale:.54}.coffee-aura,.coffee-orbit{left:51%;top:31%}.cinematic-hero .hero-content{padding-top:370px;padding-bottom:65px}.cinematic-hero h1{font-size:clamp(3.15rem,12vw,5.2rem)}.coffee-bean{scale:.7}}
 @media(prefers-reduced-motion:reduce){.coffee-scene{animation:none;transform:translate(-50%,-50%) rotateX(-16deg) rotateY(-20deg)}.coffee-steam,.coffee-orbit,.coffee-bean,.coffee-aura{animation:none!important}.coffee-steam{opacity:.3}}
+
+/* Lido Café — brand override. No CSS-generated coffee object is used in the hero. */
+:root{--background:#f5f7fa;--foreground:#0f0f10;--primary:#d4af37;--primary-foreground:#0f0f10;--card:#ffffff;--card-foreground:#0f0f10;--ring:#d4af37}
+body{font-family:Inter,system-ui,sans-serif}
+.header.scrolled,footer{background:#0f0f10f5}
+.brand small,.eyebrow,.text-link,.contact-detail svg{color:#d4af37}
+.pill-gold{background:#d4af37;border-color:#d4af37;color:#0f0f10}
+.pill-gold:hover{background:#efd778}
+.scroll-progress,.gold-line{background:#d4af37}
+.hero.cinematic-hero{background:#0f0f10;isolation:isolate;min-height:100svh}
+.cinematic-hero .lido-hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:65% center;z-index:-2;animation:none}
+.cinematic-hero .hero-shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#0f0f10f5,#0f0f10bb 48%,#0f0f1050)}
+.cinematic-hero .hero-content{position:relative;z-index:2}
+.cinematic-hero h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(3.3rem,7.5vw,7.5rem);letter-spacing:-.06em;line-height:1.04}
+.hero-asset-note{position:absolute;right:22px;bottom:22px;z-index:2;color:#f5f7fa;background:#0f0f10a8;border:1px solid #d4af3766;padding:9px 13px;border-radius:6px;font-size:12px}
+.menu-section,.where-section,.contact-section{background:#f5f7fa;color:#0f0f10}
+.product{background:#fff;color:#0f0f10;border:1px solid #d4af373d}
+.product-info{color:#0f0f10}
+.product-bottom button,.filters button.active,.filters button:hover{background:#0f0f10;color:white}
+.where-map{border:1px solid #d4af3755}
+.invitation{background:linear-gradient(115deg,#0f0f10,#473b23)}
+.floating-wa{background:#25d366}
+@media(max-width:700px){.cinematic-hero .lido-hero-photo{object-position:60% center}.cinematic-hero .hero-shade{background:linear-gradient(0deg,#0f0f10f5,#0f0f10c2 55%,#0f0f1050)}.hero-asset-note{right:12px;bottom:8px;font-size:10px}}
+@media(prefers-reduced-motion:reduce){.cinematic-hero .lido-hero-photo{animation:none}.motion-ready .reveal{opacity:1!important;transform:none!important}}
