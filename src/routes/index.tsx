@@ -7,7 +7,7 @@ const business = {
  address: "R. Manoel Coelho, 506 - Lj 3 - Centro, São Caetano do Sul - SP, 09510-101, Brasil",
  phone: "(11) 2376-8739", whatsapp: "551123768739", hours: "Segunda a sábado, das 9h às 19h",
 };
-const wa = (message = "Olá! Conheci a Lido Café pelo site e gostaria de consultar o cardápio.") => `https://wa.me/${business.whatsapp}?text=${encodeURIComponent(message)}`;
+const wa = (message = "Olá! Conheci o Lido Café pelo site e gostaria de consultar o cardápio.") => `https://wa.me/${business.whatsapp}?text=${encodeURIComponent(message)}`;
 const maps = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(business.address)}`;
 const embed = `https://www.google.com/maps?q=${encodeURIComponent(business.address)}&z=17&output=embed`;
 const photo = (id: string, width = 1000) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=85`;
@@ -74,7 +74,30 @@ function Home(){
  const change=(id:string,n:number)=>setCart(old=>{const next={...old};if(n<=0)delete next[id];else next[id]=n;return next});
  useEffect(()=>{const fn=()=>{setScrolled(window.scrollY>30);setProgress(document.documentElement.scrollHeight>innerHeight?window.scrollY/(document.documentElement.scrollHeight-innerHeight)*100:0)};fn();window.addEventListener("scroll",fn,{passive:true});return()=>window.removeEventListener("scroll",fn)},[]);
  useEffect(()=>{const fn=(e:KeyboardEvent)=>{if(e.key==="Escape"){setGallery(null);setCartOpen(false);setMenu(false)}};window.addEventListener("keydown",fn);return()=>window.removeEventListener("keydown",fn)},[]);
- useEffect(()=>{if(!("IntersectionObserver" in window)||window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;document.documentElement.classList.add("motion-ready");const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("visible");io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll(".reveal").forEach(e=>io.observe(e));return()=>{io.disconnect();document.documentElement.classList.remove("motion-ready")}},[category]);
+ useEffect(()=>{
+  if(typeof window==="undefined" || window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  const animations:Animation[]=[];
+  const elements=Array.from(document.querySelectorAll<HTMLElement>(".reveal, .section-heading h2, .about-copy p, .contact-detail, .gallery-item, .hero-rise, .filters button, .where-link, .footer-grid > div"));
+  const observer=new IntersectionObserver(entries=>{
+    for(const entry of entries){
+      if(!entry.isIntersecting)continue;
+      const el=entry.target as HTMLElement;
+      const siblings=el.parentElement?Array.from(el.parentElement.children).filter(x=>x.matches(".product, .gallery-item, .contact-detail, .filters button, .hero-rise, .about-copy p")):[];
+      const index=Math.max(0,siblings.indexOf(el));
+      const delay=Math.min(index*110,550);
+      const animation=el.animate([{opacity:0,transform:"translate3d(0,64px,0)",filter:"blur(7px)"},{opacity:1,transform:"translate3d(0,0,0)",filter:"blur(0px)"}],{duration:950,delay,easing:"cubic-bezier(.16,1,.3,1)",fill:"both"});
+      animations.push(animation);observer.unobserve(el);
+    }
+  },{threshold:.08,rootMargin:"0px 0px -35px 0px"});
+  elements.forEach(el=>observer.observe(el));
+  const hero=document.querySelector<HTMLElement>(".cinematic-hero");
+  const photo=document.querySelector<HTMLElement>(".lido-hero-photo");
+  const content=document.querySelector<HTMLElement>(".hero-content");
+  let frame=0;
+  const scrollMotion=()=>{if(frame)return;frame=requestAnimationFrame(()=>{frame=0;if(!hero)return;const rect=hero.getBoundingClientRect();const p=Math.max(0,Math.min(1,-rect.top/Math.max(rect.height,1)));if(photo)photo.style.transform=`translate3d(0,${p*65}px,0) scale(${1.04+p*.12})`;if(content){content.style.transform=`translate3d(0,${-p*85}px,0)`;content.style.opacity=String(Math.max(.18,1-p*.85));}})};
+  window.addEventListener("scroll",scrollMotion,{passive:true});scrollMotion();
+  return()=>{observer.disconnect();animations.forEach(a=>a.cancel());window.removeEventListener("scroll",scrollMotion);if(frame)cancelAnimationFrame(frame);if(photo)photo.style.transform="";if(content){content.style.transform="";content.style.opacity="";}};
+ },[category]);
  useEffect(()=>{const t=window.setTimeout(()=>setTooltip(true),3000);return()=>window.clearTimeout(t)},[]);
  const order=()=>{const lines=products.filter(p=>cart[p.id]).map(p=>`• ${p.name} — ${cart[p.id]} unidade(s)`);const msg=`Olá! Conheci a Lido Café pelo site. Meu nome é ${name.trim()}. Gostaria de consultar disponibilidade e preços destes itens demonstrativos:\n\n${lines.join("\n")}\n\nPodem me informar os valores e as modalidades de atendimento disponíveis? Aguardo a confirmação da equipe. Obrigado!`;window.open(wa(msg),"_blank","noopener,noreferrer")};
  const add=(id:string)=>{change(id,(cart[id]||0)+1);setToast("Produto adicionado ao carrinho");window.setTimeout(()=>setToast(""),1800)};
