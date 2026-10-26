@@ -217,3 +217,34 @@ body{font-family:Inter,system-ui,sans-serif}
 .floating-wa{background:#25d366}
 @media(max-width:700px){.cinematic-hero .lido-hero-photo{object-position:60% center}.cinematic-hero .hero-shade{background:linear-gradient(0deg,#0f0f10f5,#0f0f10c2 55%,#0f0f1050)}.hero-asset-note{right:12px;bottom:8px;font-size:10px}}
 @media(prefers-reduced-motion:reduce){.cinematic-hero .lido-hero-photo{animation:none}.motion-ready .reveal{opacity:1!important;transform:none!important}}
+
+/* LIDO — premium rounded editorial polish and pronounced scroll choreography */
+:root{--lido-gold:#d4af37;--lido-ink:#0f0f10;--lido-ice:#f5f7fa}
+.header{transition:background .45s ease,box-shadow .45s ease,backdrop-filter .45s ease;backdrop-filter:blur(12px)}
+.header.scrolled{box-shadow:0 12px 40px #0003}
+.brand{font-family:"Playfair Display",Georgia,serif;letter-spacing:-.045em}
+.pill{border-radius:999px;padding-inline:30px;box-shadow:0 10px 24px #00000016;transition:transform .45s cubic-bezier(.16,1,.3,1),box-shadow .45s,background .3s}
+.pill:hover{transform:translateY(-5px) scale(1.025);box-shadow:0 18px 32px #0003}
+.product,.product-image,.product-image img,.gallery-item,.gallery-item img,.about-photo,.about-photo img,.contact-editorial,.contact-editorial img,.where-map,.where-map iframe{border-radius:22px}
+.product{overflow:hidden;transition:transform .55s cubic-bezier(.16,1,.3,1),box-shadow .55s,border-color .4s;box-shadow:0 16px 50px #17110c0b}
+.product:hover{transform:translateY(-12px);box-shadow:0 28px 60px #17110c26;border-color:#d4af37}
+.product-image{overflow:hidden}
+.product-image img,.gallery-item img,.about-photo img,.contact-editorial img{transition:transform 1.1s cubic-bezier(.16,1,.3,1),filter .8s;will-change:transform}
+.product:hover img,.gallery-item:hover img,.about-photo:hover img,.contact-editorial:hover img{transform:scale(1.09)}
+.gallery-item{overflow:hidden;box-shadow:0 18px 40px #0002}
+.filters button{border-radius:999px;transition:transform .35s,background .35s,color .35s}
+.filters button:hover{transform:translateY(-4px)}
+.where-map{overflow:hidden;box-shadow:0 24px 60px #0002}
+.cart-panel{border-radius:28px 0 0 28px}
+.product-bottom button,.floating-cart{border-radius:999px}
+.hero-rise{will-change:transform,opacity}
+.cinematic-hero .lido-hero-photo{will-change:transform;transform:scale(1.04)}
+.cinematic-hero .hero-content{will-change:transform,opacity}
+.cinematic-hero .hero-shade{pointer-events:none}
+.cinematic-hero .hero-asset-note{border-radius:999px}
+.section-heading h2,.about-copy h2,.contact-grid h2{max-width:18ch}
+.section-heading h2{line-height:1.06}
+.gold-line{height:3px;border-radius:999px}
+.gallery-item:focus-visible,.product button:focus-visible{outline:3px solid #d4af37;outline-offset:4px}
+@media(max-width:700px){.container{width:min(100% - 32px,1200px)}.product,.gallery-item,.where-map{border-radius:18px}.cart-panel{border-radius:20px 20px 0 0}.hero-asset-note{max-width:65%;text-align:right}}
+@media(prefers-reduced-motion:reduce){.product,.product img,.gallery-item img,.pill,.hero-rise,.lido-hero-photo{animation:none!important;transition:none!important;transform:none!important;filter:none!important}}
