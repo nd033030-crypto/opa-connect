@@ -48,7 +48,7 @@ export const Route = createFileRoute("/")({
  head: () => ({
   meta: [
    {title:"Lido Café | Cafeteria no Centro de São Caetano do Sul"},
-   {name:"description",content:"Conheça o Lido Café na R. Manoel Coelho, 506 - Lj 3, Centro de São Caetano do Sul. A escolha certa perto de você. Consulte cafés e acompanhamentos pelo WhatsApp."},
+   {name:"description",content:"Conheça o Lido Café na Rua Manoel Coelho, 506, no Centro de São Caetano do Sul. Explore nossas opções e entre em contato pelo WhatsApp."},
    {property:"og:title",content:"Lido Café | A escolha certa perto de você"},
    {property:"og:description",content:"Cafeteria no Centro de São Caetano do Sul. Consulte nossos produtos e fale com a equipe."},
    {property:"og:type",content:"website"},
