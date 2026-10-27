@@ -43,3 +43,33 @@ h1 em,h2 em{color:#73c7ff}
 .map-frame{overflow:hidden}
 .floating-wa{background:#25d366;color:#07391b}
 @media(max-width:550px){.hero-shade{background:linear-gradient(0deg,#102c43f5 0%,#102c43d0 60%,#102c4360)}}
+
+/* Premium refresh — Pet Shop André */
+:root{--pet-blue:#247dbb;--pet-sky:#3498db;--pet-ice:#f5f7fa;--pet-ink:#102c43}
+.hero h1{max-width:980px;text-wrap:balance}
+.hero-content{padding-bottom:125px}
+.hero-location{display:flex;align-items:center;gap:10px;font-size:.77rem;letter-spacing:.03em;color:#d9edfb;margin-top:22px}
+.hero-location svg{color:#80d0ff;flex:none}
+.hero .eyebrow{color:#9bd9ff}
+.highlights{position:relative;z-index:4;background:#fff;box-shadow:0 18px 50px #102c4310}
+.highlights-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
+.highlight{display:flex;align-items:center;gap:18px;padding:32px 24px;border-right:1px solid #dce9f1}
+.highlight:first-child{padding-left:0}.highlight:last-child{border-right:0}
+.highlight-icon{display:grid;place-items:center;flex:none;width:52px;height:52px;border-radius:16px;background:#e9f5ff;color:#247dbb}
+.highlight strong{display:block;color:#102c43;font-size:.87rem}
+.highlight p{margin:4px 0 0;font-size:.77rem;line-height:1.5;color:#557185}
+.why-section{background:linear-gradient(135deg,#eaf5fd 0%,#fff 68%)}
+.why-layout{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,8vw,130px);align-items:center}
+.why-layout h2{max-width:650px;margin:18px 0 0}
+.why-details>p{color:#4b6275;font-size:1.06rem}
+.why-details>div{display:flex;align-items:center;gap:13px;margin:20px 0;font-weight:700;font-size:.9rem;color:#183d57}
+.why-details>div svg{color:#247dbb;flex:none}
+.why-details .pill{margin-top:20px}
+.about-media>img,.contact-image img,.gallery-item img{background:#e5f0f8}
+.gallery-item:hover{box-shadow:0 22px 45px #102c4322;transform:translateY(-4px)}
+.gallery-item{transition:box-shadow .35s,transform .35s}
+.pill-bronze{box-shadow:0 10px 25px #247dbb22}
+.pill-bronze:hover{box-shadow:0 14px 32px #247dbb38}
+@media(max-width:850px){.highlights-grid{grid-template-columns:1fr}.highlight,.highlight:first-child{padding:18px 0;border-right:0;border-bottom:1px solid #dce9f1}.highlight:last-child{border-bottom:0}.why-layout{grid-template-columns:1fr;gap:30px}}
+@media(max-width:550px){.hero-location{font-size:.68rem;align-items:flex-start}.hero-location svg{margin-top:2px}.highlights-grid{padding-block:12px}.highlight-icon{width:45px;height:45px}.why-details>div{font-size:.82rem}}
+@media(prefers-reduced-motion:reduce){.gallery-item:hover{transform:none}}
