@@ -13,14 +13,16 @@ const wa=(message="Olá! Conheci o Pet Shop André pelo site e gostaria de consu
 const maps=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(business.address)}`;
 const embed=`https://www.google.com/maps?q=${encodeURIComponent(business.address)}&z=17&output=embed`;
 const photo=(id:string,width=1200)=>`https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=85`;
+// Fotografias editoriais ilustrativas; substitua por fotos oficiais quando disponíveis.
 const images={
- hero:photo("photo-1517849845537-4d257902454a",1800),
- interior:photo("photo-1601758228041-f3b2795255f1"),
- barber:photo("photo-1516734212186-a967f81ad0d7"),
- cut:photo("photo-1587300003388-59208cc962cb"),
- tools:photo("photo-1589924691995-400dc9ecc119"),
- beard:photo("photo-1548199973-03cce0bbc87b"),
- detail:photo("photo-1517849845537-4d257902454a"),
+ hero:photo("photo-1552053831-71594a27632d",1800),
+ companionship:photo("photo-1543466835-00a7907e9de1"),
+ care:photo("photo-1516734212186-a967f81ad0d7"),
+ dog:photo("photo-1587300003388-59208cc962cb"),
+ cat:photo("photo-1573865526739-10659fec78a5"),
+ walk:photo("photo-1548199973-03cce0bbc87b"),
+ puppy:photo("photo-1517849845537-4d257902454a"),
+ detail:photo("photo-1558788353-f76d92427f16"),
 };
 const nav=[["Início","#inicio"],["Sobre","#sobre"],["Galeria","#galeria"],["Localização","#localizacao"],["Contato","#contato"]] as const;
 export const Route=createFileRoute("/")({
@@ -59,12 +61,12 @@ function Home(){
   return()=>{obs.disconnect();window.removeEventListener("scroll",move);if(frame)cancelAnimationFrame(frame);if(hero)hero.style.transform=""};
  },[]);
  const galleryItems=[
-  {src:images.interior,label:"Carinho com os pets"},
-  {src:images.barber,label:"Cuidado com animais"},
-  {src:images.cut,label:"Cachorro em destaque"},
-  {src:images.tools,label:"Alimentação pet"},
-  {src:images.beard,label:"Passeio com pets"},
-  {src:images.detail,label:"Companhia especial"},
+  {src:images.companionship,label:"Carinho com os pets"},
+  {src:images.care,label:"Cuidado com animais"},
+  {src:images.dog,label:"Cachorro em destaque"},
+  {src:images.cat,label:"Gatos e companhia"},
+  {src:images.walk,label:"Passeio com pets"},
+  {src:images.puppy,label:"Companhia especial"},
  ];
  return <div className="site">
   <div className="scroll-progress" style={{width:`${progress}%`}} aria-hidden="true"/>
@@ -90,13 +92,13 @@ function Home(){
     <a href="#sobre" className="scroll-cue" aria-label="Rolar para conhecer o pet shop"><span/> DESCUBRA</a>
    </section>
    <section id="sobre" className="section about container">
-    <div className="about-media reveal"><img src={images.interior} alt="Fotografia ilustrativa de pessoa com animal de estimação" loading="lazy" width="1000" height="1200"/><div className="about-seal"><PawPrint size={27}/><span>PET SHOP<br/>ANDRÉ</span></div></div>
+    <div className="about-media reveal"><img src={images.companionship} alt="Fotografia editorial ilustrativa de um cachorro em momento de carinho" loading="lazy" width="1000" height="1200"/><div className="about-seal"><PawPrint size={27}/><span>PET SHOP<br/>ANDRÉ</span></div></div>
     <div className="about-copy reveal"><span className="eyebrow">CONHEÇA O PET SHOP ANDRÉ</span><h2>O cuidado começa com <em>atenção.</em></h2><div className="accent-line"/><p>O Pet Shop André fica na Rua André de Almeida, 1321, em Cidade São Mateus, São Paulo — uma localização prática para quem procura um pet shop na região.</p><p>Quer saber quais produtos e serviços estão disponíveis? Entre em contato com a equipe pelo WhatsApp antes de visitar.</p><p>Encontre o endereço, o horário informado e o canal de atendimento em um só lugar, sem complicação.</p><a href={wa()} target="_blank" rel="noopener noreferrer" className="text-link">Consultar produtos e serviços <ArrowRight size={19}/></a></div>
    </section>
    <section className="statement"><div className="container reveal"><span className="eyebrow">PERTO DE VOCÊ EM CIDADE SÃO MATEUS</span><h2>O próximo cuidado com seu pet começa com uma <em>conversa.</em></h2><a className="pill pill-bronze" href={wa("Olá! Gostaria de consultar os produtos e serviços disponíveis no Pet Shop André.")} target="_blank" rel="noopener noreferrer">Fazer pedido agora <ArrowRight size={18}/></a></div></section>
    <section className="section gallery-section container" id="galeria"><div className="section-heading reveal"><span className="eyebrow">INSPIRAÇÃO VISUAL</span><h2>Cada pet merece <em>carinho.</em></h2><p>Fotografias editoriais ilustrativas do universo pet. As imagens não representam necessariamente o espaço, os produtos ou os serviços reais do Pet Shop André.</p></div><div className="gallery-grid">{galleryItems.map((item,i)=><button key={item.label} className={`gallery-item gallery-item-${i} reveal`} onClick={()=>setGallery(item.src)} aria-label={`Ampliar fotografia: ${item.label}`}><img src={item.src} alt={item.label+" — imagem ilustrativa"} loading="lazy" width="1000" height="1000"/><span>{item.label}<ArrowRight size={18}/></span></button>)}</div></section>
-   <section id="localizacao" className="section location-section"><div className="container"><div className="section-heading reveal"><span className="eyebrow">ENCONTRE A PET SHOP ANDRÉ</span><h2>Estamos em <em>Cidade São Mateus.</em></h2><p>{business.address}</p></div><div className="map-frame reveal"><iframe title="Mapa do Pet Shop André — Rua André de Almeida, 1321, Cidade São Mateus, São Paulo" src={embed} loading="lazy" allowFullScreen referrerPolicy="no-referrer-when-downgrade"/></div><a href={maps} target="_blank" rel="noopener noreferrer" className="pill pill-dark reveal"><MapPin size={18}/> Abrir no Google Maps <ArrowRight size={17}/></a></div></section>
-   <section id="contato" className="section contact-section"><div className="container contact-grid"><div className="reveal"><span className="eyebrow">CONTATO DIRETO</span><h2>Vamos cuidar do seu <em>companheiro?</em></h2><p>Converse com a equipe para confirmar produtos, serviços e disponibilidade.</p><div className="contact-detail"><MapPin size={23}/><div><strong>Endereço</strong><p>{business.address}</p></div></div><div className="contact-detail"><Clock3 size={23}/><div><strong>Horário informado</strong><p>{business.hours}</p></div></div><div className="contact-detail"><MessageCircle size={23}/><div><strong>Telefone / WhatsApp</strong><p><a href={wa()} target="_blank" rel="noopener noreferrer">{business.phone}</a></p></div></div><a href={wa()} className="pill pill-bronze" target="_blank" rel="noopener noreferrer">Fazer pedido agora <ArrowRight size={18}/></a></div><div className="contact-image reveal"><img src={images.interior} alt="Imagem editorial ilustrativa do universo pet" loading="lazy" width="900" height="1100"/><div>PET SHOP ANDRÉ <span>PET SHOP</span></div></div></div></section>
+   <section id="localizacao" className="section location-section"><div className="container"><div className="section-heading reveal"><span className="eyebrow">ENCONTRE O PET SHOP ANDRÉ</span><h2>Estamos em <em>Cidade São Mateus.</em></h2><p>{business.address}</p></div><div className="map-frame reveal"><iframe title="Mapa do Pet Shop André — Rua André de Almeida, 1321, Cidade São Mateus, São Paulo" src={embed} loading="lazy" allowFullScreen referrerPolicy="no-referrer-when-downgrade"/></div><a href={maps} target="_blank" rel="noopener noreferrer" className="pill pill-dark reveal"><MapPin size={18}/> Abrir no Google Maps <ArrowRight size={17}/></a></div></section>
+   <section id="contato" className="section contact-section"><div className="container contact-grid"><div className="reveal"><span className="eyebrow">CONTATO DIRETO</span><h2>Vamos cuidar do seu <em>companheiro?</em></h2><p>Converse com a equipe para confirmar produtos, serviços e disponibilidade.</p><div className="contact-detail"><MapPin size={23}/><div><strong>Endereço</strong><p>{business.address}</p></div></div><div className="contact-detail"><Clock3 size={23}/><div><strong>Horário informado</strong><p>{business.hours}</p></div></div><div className="contact-detail"><MessageCircle size={23}/><div><strong>Telefone / WhatsApp</strong><p><a href={wa()} target="_blank" rel="noopener noreferrer">{business.phone}</a></p></div></div><a href={wa()} className="pill pill-bronze" target="_blank" rel="noopener noreferrer">Fazer pedido agora <ArrowRight size={18}/></a></div><div className="contact-image reveal"><img src={images.companionship} alt="Fotografia editorial ilustrativa de cachorro em ambiente acolhedor" loading="lazy" width="900" height="1100"/><div>PET SHOP ANDRÉ <span>PET SHOP</span></div></div></div></section>
   </main>
   <footer><div className="container footer-grid"><div><a className="footer-brand" href="#inicio"><PawPrint size={27}/> PET SHOP ANDRÉ <span>PET SHOP</span></a><p>Mais carinho para quem faz parte da família.</p><a className="pill pill-bronze" href={wa()} target="_blank" rel="noopener noreferrer">Fazer pedido agora <ArrowRight size={17}/></a></div><nav aria-label="Links do rodapé">{nav.map(([label,href])=><a href={href} key={href}>{label}</a>)}</nav><div><strong>Encontre-nos</strong><p>{business.address}</p><p>{business.hours}</p><a href={wa()} target="_blank" rel="noopener noreferrer">{business.phone}</a></div></div><div className="container copyright">© {new Date().getFullYear()} Pet Shop André. Todos os direitos reservados.</div></footer>
   <a className="floating-wa" href={wa()} target="_blank" rel="noopener noreferrer" aria-label="Fale com o Pet Shop André pelo WhatsApp"><MessageCircle size={27}/><span>Fale conosco</span></a>
