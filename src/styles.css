@@ -309,3 +309,28 @@ body{background:#f8f5f0;color:#0f0f10}
 @keyframes verdes-rise{from{opacity:0;transform:translateY(76px);filter:blur(8px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
 @media(max-width:700px){.verdes-hero .lido-hero-photo{object-position:60% center}.verdes-hero .hero-shade{background:linear-gradient(0deg,#0f0f10f5,#0f0f10c5 55%,#0f0f1050)}.verdes-hero .hero-content{padding-top:290px}.verdes-hero h1{font-size:clamp(3.1rem,12vw,5.4rem)}}
 @media(prefers-reduced-motion:reduce){.verdes-hero .lido-hero-photo,.verdes-hero .hero-rise{animation:none!important}}
+
+/* PRAÇA DA MOÇA CAFÉ — final brand and motion layer */
+:root{--background:#f5f7fa;--foreground:#0f0f10;--primary:#d4af37;--primary-foreground:#0f0f10;--card:#fff;--ring:#d4af37}
+body{background:#f5f7fa;color:#0f0f10}
+.praca-hero{position:relative;background:#0f0f10;min-height:100svh;overflow:hidden}
+.praca-hero .lido-hero-photo{object-position:72% center;animation:praca-cinematic-zoom 14s cubic-bezier(.16,1,.3,1) both;filter:saturate(.9)}
+.praca-hero .hero-shade{background:linear-gradient(90deg,#0f0f10ef 0%,#0f0f10cb 43%,#0f0f1052 100%)}
+.praca-hero .hero-content{z-index:3}
+.praca-hero h1{font-family:"Playfair Display",Georgia,serif;font-size:clamp(3.5rem,7.3vw,7.6rem);max-width:900px;line-height:1.05;text-wrap:balance}
+.praca-hero .hero-rise{animation:praca-reveal 1.05s cubic-bezier(.16,1,.3,1) both}
+.praca-hero .hero-rise:nth-child(2){animation-delay:.15s}.praca-hero .hero-rise:nth-child(3){animation-delay:.32s}.praca-hero .hero-rise:nth-child(4){animation-delay:.48s}
+.praca-hero .hero-orbit span{border-color:#d4af3760;box-shadow:0 0 30px #d4af3725}
+.praca-hero .hero-sparkles i{background:#e6ca70;box-shadow:0 0 20px #d4af37}
+.pill-gold{background:#d4af37;border-color:#d4af37;color:#0f0f10}.pill-gold:hover{background:#f0d77a}
+.eyebrow,.brand small{color:#d4af37}.header.scrolled,footer{background:#0f0f10f5}
+.menu-section,.where-section,.contact-section{background:#f5f7fa;color:#0f0f10}
+.product{background:#fff;color:#0f0f10;border-radius:24px;overflow:hidden}
+.product-info{color:#0f0f10}.product:hover{border-color:#d4af37}
+.scroll-progress,.gold-line{background:#d4af37}.invitation{background:linear-gradient(115deg,#0f0f10,#4c3b19)}
+.filters button.active,.filters button:hover{background:#0f0f10;color:#fff}
+.product-bottom button{background:#0f0f10;color:#fff}.product-bottom button:hover{background:#d4af37;color:#0f0f10}
+@keyframes praca-cinematic-zoom{from{transform:scale(1.2);filter:brightness(.65)}to{transform:scale(1.04);filter:brightness(1)}}
+@keyframes praca-reveal{from{opacity:0;transform:translateY(76px);filter:blur(8px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+@media(max-width:700px){.praca-hero .lido-hero-photo{object-position:68% center}.praca-hero .hero-shade{background:linear-gradient(0deg,#0f0f10f5,#0f0f10c5 55%,#0f0f1050)}.praca-hero .hero-content{padding-top:290px}.praca-hero h1{font-size:clamp(3.1rem,12vw,5.4rem)}}
+@media(prefers-reduced-motion:reduce){.praca-hero .lido-hero-photo,.praca-hero .hero-rise{animation:none!important}}
