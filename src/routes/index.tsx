@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, Clock3, MapPin, Menu, MessageCircle, X, Scissors, Instagram } from "lucide-react";
+import { ArrowRight, Clock3, MapPin, Menu, MessageCircle, X, Scissors } from "lucide-react";
 
 const business = {
  name:"Brutus Barbearia",
