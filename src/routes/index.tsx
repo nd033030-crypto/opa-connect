@@ -81,13 +81,13 @@ function Home(){
     <img className="hero-photo" src={images.hero} alt="Fotografia editorial ilustrativa de cachorro em ambiente acolhedor" fetchPriority="high" width="1800" height="1200"/>
     <div className="hero-shade"/><div className="hero-line" aria-hidden="true"/>
     <div className="container hero-content">
-     <span className="eyebrow hero-rise">PET SHOP ANDRÉ · SÃO CAETANO DO SUL</span>
+     <span className="eyebrow hero-rise">PET SHOP ANDRÉ · CIDADE SÃO MATEUS</span>
      <h1 className="hero-rise">Mais carinho para quem <em>faz parte da família.</em></h1>
      <p className="hero-sub hero-rise">Na Rua André de Almeida, em Cidade São Mateus. Consulte produtos e serviços para seu pet diretamente pelo WhatsApp.</p>
      <div className="hero-buttons hero-rise"><a className="pill pill-bronze" href={wa()} target="_blank" rel="noopener noreferrer">Fazer pedido agora <ArrowRight size={19}/></a><a className="pill pill-outline" href="#sobre">Conhecer o Pet Shop André</a></div>
      <span className="hero-foot hero-rise">UM MUNDO DE CARINHO PARA SEU PET.</span>
     </div>
-    <a href="#sobre" className="scroll-cue" aria-label="Rolar para conhecer a barbearia"><span/> DESCUBRA</a>
+    <a href="#sobre" className="scroll-cue" aria-label="Rolar para conhecer o pet shop"><span/> DESCUBRA</a>
    </section>
    <section id="sobre" className="section about container">
     <div className="about-media reveal"><img src={images.interior} alt="Fotografia ilustrativa de pessoa com animal de estimação" loading="lazy" width="1000" height="1200"/><div className="about-seal"><PawPrint size={27}/><span>PET SHOP<br/>ANDRÉ</span></div></div>
