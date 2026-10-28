@@ -53,14 +53,15 @@ function Home(){
   lenis.on("scroll",ScrollTrigger.update);
   const context=gsap.context(()=>{
    gsap.set(".hero-photo",{transformOrigin:"65% 50%"});
-   const hero=gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:".hero",start:"top top",end:mobile?"+=125%":"+=190%",pin:true,scrub:mobile?0.65:1.1,anticipatePin:1,invalidateOnRefresh:true}});
-   hero.to(".hero-stage",{scale:mobile?1.2:1.42,rotationY:mobile?2:8,z:mobile?30:110,duration:1.15},0).to(".hero-photo",{scale:mobile?1.35:1.6,rotationY:mobile?2:7,xPercent:mobile?-7:-14,yPercent:5,duration:1.15},0)
+   const hero=gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:".hero",start:"top top",end:mobile?"+=180%":"+=260%",pin:true,scrub:mobile?0.55:0.8,anticipatePin:1,invalidateOnRefresh:true}});
+   hero.to(".hero-stage",{scale:mobile?1.28:1.62,rotationY:mobile?4:12,z:mobile?45:150,duration:1.15},0).to(".hero-photo",{scale:mobile?1.42:1.78,rotationY:mobile?4:11,xPercent:mobile?-10:-18,yPercent:7,duration:1.15},0)
     .to(".hero-content",{yPercent:-22,opacity:0,duration:0.85},0)
     .to(".hero-halo",{scale:1.45,rotation:35,opacity:0,duration:1},0)
-    .to(".hero-stage",{xPercent:mobile?32:54,rotationY:mobile?-4:-13,duration:1},1.15).to(".hero-photo",{xPercent:mobile?15:25,scale:mobile?1.6:1.95,rotationY:mobile?-3:-9,opacity:.12,duration:1},1.15)
+    .to(".hero-stage",{xPercent:mobile?40:62,rotationY:mobile?-7:-17,duration:1},1.15).to(".hero-photo",{xPercent:mobile?22:38,scale:mobile?1.72:2.1,rotationY:mobile?-7:-14,opacity:.72,duration:1},1.15)
     .to(".hero-overlay",{opacity:.25,duration:.8},1.2);
    gsap.utils.toArray<HTMLElement>(".about .reveal").forEach((el,i)=>gsap.fromTo(el,{autoAlpha:0,y:mobile?45:95,rotationX:mobile?0:7},{autoAlpha:1,y:0,rotationX:0,duration:1.1,ease:"power2.out",scrollTrigger:{trigger:el,start:"top 90%",end:"top 38%",scrub:.7},delay:i*.08}));
    gsap.fromTo(".menu-card",{autoAlpha:0,y:mobile?55:110,scale:.88,rotationX:mobile?0:9},{autoAlpha:1,y:0,scale:1,rotationX:0,stagger:.14,ease:"power2.out",scrollTrigger:{trigger:".menu-grid",start:"top 92%",end:"bottom 75%",scrub:.85}});
+   gsap.utils.toArray<HTMLElement>(".menu-image img, .about-image img").forEach((img)=>gsap.fromTo(img,{clipPath:"inset(12% 8% 12% 8%)",scale:1.2},{clipPath:"inset(0% 0% 0% 0%)",scale:1,ease:"none",scrollTrigger:{trigger:img,start:"top 92%",end:"center 48%",scrub:.75}}));
    gsap.fromTo(".about-image img",{scale:1.17,yPercent:-7},{scale:1,yPercent:7,ease:"none",scrollTrigger:{trigger:".about",start:"top bottom",end:"bottom top",scrub:1}});
    gsap.fromTo(".menu-image img",{scale:1.16,yPercent:-6},{scale:1,yPercent:5,stagger:.09,ease:"none",scrollTrigger:{trigger:".menu-grid",start:"top bottom",end:"bottom top",scrub:1}});
    gsap.fromTo(".cta-image",{scale:1.3,yPercent:-12},{scale:1,yPercent:12,ease:"none",scrollTrigger:{trigger:".cta-banner",start:"top bottom",end:"bottom top",scrub:1}});
