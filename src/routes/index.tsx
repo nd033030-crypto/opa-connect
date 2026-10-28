@@ -8,7 +8,7 @@ const mapUrl=`https://www.google.com/maps/search/?api=1&query=${encodeURICompone
 const mapEmbed=`https://www.google.com/maps?q=${encodeURIComponent(business.address)}&z=17&output=embed`;
 const photo=(id:string,w=1200)=>`https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=82`;
 const images={
- hero:photo("photo-1464305795204-6f5bbfc7fb81",1800),
+ hero:photo("photo-1578985545062-69928b1d9587",1800),
  about:photo("photo-1488477181946-6428a0291777"),
  cake:photo("photo-1578985545062-69928b1d9587"),
  chocolate:photo("photo-1606313564200-e75d5e30476c"),
