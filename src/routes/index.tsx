@@ -54,13 +54,15 @@ function Home(){
   const context=gsap.context(()=>{
    gsap.set(".hero-photo",{transformOrigin:"65% 50%"});
    const hero=gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:".hero",start:"top top",end:mobile?"+=125%":"+=190%",pin:true,scrub:mobile?0.65:1.1,anticipatePin:1,invalidateOnRefresh:true}});
-   hero.to(".hero-photo",{scale:mobile?1.35:1.6,rotationY:mobile?2:7,xPercent:mobile?-7:-14,yPercent:5,duration:1.15},0)
+   hero.to(".hero-stage",{scale:mobile?1.2:1.42,rotationY:mobile?2:8,z:mobile?30:110,duration:1.15},0).to(".hero-photo",{scale:mobile?1.35:1.6,rotationY:mobile?2:7,xPercent:mobile?-7:-14,yPercent:5,duration:1.15},0)
     .to(".hero-content",{yPercent:-22,opacity:0,duration:0.85},0)
     .to(".hero-halo",{scale:1.45,rotation:35,opacity:0,duration:1},0)
-    .to(".hero-photo",{xPercent:mobile?48:65,scale:mobile?1.6:1.95,rotationY:mobile?-3:-9,opacity:.12,duration:1},1.15)
+    .to(".hero-stage",{xPercent:mobile?32:54,rotationY:mobile?-4:-13,duration:1},1.15).to(".hero-photo",{xPercent:mobile?15:25,scale:mobile?1.6:1.95,rotationY:mobile?-3:-9,opacity:.12,duration:1},1.15)
     .to(".hero-overlay",{opacity:.25,duration:.8},1.2);
    gsap.utils.toArray<HTMLElement>(".about .reveal").forEach((el,i)=>gsap.fromTo(el,{autoAlpha:0,y:mobile?45:95,rotationX:mobile?0:7},{autoAlpha:1,y:0,rotationX:0,duration:1.1,ease:"power2.out",scrollTrigger:{trigger:el,start:"top 90%",end:"top 38%",scrub:.7},delay:i*.08}));
    gsap.fromTo(".menu-card",{autoAlpha:0,y:mobile?55:110,scale:.88,rotationX:mobile?0:9},{autoAlpha:1,y:0,scale:1,rotationX:0,stagger:.14,ease:"power2.out",scrollTrigger:{trigger:".menu-grid",start:"top 92%",end:"bottom 75%",scrub:.85}});
+   gsap.fromTo(".about-image img",{scale:1.17,yPercent:-7},{scale:1,yPercent:7,ease:"none",scrollTrigger:{trigger:".about",start:"top bottom",end:"bottom top",scrub:1}});
+   gsap.fromTo(".menu-image img",{scale:1.16,yPercent:-6},{scale:1,yPercent:5,stagger:.09,ease:"none",scrollTrigger:{trigger:".menu-grid",start:"top bottom",end:"bottom top",scrub:1}});
    gsap.fromTo(".cta-image",{scale:1.3,yPercent:-12},{scale:1,yPercent:12,ease:"none",scrollTrigger:{trigger:".cta-banner",start:"top bottom",end:"bottom top",scrub:1}});
    gsap.fromTo(".cta-content",{y:70,autoAlpha:0},{y:0,autoAlpha:1,scrollTrigger:{trigger:".cta-banner",start:"top 75%",end:"center center",scrub:.7}});
    gsap.fromTo(".location .reveal",{y:65,autoAlpha:0},{y:0,autoAlpha:1,stagger:.15,scrollTrigger:{trigger:".location",start:"top 80%",end:"center 55%",scrub:.7}});
@@ -71,7 +73,7 @@ function Home(){
   return()=>{window.clearTimeout(timer);window.removeEventListener("load",refresh);cancelAnimationFrame(frame);lenis.destroy();context.revert()};
  },[]);
  useEffect(()=>{const close=(e:KeyboardEvent)=>{if(e.key==="Escape")setOpen(false)};window.addEventListener("keydown",close);return()=>window.removeEventListener("keydown",close)},[]);
- return <div className="cristal cristal-v2" ref={rootRef}>
+ return <div className="cristal cristal-v3" ref={rootRef}>
  <div className="progress" style={{width:`${progress}%`}} aria-hidden="true"/>
  <header className={`header ${scrolled||open?"scrolled":""}`}><div className="container header-inner">
  <a href="#inicio" className="brand" onClick={()=>setOpen(false)} aria-label="Cristal Sorvetes, voltar ao início"><span className="brand-symbol"><IceCreamCone size={25}/></span><span>CRISTAL <small>SORVETES</small></span></a>
@@ -79,7 +81,7 @@ function Home(){
  <button className="menu-toggle" aria-label={open?"Fechar menu":"Abrir menu"} aria-expanded={open} onClick={()=>setOpen(!open)}>{open?<X/>:<Menu/>}</button></div>
  {open&&<nav className="mobile-nav" aria-label="Menu para celular">{links.map(([label,href])=><a href={href} key={href} onClick={()=>setOpen(false)}>{label}</a>)}<a href={whatsapp()} target="_blank" rel="noopener noreferrer" onClick={()=>setOpen(false)}>Fazer pedido agora</a></nav>}</header>
  <main>
- <section className="hero" id="inicio"><img className="hero-photo" src={pictures.hero} alt="Sorvete cremoso em fotografia ilustrativa" width="2000" height="1333" fetchPriority="high" decoding="async"/><div className="hero-overlay"/><div className="hero-halo halo-one"/><div className="hero-halo halo-two"/>
+ <section className="hero" id="inicio"><div className="hero-stage" aria-hidden="true"><div className="hero-stage-glow"/><div className="hero-stage-back"/><img className="hero-photo" src={pictures.hero} alt="" width="2000" height="1333" fetchPriority="high" decoding="async"/><div className="hero-stage-front"/></div><div className="hero-overlay"/><div className="hero-halo halo-one"/><div className="hero-halo halo-two"/>
  <div className="container hero-content"><p className="eyebrow hero-rise"><span/> CRISTAL SORVETES · CAMPINAS</p><h1 className="hero-rise">Referência em <br/><em>sorveteria</em></h1><p className="hero-sub hero-rise">Seu momento mais doce começa aqui. Descubra sabores irresistíveis na Cristal Sorvetes, em Campinas.</p>
  <div className="hero-actions hero-rise"><a className="button button-gold" href={whatsapp()} target="_blank" rel="noopener noreferrer">FAZER PEDIDO AGORA <ArrowUpRight size={20}/></a><a className="button button-ghost" href="#cardapio">EXPLORAR CARDÁPIO <ArrowRight size={18}/></a></div>
  <div className="hero-bottom hero-rise"><span><MapPin size={17}/> CIDADE SATÉLITE ÍRIS · CAMPINAS</span><span><Clock3 size={17}/> SEG A SÁB · 9H ÀS 19H</span></div></div><a href="#sobre" className="scroll-indicator" aria-label="Rolar para conhecer a Cristal Sorvetes">DESCUBRA <ChevronDown size={17}/></a><div className="hero-watermark" aria-hidden="true">CRISTAL</div></section>
