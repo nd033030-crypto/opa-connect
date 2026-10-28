@@ -83,3 +83,37 @@
 .cristal-v3 .hero-stage{transform-origin:68% 50%}
 .cristal-v3 .hero-stage-front{background:radial-gradient(ellipse at 72% 48%,transparent 16%,#08080812 47%,#08080865 100%)}
 @media(max-width:850px){.cristal-v3 .hero-stage{inset:0}.cristal-v3 .hero-overlay{background:linear-gradient(0deg,#080808f4 0%,#080808ab 54%,#08080828 100%)}}
+
+/* V4: bright luxury art direction and unmistakable scroll depth */
+.cristal-v3{--gold:#d4af37;--paper:#fff;--ink:#111;background:#fff;color:#111}
+.cristal-v3 .header{background:#ffffffed;color:#111;border-bottom:1px solid #d4af3730;backdrop-filter:blur(18px)}
+.cristal-v3 .header .brand,.cristal-v3 .desktop-nav>a:not(.button){color:#171717}
+.cristal-v3 .hero{min-height:100svh;background:#080808!important;position:relative;isolation:isolate;overflow:hidden;perspective:1300px;transform-style:preserve-3d}
+.cristal-v3 .hero-stage{position:absolute!important;inset:-7%!important;z-index:0!important;overflow:visible;transform-style:preserve-3d;backface-visibility:hidden;will-change:transform}
+.cristal-v3 .hero-photo{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:70% 48%!important;display:block;z-index:1!important;transform:translate3d(0,0,80px) scale(1.12);filter:brightness(1.1) contrast(1.14) saturate(1.16);will-change:transform,opacity;backface-visibility:hidden;animation:none!important}
+.cristal-v3 .hero-stage-glow{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse at 70% 48%,#d4af3780 0%,#d4af3720 27%,transparent 56%);filter:blur(28px);transform:translateZ(-100px)}
+.cristal-v3 .hero-stage-back{position:absolute;inset:8% 7% 8% 48%;z-index:0;border:1px solid #d4af3766;border-radius:50%;transform:translateZ(-120px) rotate(-17deg) scale(.8);box-shadow:0 0 90px #d4af3722,inset 0 0 90px #d4af3714}
+.cristal-v3 .hero-stage-front{position:absolute;inset:0;z-index:2;transform:translateZ(150px);background:linear-gradient(90deg,#080808 0%,#080808ee 27%,#080808a8 48%,#08080808 76%),linear-gradient(0deg,#0808088c,transparent 45%);pointer-events:none}
+.cristal-v3 .hero-overlay{position:absolute!important;inset:0;z-index:3!important;background:linear-gradient(90deg,#080808e8 0%,#08080880 38%,transparent 74%),linear-gradient(0deg,#080808a0,transparent 50%);pointer-events:none}
+.cristal-v3 .hero-halo{z-index:3;border-color:#d4af376b;box-shadow:0 0 45px #d4af371c,0 0 0 50px #d4af3712,0 0 0 100px #d4af3708}
+.cristal-v3 .hero-content{position:relative;z-index:6!important;max-width:1380px;transform-style:preserve-3d;will-change:transform,opacity}
+.cristal-v3 .hero h1{font-family:"Playfair Display",serif!important;font-size:clamp(4.7rem,10.5vw,11.5rem)!important;line-height:.9!important;letter-spacing:-.065em!important;font-weight:700!important;color:#fff!important;-webkit-text-fill-color:#fff!important;text-shadow:0 8px 40px #000d!important;max-width:1050px}
+.cristal-v3 .hero h1 em{font-style:italic;color:#fff!important;-webkit-text-fill-color:#fff!important;text-decoration-color:#d4af37!important;text-decoration-thickness:5px!important;text-underline-offset:15px}
+.cristal-v3 .hero .eyebrow{color:#f1d784;letter-spacing:.22em}
+.cristal-v3 .hero-sub{font-size:clamp(1.05rem,1.4vw,1.3rem);color:#fff;line-height:1.85;max-width:520px;text-shadow:0 3px 18px #000}
+.cristal-v3 .hero .button-gold{background:linear-gradient(135deg,#f6e6a1,#d4af37 45%,#a98019);color:#111;border:1px solid #f5dfa0;box-shadow:0 12px 40px #d4af373b;transition:transform .35s,box-shadow .35s}
+.cristal-v3 .hero .button-gold:hover{transform:translateY(-4px);box-shadow:0 18px 55px #d4af3766}
+.cristal-v3 .hero .button-ghost{border-color:#ffffff75;color:#fff}
+.cristal-v3 .hero-watermark{color:#fff0; -webkit-text-stroke:1px #d4af3728}
+.cristal-v3 .about,.cristal-v3 .location{background:#fff}
+.cristal-v3 .statement,.cristal-v3 .footer{background:#111;color:#fff}
+.cristal-v3 .menu-section{background:#f5f4f0}
+.cristal-v3 .section-head h2,.cristal-v3 .about-copy h2{font-family:"Playfair Display",serif;letter-spacing:-.045em;font-size:clamp(3rem,6vw,6.5rem);line-height:1.02}
+.cristal-v3 .menu-card{background:#fff;border:1px solid #d4af3730;box-shadow:0 14px 38px #16120a0b;transform-style:preserve-3d;will-change:transform}
+.cristal-v3 .menu-image img{transform:translateZ(25px) scale(1.02);transition:transform .8s cubic-bezier(.2,.7,.2,1),filter .8s;filter:saturate(1.06) contrast(1.03)}
+.cristal-v3 .menu-card:hover .menu-image img{transform:translateZ(40px) scale(1.1);filter:saturate(1.16) contrast(1.07)}
+.cristal-v3 .menu-card:hover{border-color:#d4af37;box-shadow:0 30px 70px #9a771b20}
+.cristal-v3 .cta-banner{background:#101010}
+.cristal-v3 .cta-banner:before{background:linear-gradient(90deg,#090909eb,#09090980 52%,#09090918)}
+.cristal-v3 .button-gold{background:linear-gradient(135deg,#f7e6a0,#d4af37 55%,#b18a23);color:#111}
+@media(max-width:850px){.cristal-v3 .hero-stage{inset:0!important}.cristal-v3 .hero-photo{object-position:64% center!important;transform:translateZ(20px) scale(1.08)}.cristal-v3 .hero-stage-front{background:linear-gradient(0deg,#080808f5 0%,#080808b9 55%,#08080838 100%)}.cristal-v3 .hero-overlay{background:linear-gradient(0deg,#08080885,transparent 70%)}.cristal-v3 .hero h1{font-size:clamp(3.8rem,13.5vw,6.5rem)!important}.cristal-v3 .hero-content{padding-top:150px;padding-bottom:120px}}
