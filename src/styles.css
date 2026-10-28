@@ -53,3 +53,23 @@ footer{background:#0F0F10;color:#f7ead2}.footer-grid p{color:#c9c0af}.footer-bra
 .hero-decoration{color:#ffffff12;opacity:.7}.hero-rise{animation:rise 1s cubic-bezier(.16,1,.3,1) both}
 @media(max-width:850px){.hero-photo{object-position:67% center}.hero-overlay{background:linear-gradient(0deg,rgba(8,8,9,.98) 0%,rgba(8,8,9,.87) 53%,rgba(8,8,9,.34) 100%)}}
 @media(max-width:550px){.hero-content{padding-top:220px;padding-bottom:110px}.hero h1{font-size:clamp(3.2rem,12.5vw,5.5rem);max-width:100%}.hero-photo{object-position:65% center}.hero-sub{font-size:1rem}.hero-decoration{display:none}}
+
+
+/* Visconde Bolos Caseiros — identidade premium rosa e dourado */
+:root{--visconde-pink:#E91E63;--visconde-gold:#D4AF37;--visconde-ink:#171216;--visconde-cream:#fff8f2}
+.btn-primary,.header-cta,.floating-wa{background:var(--visconde-pink)!important;border-color:var(--visconde-pink)!important;color:#fff!important}
+.btn-primary:hover,.header-cta:hover{background:#c2185b!important;border-color:#c2185b!important}
+.brand-icon,.footer-brand svg,.intro-grid svg,.contact-item>svg,.text-link,.map-link{color:var(--visconde-gold)}
+.eyebrow-line{background:var(--visconde-gold)}
+.photo-stamp,.order-photo>span{background:var(--visconde-gold);color:#211710}
+.about{background:#21191d}
+.statement{background:linear-gradient(135deg,#21191d 0%,#2d1b24 100%)}
+.statement .eyebrow-line,.section-heading .eyebrow-line{background:var(--visconde-gold)}
+.gallery-item span{background:linear-gradient(0deg,rgba(18,12,15,.94),rgba(18,12,15,.04));}
+.floating-wa{box-shadow:0 10px 34px rgba(233,30,99,.35)}
+.floating-wa:hover{background:#c2185b!important}
+.hero .btn-primary{background:var(--visconde-pink)!important;border-color:var(--visconde-gold)!important;box-shadow:0 12px 32px rgba(0,0,0,.42)}
+.hero .btn-primary:hover{background:#c2185b!important}
+.hero .eyebrow-line{background:var(--visconde-gold)!important}
+a:focus-visible,button:focus-visible{outline:3px solid var(--visconde-gold);outline-offset:4px}
+::selection{background:var(--visconde-pink);color:#fff}
