@@ -1,113 +1,92 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, Clock3, MapPin, Menu, MessageCircle, X, PawPrint, Navigation, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Clock3, MapPin, Menu, MessageCircle, X, Dumbbell, Zap, Target, Navigation, Activity, Play } from "lucide-react";
 
-const business = {
- name:"Pet Shop André",
- address:"R. André de Almeida, 1321 - Cidade São Mateus, São Paulo - SP, 03953-085, Brasil",
- phone:"(11) 97951-3551",
- whatsapp:"5511979513551",
- hours:"Seg a Sáb, 9h às 19h",
+const business={
+ name:"Conceito Academia",
+ address:"Alameda Sarutaiá, 205 - Jardim Paulista, São Paulo - SP, 01403-010, Brasil",
+ phone:"(11) 3057-1033",whatsapp:"551130571033",hours:"Seg a Sáb, 9h às 19h"
 };
-const wa=(message="Olá! Conheci o Pet Shop André pelo site e gostaria de consultar produtos e serviços disponíveis.")=>`https://wa.me/${business.whatsapp}?text=${encodeURIComponent(message)}`;
+const wa=(message="Olá! Conheci a Conceito Academia pelo site e gostaria de saber como começar.")=>`https://wa.me/${business.whatsapp}?text=${encodeURIComponent(message)}`;
 const maps=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(business.address)}`;
-const embed=`https://www.google.com/maps?q=${encodeURIComponent(business.address)}&z=17&output=embed`;
-const photo=(id:string,width=1200)=>`https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=82`;
-// Fotografias editoriais ilustrativas; substitua por fotos oficiais quando disponíveis.
+const embed=`https://www.google.com/maps?q=${encodeURIComponent(business.address)}&z=16&output=embed`;
+const photo=(id:string,w=1100)=>`https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=82`;
 const images={
- hero:photo("photo-1552053831-71594a27632d",1800),
- companionship:photo("photo-1543466835-00a7907e9de1"),
- care:photo("photo-1516734212186-a967f81ad0d7"),
- dog:photo("photo-1587300003388-59208cc962cb"),
- cat:photo("photo-1573865526739-10659fec78a5"),
- walk:photo("photo-1548199973-03cce0bbc87b"),
- puppy:photo("photo-1517849845537-4d257902454a"),
- detail:photo("photo-1558788353-f76d92427f16"),
+ hero:photo("photo-1534438327276-14e5300c3a48",1920),
+ about:photo("photo-1517836357463-d25dfeac3438"),
+ strength:photo("photo-1532029837206-abbe2b7620e3"),
+ cardio:photo("photo-1538805060514-97d9cc17730c"),
+ movement:photo("photo-1518611012118-696072aa579a"),
+ equipment:photo("photo-1571019613454-1cb2f99b2d8b"),
+ training:photo("photo-1571019614242-c5c5dee9f50b"),
+ atmosphere:photo("photo-1517836357463-d25dfeac3438")
 };
-const imageFallback=images.dog;
-const handleImageError=(event:import("react").SyntheticEvent<HTMLImageElement>)=>{const image=event.currentTarget;if(image.dataset.fallback==="1"){image.style.visibility="hidden";return;}image.dataset.fallback="1";image.src=imageFallback;};
-const nav=[["Início","#inicio"],["Sobre","#sobre"],["Galeria","#galeria"],["Localização","#localizacao"],["Contato","#contato"]] as const;
+const nav=[["Início","#inicio"],["Sobre","#sobre"],["Experiência","#experiencia"],["Galeria","#galeria"],["Localização","#localizacao"],["Contato","#contato"]] as const;
 export const Route=createFileRoute("/")({
  head:()=>({
   meta:[
-   {title:"Pet Shop André | Pet Shop na Rua André de Almeida, São Mateus - SP"},
-   {name:"description",content:"Pet Shop André na R. André de Almeida, 1321, Cidade São Mateus, São Paulo - SP, 03953-085. Consulte produtos e serviços pelo WhatsApp (11) 97951-3551."},
-   {property:"og:title",content:"Pet Shop André | Tudo começa com carinho por quem faz parte da família"},
-   {property:"og:description",content:"Encontre o Pet Shop André em Cidade São Mateus e fale diretamente pelo WhatsApp."},
+   {title:"Conceito Academia | Academia na Alameda Sarutaiá, Jardim Paulista - SP"},
+   {name:"description",content:"Conheça a Conceito Academia na Alameda Sarutaiá, 205, Jardim Paulista, São Paulo - SP, 01403-010. Consulte informações pelo WhatsApp (11) 3057-1033."},
+   {property:"og:title",content:"Conceito Academia | Sua próxima conquista começa aqui"},
+   {property:"og:description",content:"Encontre a Conceito Academia no Jardim Paulista e entre em contato para começar."},
    {property:"og:type",content:"website"},
-   {property:"og:image",content:images.hero},
+   {property:"og:image",content:images.hero}
   ],
-  scripts:[{type:"application/ld+json",children:JSON.stringify({"@context":"https://schema.org","@type":"PetStore",name:business.name,address:{"@type":"PostalAddress",streetAddress:"R. André de Almeida, 1321 - Cidade São Mateus",addressLocality:"São Paulo",addressRegion:"SP",postalCode:"03953-085",addressCountry:"BR"},telephone:"+5511979513551",openingHoursSpecification:[{"@type":"OpeningHoursSpecification",dayOfWeek:["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],opens:"09:00",closes:"19:00"}]})}],
+  scripts:[{type:"application/ld+json",children:JSON.stringify({"@context":"https://schema.org","@type":"ExerciseGym",name:business.name,address:{"@type":"PostalAddress",streetAddress:"Alameda Sarutaiá, 205 - Jardim Paulista",addressLocality:"São Paulo",addressRegion:"SP",postalCode:"01403-010",addressCountry:"BR"},telephone:"+551130571033",openingHoursSpecification:[{"@type":"OpeningHoursSpecification",dayOfWeek:["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],opens:"09:00",closes:"19:00"}]})}]
  }),
- component:Home,
+ component:Home
 });
 function Home(){
  const [menu,setMenu]=useState(false);
  const [scrolled,setScrolled]=useState(false);
  const [progress,setProgress]=useState(0);
  const [gallery,setGallery]=useState<string|null>(null);
- useEffect(()=>{
-  const update=()=>{setScrolled(window.scrollY>24);const d=document.documentElement.scrollHeight-window.innerHeight;setProgress(d>0?window.scrollY/d*100:0)};
-  update();window.addEventListener("scroll",update,{passive:true});return()=>window.removeEventListener("scroll",update);
- },[]);
- useEffect(()=>{const fn=(e:KeyboardEvent)=>{if(e.key==="Escape"){setGallery(null);setMenu(false)}};window.addEventListener("keydown",fn);return()=>window.removeEventListener("keydown",fn)},[]);
+ useEffect(()=>{const update=()=>{setScrolled(window.scrollY>30);const height=document.documentElement.scrollHeight-window.innerHeight;setProgress(height>0?window.scrollY/height*100:0)};update();window.addEventListener("scroll",update,{passive:true});return()=>window.removeEventListener("scroll",update)},[]);
+ useEffect(()=>{const onKey=(e:KeyboardEvent)=>{if(e.key==="Escape"){setGallery(null);setMenu(false)}};window.addEventListener("keydown",onKey);return()=>window.removeEventListener("keydown",onKey)},[]);
+ useEffect(()=>{if(!gallery)return;const previous=document.body.style.overflow;document.body.style.overflow="hidden";return()=>{document.body.style.overflow=previous}},[gallery]);
  useEffect(()=>{
   if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
   const els=Array.from(document.querySelectorAll<HTMLElement>(".reveal"));
-  const obs=new IntersectionObserver(entries=>entries.forEach(entry=>{if(!entry.isIntersecting)return;const el=entry.target as HTMLElement;el.classList.add("is-visible");obs.unobserve(el)}),{threshold:.1,rootMargin:"0px 0px -40px 0px"});
-  els.forEach(el=>obs.observe(el));
+  const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("visible");observer.unobserve(entry.target)}})},{threshold:.1,rootMargin:"0px 0px -35px 0px"});
+  els.forEach(el=>observer.observe(el));
   const hero=document.querySelector<HTMLElement>(".hero-photo");
-  let frame=0;
-  const move=()=>{if(frame)return;frame=requestAnimationFrame(()=>{frame=0;if(hero){const p=Math.min(1,Math.max(0,window.scrollY/window.innerHeight));hero.style.transform=`translate3d(0,${p*65}px,0) scale(${1.08+p*.09})`}})};
-  window.addEventListener("scroll",move,{passive:true});move();
-  return()=>{obs.disconnect();window.removeEventListener("scroll",move);if(frame)cancelAnimationFrame(frame);if(hero)hero.style.transform=""};
+  let frame=0;const onScroll=()=>{if(frame)return;frame=requestAnimationFrame(()=>{frame=0;if(hero){const p=Math.min(1,Math.max(0,window.scrollY/window.innerHeight));hero.style.transform=`translate3d(0,${p*80}px,0) scale(${1.08+p*.1})`}})};
+  window.addEventListener("scroll",onScroll,{passive:true});onScroll();
+  return()=>{observer.disconnect();window.removeEventListener("scroll",onScroll);if(frame)cancelAnimationFrame(frame);if(hero)hero.style.transform=""}
  },[]);
- useEffect(()=>{if(!gallery)return;const previous=document.body.style.overflow;document.body.style.overflow="hidden";return()=>{document.body.style.overflow=previous}},[gallery]);
  const galleryItems=[
-  {src:images.companionship,label:"Carinho com os pets"},
-  {src:images.care,label:"Cuidado com animais"},
-  {src:images.dog,label:"Cachorro em destaque"},
-  {src:images.cat,label:"Gatos e companhia"},
-  {src:images.walk,label:"Passeio com pets"},
-  {src:images.puppy,label:"Companhia especial"},
+  {src:images.strength,label:"Treino de força"},
+  {src:images.cardio,label:"Movimento e cardio"},
+  {src:images.movement,label:"Movimento e bem-estar"},
+  {src:images.equipment,label:"Rotina de treino"},
+  {src:images.training,label:"Dedicação e constância"},
+  {src:images.atmosphere,label:"Atmosfera fitness"}
  ];
  return <div className="site">
-  <div className="scroll-progress" style={{width:`${progress}%`}} aria-hidden="true"/>
-  <header className={`header ${scrolled||menu?"scrolled":""}`}>
-   <div className="container header-inner">
-    <a href="#inicio" className="brand" onClick={()=>setMenu(false)}><PawPrint size={25} strokeWidth={1.5}/><span>PET SHOP ANDRÉ <small>PET SHOP</small></span></a>
-    <nav className="desktop-nav" aria-label="Navegação principal">{nav.map(([label,href])=><a key={href} href={href}>{label}</a>)}<a className="pill pill-bronze" href={wa()} target="_blank" rel="noopener noreferrer">Fazer pedido agora <ArrowRight size={16}/></a></nav>
-    <button className="mobile-toggle" onClick={()=>setMenu(!menu)} aria-label={menu?"Fechar menu":"Abrir menu"} aria-expanded={menu}>{menu?<X/>:<Menu/>}</button>
-   </div>
-   {menu&&<nav className="mobile-nav" aria-label="Menu mobile">{nav.map(([label,href])=><a key={href} href={href} onClick={()=>setMenu(false)}>{label}</a>)}<a href={wa()} target="_blank" rel="noopener noreferrer" onClick={()=>setMenu(false)}>Fazer pedido agora</a></nav>}
-  </header>
+  <div className="progress" style={{width:`${progress}%`}} aria-hidden="true"/>
+  <header className={`header ${scrolled||menu?"scrolled":""}`}><div className="container header-inner">
+   <a className="brand" href="#inicio" onClick={()=>setMenu(false)} aria-label="Conceito Academia — início"><span className="brand-symbol"><Dumbbell size={22}/></span><span>CONCEITO <small>ACADEMIA</small></span></a>
+   <nav className="desktop-nav" aria-label="Navegação principal">{nav.map(([n,h])=><a key={h} href={h}>{n}</a>)}<a className="btn btn-red nav-cta" href={wa()} target="_blank" rel="noopener noreferrer">COMECE HOJE MESMO <ArrowRight size={15}/></a></nav>
+   <button className="menu-toggle" aria-label={menu?"Fechar menu":"Abrir menu"} aria-expanded={menu} onClick={()=>setMenu(!menu)}>{menu?<X/>:<Menu/>}</button>
+  </div>{menu&&<nav className="mobile-nav" aria-label="Menu mobile">{nav.map(([n,h])=><a href={h} key={h} onClick={()=>setMenu(false)}>{n}</a>)}<a href={wa()} target="_blank" rel="noopener noreferrer" onClick={()=>setMenu(false)}>Comece hoje mesmo</a></nav>}</header>
   <main>
-   <section className="hero" id="inicio">
-    <img className="hero-photo" src={images.hero} alt="Fotografia editorial ilustrativa de cachorro em ambiente acolhedor" fetchPriority="high" decoding="async" onError={handleImageError} width="1800" height="1200"/>
-    <div className="hero-shade"/><div className="hero-line" aria-hidden="true"/>
-    <div className="container hero-content">
-     <span className="eyebrow hero-rise">PET SHOP ANDRÉ · CIDADE SÃO MATEUS</span>
-     <h1 className="hero-rise">Mais carinho para quem <em>faz parte da família.</em></h1>
-     <p className="hero-sub hero-rise">Na Rua André de Almeida, em Cidade São Mateus. Consulte produtos e serviços para seu pet diretamente pelo WhatsApp.</p>
-     <div className="hero-buttons hero-rise"><a className="pill pill-bronze" href={wa()} target="_blank" rel="noopener noreferrer">Fazer pedido agora <ArrowRight size={19}/></a><a className="pill pill-outline" href="#sobre">Conhecer o Pet Shop André</a></div>
-     <span className="hero-foot hero-rise">UM MUNDO DE CARINHO PARA SEU PET.</span>
-    </div>
-    <div className="hero-location hero-rise"><MapPin size={16}/><span>Rua André de Almeida, 1321 · Cidade São Mateus</span></div>
-    <a href="#sobre" className="scroll-cue" aria-label="Rolar para conhecer o pet shop"><span/> DESCUBRA</a>
-   </section>
-   <section id="sobre" className="section about container">
-    <div className="about-media reveal"><img src={images.companionship} alt="Fotografia editorial ilustrativa de um cachorro em momento de carinho" loading="lazy" decoding="async" onError={handleImageError} width="1000" height="1200"/><div className="about-seal"><PawPrint size={27}/><span>PET SHOP<br/>ANDRÉ</span></div></div>
-    <div className="about-copy reveal"><span className="eyebrow">CONHEÇA O PET SHOP ANDRÉ</span><h2>O cuidado começa com <em>atenção.</em></h2><div className="accent-line"/><p>O Pet Shop André fica na Rua André de Almeida, 1321, em Cidade São Mateus, São Paulo — uma localização prática para quem procura um pet shop na região.</p><p>Quer saber quais produtos e serviços estão disponíveis? Entre em contato com a equipe pelo WhatsApp antes de visitar.</p><p>Encontre o endereço, o horário informado e o canal de atendimento em um só lugar, sem complicação.</p><a href={wa()} target="_blank" rel="noopener noreferrer" className="text-link">Consultar produtos e serviços <ArrowRight size={19}/></a></div>
-   </section>
-   <section className="highlights" aria-label="Informações para sua visita"><div className="container highlights-grid"><div className="highlight reveal"><span className="highlight-icon"><MapPin size={23}/></span><div><strong>Em Cidade São Mateus</strong><p>R. André de Almeida, 1321</p></div></div><div className="highlight reveal"><span className="highlight-icon"><Clock3 size={23}/></span><div><strong>Horário informado</strong><p>Segunda a sábado · 9h às 19h</p></div></div><div className="highlight reveal"><span className="highlight-icon"><MessageCircle size={23}/></span><div><strong>Contato direto</strong><p>Consulte opções pelo WhatsApp</p></div></div></div></section>
-   <section className="statement"><div className="container reveal"><span className="eyebrow">PERTO DE VOCÊ EM CIDADE SÃO MATEUS</span><h2>O próximo cuidado com seu pet começa com uma <em>conversa.</em></h2><a className="pill pill-bronze" href={wa("Olá! Gostaria de consultar os produtos e serviços disponíveis no Pet Shop André.")} target="_blank" rel="noopener noreferrer">Fazer pedido agora <ArrowRight size={18}/></a></div></section>
-   <section className="section why-section"><div className="container why-layout"><div className="reveal"><span className="eyebrow">MAIS PRATICIDADE PARA VOCÊ</span><h2>Seu pet em primeiro lugar. <em>Seu tempo também.</em></h2></div><div className="why-details reveal"><p>Encontre o Pet Shop André, consulte o que precisa e converse com a equipe antes de sair de casa.</p><div><CheckCircle2 size={20}/><span>Endereço e horário em um só lugar</span></div><div><CheckCircle2 size={20}/><span>Contato direto, sem formulários complicados</span></div><div><CheckCircle2 size={20}/><span>Rota fácil para chegar até a loja</span></div><a className="pill pill-bronze" href={wa()} target="_blank" rel="noopener noreferrer">Fazer pedido agora <ArrowRight size={18}/></a></div></div></section>
-   <section className="section gallery-section container" id="galeria"><div className="section-heading reveal"><span className="eyebrow">INSPIRAÇÃO VISUAL</span><h2>Cada pet merece <em>carinho.</em></h2><p>Fotografias editoriais ilustrativas do universo pet. As imagens não representam necessariamente o espaço, os produtos ou os serviços reais do Pet Shop André.</p></div><div className="gallery-grid">{galleryItems.map((item,i)=><button key={item.label} className={`gallery-item gallery-item-${i} reveal`} onClick={()=>setGallery(item.src)} aria-label={`Ampliar fotografia: ${item.label}`}><img src={item.src} alt={item.label+" — imagem ilustrativa"} loading="lazy" decoding="async" onError={handleImageError} width="1000" height="1000"/><span>{item.label}<ArrowRight size={18}/></span></button>)}</div></section>
-   <section id="localizacao" className="section location-section"><div className="container"><div className="section-heading reveal"><span className="eyebrow">ENCONTRE O PET SHOP ANDRÉ</span><h2>Estamos em <em>Cidade São Mateus.</em></h2><p>{business.address}</p></div><div className="map-frame reveal"><iframe title="Mapa do Pet Shop André — Rua André de Almeida, 1321, Cidade São Mateus, São Paulo" src={embed} loading="lazy" allowFullScreen referrerPolicy="no-referrer-when-downgrade"/></div><a href={maps} target="_blank" rel="noopener noreferrer" className="pill pill-dark reveal"><Navigation size={18}/> Abrir no Google Maps <ArrowRight size={17}/></a></div></section>
-   <section id="contato" className="section contact-section"><div className="container contact-grid"><div className="reveal"><span className="eyebrow">CONTATO DIRETO</span><h2>Vamos cuidar do seu <em>companheiro?</em></h2><p>Converse com a equipe para confirmar produtos, serviços e disponibilidade.</p><div className="contact-detail"><MapPin size={23}/><div><strong>Endereço</strong><p>{business.address}</p></div></div><div className="contact-detail"><Clock3 size={23}/><div><strong>Horário informado</strong><p>{business.hours}</p></div></div><div className="contact-detail"><MessageCircle size={23}/><div><strong>Telefone / WhatsApp</strong><p><a href={wa()} target="_blank" rel="noopener noreferrer">{business.phone}</a></p></div></div><a href={wa()} className="pill pill-bronze" target="_blank" rel="noopener noreferrer">Fazer pedido agora <ArrowRight size={18}/></a></div><div className="contact-image reveal"><img src={images.companionship} alt="Fotografia editorial ilustrativa de cachorro em ambiente acolhedor" loading="lazy" decoding="async" onError={handleImageError} width="900" height="1100"/><div>PET SHOP ANDRÉ <span>PET SHOP</span></div></div></div></section>
+   <section className="hero" id="inicio"><img className="hero-photo" src={images.hero} alt="Fotografia editorial ilustrativa de ambiente de academia com equipamentos de treino" width="1920" height="1280" fetchPriority="high" decoding="async"/><div className="hero-overlay"/><div className="hero-grid" aria-hidden="true"/><div className="container hero-content">
+    <p className="eyebrow hero-rise"><span className="eyebrow-line"/> CONCEITO ACADEMIA · JARDIM PAULISTA</p>
+    <h1 className="hero-rise">SUPERE SEUS <span>LIMITES.</span><br/>COMECE <span>AGORA.</span></h1>
+    <p className="hero-sub hero-rise">Seu próximo passo começa na Alameda Sarutaiá. Conheça a Conceito Academia e converse com a equipe para encontrar o caminho certo para começar.</p>
+    <div className="hero-actions hero-rise"><a className="btn btn-red" href={wa()} target="_blank" rel="noopener noreferrer">COMECE HOJE MESMO <ArrowRight size={19}/></a><a className="btn btn-ghost" href="#sobre">CONHEÇA A CONCEITO <ArrowRight size={18}/></a></div>
+    <p className="hero-tag hero-rise">ENERGIA. FOCO. EVOLUÇÃO.</p>
+   </div><a href="#sobre" className="scroll-hint" aria-label="Rolar para conhecer a academia"><span/> EXPLORE</a></section>
+   <section className="info-strip" aria-label="Informações rápidas"><div className="container info-grid"><div><MapPin size={23}/><span><strong>JARDIM PAULISTA</strong><small>Alameda Sarutaiá, 205</small></span></div><div><Clock3 size={23}/><span><strong>HORÁRIO INFORMADO</strong><small>Seg a Sáb · 9h às 19h</small></span></div><div><MessageCircle size={23}/><span><strong>CONTATO DIRETO</strong><small>Fale com nossa equipe</small></span></div></div></section>
+   <section className="section about" id="sobre"><div className="container about-grid"><div className="about-visual reveal"><img src={images.about} alt="Fotografia editorial ilustrativa de pessoa se exercitando com pesos" loading="lazy" decoding="async" width="1000" height="1200"/><div className="photo-outline" aria-hidden="true"/><div className="visual-stamp"><Activity size={29}/><span>EVOLUA<br/>NO SEU RITMO</span></div></div><div className="about-copy reveal"><p className="eyebrow"><span className="eyebrow-line"/> QUEM SOMOS</p><h2>UMA NOVA FORMA DE <span>COMEÇAR.</span></h2><p>A Conceito Academia está na Alameda Sarutaiá, 205, no Jardim Paulista, em São Paulo — uma localização para quem busca uma academia na região.</p><p>Quer dar o primeiro passo? Entre em contato diretamente com a equipe para conhecer as informações de atendimento e consultar as opções disponíveis.</p><p>Encontre o endereço, o horário informado e o canal de contato em um só lugar. O próximo movimento é seu.</p><a className="text-link" href={wa()} target="_blank" rel="noopener noreferrer">FALE COM A EQUIPE <ArrowRight size={19}/></a></div></div></section>
+   <section className="section features" id="experiencia"><div className="container features-layout"><div className="reveal"><p className="eyebrow"><span className="eyebrow-line"/> SUA PRÓXIMA ETAPA</p><h2>O MOMENTO É <span>AGORA.</span></h2><div className="feature-grid"><article><Target size={30}/><h3>DEFINA SEU OBJETIVO</h3><p>Conte à equipe o que você procura e consulte as opções disponíveis.</p></article><article><Zap size={30}/><h3>DÊ O PRIMEIRO PASSO</h3><p>Comece uma conversa pelo WhatsApp, sem formulários complicados.</p></article><article><MapPin size={30}/><h3>ENCONTRE A CONCEITO</h3><p>Veja o endereço no Jardim Paulista e planeje sua visita.</p></article><article><Clock3 size={30}/><h3>ORGANIZE SUA ROTINA</h3><p>Confira o horário informado antes de ir até a academia.</p></article></div><a className="btn btn-red" href={wa()} target="_blank" rel="noopener noreferrer">COMECE HOJE MESMO <ArrowRight size={18}/></a></div><div className="features-visual reveal"><img src={images.training} alt="Fotografia editorial ilustrativa de pessoa treinando em academia" loading="lazy" decoding="async" width="1000" height="1200"/><div className="features-word" aria-hidden="true">SEM<br/><span>DESCULPAS.</span></div></div></div></section>
+   <section className="section gallery-section" id="galeria"><div className="container"><div className="section-heading reveal"><p className="eyebrow"><span className="eyebrow-line"/> INSPIRAÇÃO FITNESS</p><h2>MOVIMENTO QUE <span>INSPIRA.</span></h2><p>Fotografias editoriais ilustrativas do universo fitness; não representam necessariamente as instalações, os equipamentos ou os serviços reais da Conceito Academia.</p></div><div className="gallery-grid">{galleryItems.map((item,i)=><button key={item.label} className={`gallery-item gallery-item-${i} reveal`} onClick={()=>setGallery(item.src)} aria-label={`Ampliar imagem: ${item.label}`}><img src={item.src} alt={item.label+" — fotografia editorial ilustrativa"} loading="lazy" decoding="async" width="900" height="900"/><span>{item.label}<ArrowRight size={19}/></span></button>)}</div></div></section>
+   <section className="banner"><div className="banner-photo" style={{backgroundImage:`linear-gradient(90deg,#0f0f10f5,#0f0f10a8),url("${images.strength}")`}}/><div className="container banner-content reveal"><p className="eyebrow"><span className="eyebrow-line"/> SEU PRÓXIMO PASSO</p><h2>NÃO DEIXE PARA <span>DEPOIS.</span></h2><p>Converse com a Conceito Academia e descubra como começar.</p><a className="btn btn-red" href={wa()} target="_blank" rel="noopener noreferrer">COMECE HOJE MESMO <ArrowRight size={19}/></a></div></section>
+   <section className="section location" id="localizacao"><div className="container"><div className="section-heading reveal"><p className="eyebrow"><span className="eyebrow-line"/> VENHA NOS ENCONTRAR</p><h2>NO CORAÇÃO DO <span>JARDIM PAULISTA.</span></h2><p>{business.address}</p></div><div className="map reveal"><iframe title="Localização da Conceito Academia — Alameda Sarutaiá, 205, Jardim Paulista, São Paulo" src={embed} loading="lazy" allowFullScreen referrerPolicy="no-referrer-when-downgrade"/></div><a className="btn btn-outline reveal" href={maps} target="_blank" rel="noopener noreferrer"><Navigation size={18}/> ABRIR NO GOOGLE MAPS <ArrowRight size={17}/></a></div></section>
+   <section className="section contact" id="contato"><div className="container contact-grid"><div className="reveal"><p className="eyebrow"><span className="eyebrow-line"/> CONTATO</p><h2>PRONTO PARA <span>COMEÇAR?</span></h2><p>Fale com a equipe, consulte as informações disponíveis e planeje sua visita.</p><div className="contact-item"><MapPin/><div><strong>ENDEREÇO</strong><p>{business.address}</p></div></div><div className="contact-item"><Clock3/><div><strong>FUNCIONAMENTO INFORMADO</strong><p>{business.hours}</p></div></div><div className="contact-item"><MessageCircle/><div><strong>TELEFONE / WHATSAPP</strong><p><a href={wa()} target="_blank" rel="noopener noreferrer">{business.phone}</a></p></div></div><a className="btn btn-red" href={wa()} target="_blank" rel="noopener noreferrer">COMECE HOJE MESMO <ArrowRight size={18}/></a></div><div className="contact-photo reveal"><img src={images.equipment} alt="Fotografia editorial ilustrativa de treinamento físico" loading="lazy" decoding="async" width="900" height="1100"/><span>FAÇA ACONTECER.</span></div></div></section>
   </main>
-  <footer><div className="container footer-grid"><div><a className="footer-brand" href="#inicio"><PawPrint size={27}/> PET SHOP ANDRÉ <span>PET SHOP</span></a><p>Mais carinho para quem faz parte da família.</p><a className="pill pill-bronze" href={wa()} target="_blank" rel="noopener noreferrer">Fazer pedido agora <ArrowRight size={17}/></a></div><nav aria-label="Links do rodapé">{nav.map(([label,href])=><a href={href} key={href}>{label}</a>)}</nav><div><strong>Encontre-nos</strong><p>{business.address}</p><p>{business.hours}</p><a href={wa()} target="_blank" rel="noopener noreferrer">{business.phone}</a></div></div><div className="container copyright">© {new Date().getFullYear()} Pet Shop André. Todos os direitos reservados.</div></footer>
-  <a className="floating-wa" href={wa()} target="_blank" rel="noopener noreferrer" aria-label="Fale com o Pet Shop André pelo WhatsApp"><MessageCircle size={27}/><span>Fale conosco</span></a>
-  {gallery&&<div className="lightbox" role="dialog" aria-modal="true" aria-label="Fotografia ampliada" onClick={()=>setGallery(null)}><button onClick={()=>setGallery(null)} aria-label="Fechar fotografia"><X size={25}/></button><img src={gallery} alt="Fotografia editorial ilustrativa ampliada" onError={handleImageError} onClick={e=>e.stopPropagation()}/></div>}
- </div>;
+  <footer><div className="container footer-grid"><div><a className="footer-brand" href="#inicio"><Dumbbell size={28}/> CONCEITO <span>ACADEMIA</span></a><p>Seu próximo passo começa aqui.</p><a className="btn btn-red" href={wa()} target="_blank" rel="noopener noreferrer">COMECE HOJE MESMO <ArrowRight size={17}/></a></div><nav aria-label="Links rápidos">{nav.map(([n,h])=><a key={h} href={h}>{n}</a>)}</nav><div><strong>ONDE ESTAMOS</strong><p>{business.address}</p><p>{business.hours}</p><a href={wa()} target="_blank" rel="noopener noreferrer">{business.phone}</a></div></div><div className="container copyright">© {new Date().getFullYear()} Conceito Academia. Todos os direitos reservados.</div></footer>
+  <a className="floating-wa" href={wa()} target="_blank" rel="noopener noreferrer" aria-label="Falar com a Conceito Academia pelo WhatsApp"><MessageCircle size={27}/><span>FALE CONOSCO</span></a>
+  {gallery&&<div className="lightbox" role="dialog" aria-modal="true" aria-label="Fotografia ampliada" onClick={()=>setGallery(null)}><button onClick={()=>setGallery(null)} aria-label="Fechar fotografia"><X size={24}/></button><img src={gallery} alt="Fotografia editorial ilustrativa ampliada" onClick={e=>e.stopPropagation()}/></div>}
+ </div>
 }
