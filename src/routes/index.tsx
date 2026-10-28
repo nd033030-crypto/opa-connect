@@ -1,5 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "lenis";
+gsap.registerPlugin(ScrollTrigger);
 import { ArrowRight, ArrowUpRight, Clock3, MapPin, Menu, MessageCircle, X, IceCreamCone, Sparkles, ChevronDown } from "lucide-react";
 
 const phone = "5519987219373";
@@ -35,12 +39,39 @@ export const Route = createFileRoute("/")({
  component: Home
 });
 function Home(){
+ const rootRef=useRef<HTMLDivElement>(null);
  const [open,setOpen]=useState(false); const [scrolled,setScrolled]=useState(false); const [progress,setProgress]=useState(0);
  useEffect(()=>{const update=()=>{setScrolled(window.scrollY>30);const max=document.documentElement.scrollHeight-window.innerHeight;setProgress(max>0?window.scrollY/max*100:0)};update();window.addEventListener("scroll",update,{passive:true});return()=>window.removeEventListener("scroll",update)},[]);
  useEffect(()=>{const els=document.querySelectorAll(".reveal");if(!("IntersectionObserver" in window)||window.matchMedia("(prefers-reduced-motion: reduce)").matches){els.forEach(e=>e.classList.add("visible"));return}const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add("visible");observer.unobserve(e.target)}}),{threshold:.12});els.forEach(e=>observer.observe(e));return()=>observer.disconnect()},[]);
- useEffect(()=>{if(window.matchMedia("(prefers-reduced-motion: reduce)").matches||window.matchMedia("(max-width: 850px)").matches)return;let raf=0;const update=()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{const hero=document.querySelector<HTMLElement>(".hero");if(!hero)return;const y=Math.min(Math.max(window.scrollY,0),window.innerHeight);hero.style.setProperty("--hero-scroll",String(y));hero.style.setProperty("--hero-ratio",String(y/Math.max(window.innerHeight,1)));});};update();window.addEventListener("scroll",update,{passive:true});return()=>{cancelAnimationFrame(raf);window.removeEventListener("scroll",update)}},[]);
+ useEffect(()=>{
+  if(!rootRef.current || window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  const mobile=window.matchMedia("(max-width: 850px)").matches;
+  const lenis=new Lenis({duration:mobile?0.85:1.2,smoothWheel:true});
+  let frame=0;
+  const tick=(time:number)=>{lenis.raf(time);frame=requestAnimationFrame(tick)};
+  frame=requestAnimationFrame(tick);
+  lenis.on("scroll",ScrollTrigger.update);
+  const context=gsap.context(()=>{
+   gsap.set(".hero-photo",{transformOrigin:"65% 50%"});
+   const hero=gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:".hero",start:"top top",end:mobile?"+=125%":"+=190%",pin:true,scrub:mobile?0.65:1.1,anticipatePin:1,invalidateOnRefresh:true}});
+   hero.to(".hero-photo",{scale:mobile?1.35:1.6,rotationY:mobile?2:7,xPercent:mobile?-7:-14,yPercent:5,duration:1.15},0)
+    .to(".hero-content",{yPercent:-22,opacity:0,duration:0.85},0)
+    .to(".hero-halo",{scale:1.45,rotation:35,opacity:0,duration:1},0)
+    .to(".hero-photo",{xPercent:mobile?48:65,scale:mobile?1.6:1.95,rotationY:mobile?-3:-9,opacity:.12,duration:1},1.15)
+    .to(".hero-overlay",{opacity:.25,duration:.8},1.2);
+   gsap.utils.toArray<HTMLElement>(".about .reveal").forEach((el,i)=>gsap.fromTo(el,{autoAlpha:0,y:mobile?45:95,rotationX:mobile?0:7},{autoAlpha:1,y:0,rotationX:0,duration:1.1,ease:"power2.out",scrollTrigger:{trigger:el,start:"top 90%",end:"top 38%",scrub:.7},delay:i*.08}));
+   gsap.fromTo(".menu-card",{autoAlpha:0,y:mobile?55:110,scale:.88,rotationX:mobile?0:9},{autoAlpha:1,y:0,scale:1,rotationX:0,stagger:.14,ease:"power2.out",scrollTrigger:{trigger:".menu-grid",start:"top 92%",end:"bottom 75%",scrub:.85}});
+   gsap.fromTo(".cta-image",{scale:1.3,yPercent:-12},{scale:1,yPercent:12,ease:"none",scrollTrigger:{trigger:".cta-banner",start:"top bottom",end:"bottom top",scrub:1}});
+   gsap.fromTo(".cta-content",{y:70,autoAlpha:0},{y:0,autoAlpha:1,scrollTrigger:{trigger:".cta-banner",start:"top 75%",end:"center center",scrub:.7}});
+   gsap.fromTo(".location .reveal",{y:65,autoAlpha:0},{y:0,autoAlpha:1,stagger:.15,scrollTrigger:{trigger:".location",start:"top 80%",end:"center 55%",scrub:.7}});
+  },rootRef);
+  const refresh=()=>ScrollTrigger.refresh();
+  window.addEventListener("load",refresh);
+  const timer=window.setTimeout(refresh,350);
+  return()=>{window.clearTimeout(timer);window.removeEventListener("load",refresh);cancelAnimationFrame(frame);lenis.destroy();context.revert()};
+ },[]);
  useEffect(()=>{const close=(e:KeyboardEvent)=>{if(e.key==="Escape")setOpen(false)};window.addEventListener("keydown",close);return()=>window.removeEventListener("keydown",close)},[]);
- return <div className="cristal">
+ return <div className="cristal cristal-v2" ref={rootRef}>
  <div className="progress" style={{width:`${progress}%`}} aria-hidden="true"/>
  <header className={`header ${scrolled||open?"scrolled":""}`}><div className="container header-inner">
  <a href="#inicio" className="brand" onClick={()=>setOpen(false)} aria-label="Cristal Sorvetes, voltar ao início"><span className="brand-symbol"><IceCreamCone size={25}/></span><span>CRISTAL <small>SORVETES</small></span></a>
