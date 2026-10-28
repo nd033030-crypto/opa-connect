@@ -44,21 +44,23 @@ function Home(){
  useEffect(()=>{const update=()=>{setScrolled(window.scrollY>30);const max=document.documentElement.scrollHeight-window.innerHeight;setProgress(max>0?window.scrollY/max*100:0)};update();window.addEventListener("scroll",update,{passive:true});return()=>window.removeEventListener("scroll",update)},[]);
  useEffect(()=>{const els=document.querySelectorAll(".reveal");if(!("IntersectionObserver" in window)||window.matchMedia("(prefers-reduced-motion: reduce)").matches){els.forEach(e=>e.classList.add("visible"));return}const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add("visible");observer.unobserve(e.target)}}),{threshold:.12});els.forEach(e=>observer.observe(e));return()=>observer.disconnect()},[]);
  useEffect(()=>{
-  if(!rootRef.current || window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  if(!rootRef.current)return;
   const mobile=window.matchMedia("(max-width: 850px)").matches;
-  const lenis=new Lenis({duration:mobile?0.85:1.2,smoothWheel:true});
+  const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const lenis=new Lenis({duration:reduced?0.7:mobile?0.85:1.2,smoothWheel:true});
   let frame=0;
   const tick=(time:number)=>{lenis.raf(time);frame=requestAnimationFrame(tick)};
   frame=requestAnimationFrame(tick);
   lenis.on("scroll",ScrollTrigger.update);
   const context=gsap.context(()=>{
    gsap.set(".hero-photo",{transformOrigin:"65% 50%"});
-   const hero=gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:".hero",start:"top top",end:mobile?"+=180%":"+=260%",pin:true,scrub:mobile?0.55:0.8,anticipatePin:1,invalidateOnRefresh:true}});
-   hero.to(".hero-stage",{scale:mobile?1.28:1.62,rotationY:mobile?4:12,z:mobile?45:150,duration:1.15},0).to(".hero-photo",{scale:mobile?1.42:1.78,rotationY:mobile?4:11,xPercent:mobile?-10:-18,yPercent:7,duration:1.15},0)
+   const hero=gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:".hero",start:"top top",end:mobile?"+=145%":reduced?"+=175%":"+=280%",pin:true,scrub:reduced?0.35:mobile?0.55:0.8,anticipatePin:1,invalidateOnRefresh:true}});
+   hero.to(".hero-stage",{scale:mobile?1.25:reduced?1.35:1.72,rotationY:mobile?3:reduced?4:14,z:mobile?20:reduced?40:180,duration:1.15},0).to(".hero-photo",{scale:mobile?1.3:reduced?1.4:1.9,rotationY:mobile?3:reduced?4:13,xPercent:mobile?-8:-20,yPercent:7,duration:1.15},0)
     .to(".hero-content",{yPercent:-22,opacity:0,duration:0.85},0)
     .to(".hero-halo",{scale:1.45,rotation:35,opacity:0,duration:1},0)
-    .to(".hero-stage",{xPercent:mobile?40:62,rotationY:mobile?-7:-17,duration:1},1.15).to(".hero-photo",{xPercent:mobile?22:38,scale:mobile?1.72:2.1,rotationY:mobile?-7:-14,opacity:.72,duration:1},1.15)
+    .to(".hero-stage",{xPercent:mobile?35:70,rotationY:mobile?-5:-20,duration:1},1.15).to(".hero-photo",{xPercent:mobile?25:42,scale:mobile?1.65:2.25,rotationY:mobile?-6:-18,opacity:.78,duration:1},1.15)
     .to(".hero-overlay",{opacity:.25,duration:.8},1.2);
+   gsap.fromTo(".hero-content",{transformPerspective:1000,transformOrigin:"left center"},{rotationY:reduced?0:-4,z:reduced?0:-45,scrollTrigger:{trigger:".hero",start:"top top",end:mobile?"bottom top":"+=150%",scrub:.65}});
    gsap.utils.toArray<HTMLElement>(".about .reveal").forEach((el,i)=>gsap.fromTo(el,{autoAlpha:0,y:mobile?45:95,rotationX:mobile?0:7},{autoAlpha:1,y:0,rotationX:0,duration:1.1,ease:"power2.out",scrollTrigger:{trigger:el,start:"top 90%",end:"top 38%",scrub:.7},delay:i*.08}));
    gsap.fromTo(".menu-card",{autoAlpha:0,y:mobile?55:110,scale:.88,rotationX:mobile?0:9},{autoAlpha:1,y:0,scale:1,rotationX:0,stagger:.14,ease:"power2.out",scrollTrigger:{trigger:".menu-grid",start:"top 92%",end:"bottom 75%",scrub:.85}});
    gsap.utils.toArray<HTMLElement>(".menu-image img, .about-image img").forEach((img)=>gsap.fromTo(img,{clipPath:"inset(12% 8% 12% 8%)",scale:1.2},{clipPath:"inset(0% 0% 0% 0%)",scale:1,ease:"none",scrollTrigger:{trigger:img,start:"top 92%",end:"center 48%",scrub:.75}}));
