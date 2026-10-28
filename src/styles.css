@@ -68,3 +68,18 @@
 .cristal-v3 .reveal{transition:none;filter:none}
 @media(max-width:850px){.cristal-v3 .hero-stage{inset:0}.cristal-v3 .hero-photo{object-position:64% center}.cristal-v3 .hero-overlay{background:linear-gradient(0deg,#080808f9,#080808b9 58%,#08080844)}.cristal-v3 .hero h1{font-size:clamp(3.45rem,12vw,6rem)}.cristal-v3 .about-image>img{height:440px}.cristal-v3 .cta-banner{min-height:68svh}}
 @media(prefers-reduced-motion:reduce){.cristal-v3 .hero-stage,.cristal-v3 .hero-photo,.cristal-v3 .hero-content,.cristal-v3 .cta-image,.cristal-v3 .about-image img{transform:none!important;opacity:1!important}.cristal-v3 .reveal{opacity:1!important;transform:none!important}}
+
+/* V3.1 critical stacking correction: keep the photographic scene above the hero background. */
+.cristal-v3 .hero{position:relative;overflow:clip;isolation:isolate;min-height:100svh}
+.cristal-v3 .hero-stage{z-index:0!important;inset:-3%;transform-style:preserve-3d;will-change:transform;pointer-events:none}
+.cristal-v3 .hero-photo{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;z-index:1;transform:translateZ(35px);backface-visibility:hidden;will-change:transform,opacity}
+.cristal-v3 .hero-overlay{position:absolute;inset:0;z-index:2!important;pointer-events:none;background:linear-gradient(90deg,#080808f7 0%,#080808db 32%,#08080878 56%,#08080812 100%),linear-gradient(0deg,#08080888,transparent 48%)}
+.cristal-v3 .hero-halo{z-index:3;pointer-events:none}
+.cristal-v3 .hero-content{position:relative;z-index:5!important}
+.cristal-v3 .scroll-indicator,.cristal-v3 .hero-watermark{z-index:5}
+.cristal-v3 .hero-stage-glow{z-index:0}
+.cristal-v3 .hero-stage-back{z-index:0}
+.cristal-v3 .hero-stage-front{z-index:2}
+.cristal-v3 .hero-stage{transform-origin:68% 50%}
+.cristal-v3 .hero-stage-front{background:radial-gradient(ellipse at 72% 48%,transparent 16%,#08080812 47%,#08080865 100%)}
+@media(max-width:850px){.cristal-v3 .hero-stage{inset:0}.cristal-v3 .hero-overlay{background:linear-gradient(0deg,#080808f4 0%,#080808ab 54%,#08080828 100%)}}
