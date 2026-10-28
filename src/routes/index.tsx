@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, ArrowUpRight, Clock3, MapPin, Menu, MessageCircle, X, IceCreamCone, Sparkles, Instagram, ChevronDown } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Clock3, MapPin, Menu, MessageCircle, X, IceCreamCone, Sparkles, ChevronDown } from "lucide-react";
 
 const phone = "5519987219373";
 const address = "Avenida John Boyd Dunlop, 8056 Satélite Íris 2 - Cidade Satélite Íris, Campinas - SP, 13059-587, Brasil";
@@ -48,7 +48,7 @@ function Home(){
  {open&&<nav className="mobile-nav" aria-label="Menu para celular">{links.map(([label,href])=><a href={href} key={href} onClick={()=>setOpen(false)}>{label}</a>)}<a href={whatsapp()} target="_blank" rel="noopener noreferrer" onClick={()=>setOpen(false)}>Fazer pedido agora</a></nav>}</header>
  <main>
  <section className="hero" id="inicio"><img className="hero-photo" src={pictures.hero} alt="Sorvete cremoso em fotografia ilustrativa" width="2000" height="1333" fetchPriority="high" decoding="async"/><div className="hero-overlay"/><div className="hero-halo halo-one"/><div className="hero-halo halo-two"/>
- <div className="container hero-content"><p className="eyebrow hero-rise"><span/> CRISTAL SORVETES · CAMPINAS</p><h1 className="hero-rise">Referência em<br/><em>sorveteria</em></h1><p className="hero-sub hero-rise">Seu próximo momento de sabor começa aqui, na Avenida John Boyd Dunlop. Descubra nossas opções e peça com facilidade pelo WhatsApp.</p>
+ <div className="container hero-content"><p className="eyebrow hero-rise"><span/> CRISTAL SORVETES · CAMPINAS</p><h1 className="hero-rise">Referência em <br/><em>sorveteria</em></h1><p className="hero-sub hero-rise">Seu próximo momento de sabor começa aqui, na Avenida John Boyd Dunlop. Descubra nossas opções e peça com facilidade pelo WhatsApp.</p>
  <div className="hero-actions hero-rise"><a className="button button-gold" href={whatsapp()} target="_blank" rel="noopener noreferrer">FAZER PEDIDO AGORA <ArrowUpRight size={20}/></a><a className="button button-ghost" href="#cardapio">EXPLORAR CARDÁPIO <ArrowRight size={18}/></a></div>
  <div className="hero-bottom hero-rise"><span><MapPin size={17}/> CIDADE SATÉLITE ÍRIS · CAMPINAS</span><span><Clock3 size={17}/> SEG A SÁB · 9H ÀS 19H</span></div></div><a href="#sobre" className="scroll-indicator" aria-label="Rolar para conhecer a Cristal Sorvetes">DESCUBRA <ChevronDown size={17}/></a><div className="hero-watermark" aria-hidden="true">CRISTAL</div></section>
  <div className="trust-strip"><div className="container trust-grid"><span><Sparkles size={22}/> UM MOMENTO PARA SABOREAR</span><span><IceCreamCone size={22}/> SUA PRÓXIMA PAUSA GELADA</span><span><MessageCircle size={22}/> PEDIDOS PELO WHATSAPP</span></div></div>
