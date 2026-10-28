@@ -1,77 +1,121 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowRight, Clock3, MapPin, Menu, MessageCircle, X, CakeSlice, ChevronLeft, ChevronRight, Heart, ExternalLink } from "lucide-react";
+import { ArrowDown, ArrowRight, Clock3, MapPin, Menu, MessageCircle, X, UtensilsCrossed, Wine, Leaf, Sparkles, ExternalLink, CalendarDays } from "lucide-react";
 
-const business={name:"Visconde Bolos Caseiros",phone:"(11) 98200-0122",whatsapp:"5511982000122",address:"R. Santa Catarina, 45 - Centro, São Caetano do Sul - SP, 09510-120, Brasil",hours:"Seg a Sáb, 9h às 19h"};
-const wa=(message="Olá! Conheci a Visconde Bolos Caseiros pelo site e gostaria de consultar os bolos disponíveis e fazer um pedido.")=>`https://wa.me/${business.whatsapp}?text=${encodeURIComponent(message)}`;
-const mapUrl=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(business.address)}`;
-const mapEmbed=`https://www.google.com/maps?q=${encodeURIComponent(business.address)}&z=17&output=embed`;
-const photo=(id:string,w=1200)=>`https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=82`;
-const images={
- hero:photo("photo-1578985545062-69928b1d9587",1800),
- about:photo("photo-1488477181946-6428a0291777"),
- cake:photo("photo-1578985545062-69928b1d9587"),
- chocolate:photo("photo-1606313564200-e75d5e30476c"),
- strawberry:photo("photo-1565958011703-44f9829ba187"),
- bakery:photo("photo-1555507036-ab1f4038808a"),
- detail:photo("photo-1464305795204-6f5bbfc7fb81"),
- sweet:photo("photo-1488477181946-6428a0291777"),
+const business = { name: "Roi Méditerranée", phone: "(11) 4040-7622", whatsapp: "551140407622", address: "Rua Haddock Lobo, 1626 - 3° Andar - Cerqueira César, São Paulo - SP, 01414-002, Brasil", hours: "Segunda a sábado, das 9h às 19h" };
+const wa = (message = "Olá! Conheci o Roi Méditerranée pelo site e gostaria de saber mais sobre o menu e as reservas.") => `https://wa.me/${business.whatsapp}?text=${encodeURIComponent(message)}`;
+const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(business.address)}`;
+const mapEmbed = `https://www.google.com/maps?q=${encodeURIComponent(business.address)}&z=16&output=embed`;
+const photo = (id: string, width = 1400) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=82`;
+const images = {
+ hero: photo("photo-1517248135467-4c7edcad34c4", 2000), room: photo("photo-1414235077428-338989a2e8c0"),
+ dish: photo("photo-1547592180-85f173990554"), seafood: photo("photo-1519708227418-c8fd9a32b7a2"),
+ pasta: photo("photo-1473093295043-cdd812d0e601"), table: photo("photo-1515003197210-e0cd7184f8b5"),
+ wine: photo("photo-1510812431401-41d2bd2722f3"), dessert: photo("photo-1488477181946-6428a0291777"),
 };
-const gallery=[
- {src:images.cake,title:"Bolos para compartilhar"},
- {src:images.chocolate,title:"Inspiração de chocolate"},
- {src:images.strawberry,title:"Doces momentos"},
- {src:images.bakery,title:"Carinho em cada detalhe"},
- {src:images.detail,title:"Momentos especiais"},
- {src:images.sweet,title:"Sabores que inspiram"},
+const gallery = [
+ { src: images.room, title: "Uma atmosfera intimista" }, { src: images.dish, title: "Cores e sabores do Mediterrâneo" },
+ { src: images.seafood, title: "Ingredientes em destaque" }, { src: images.pasta, title: "Clássicos à mesa" },
+ { src: images.table, title: "Detalhes que fazem diferença" }, { src: images.wine, title: "Para acompanhar a experiência" },
 ];
-const nav=[["Início","#inicio"],["Nossa essência","#sobre"],["Inspirações","#galeria"],["Como pedir","#pedido"],["Localização","#localizacao"],["Contato","#contato"]] as const;
-export const Route=createFileRoute("/")({
- head:()=>({meta:[
-  {title:"Visconde Bolos Caseiros | Confeitaria na Rua Santa Catarina, São Caetano do Sul"},
-  {name:"description",content:"Confeitaria Visconde Bolos Caseiros na R. Santa Catarina, 45 - Centro, São Caetano do Sul - SP, 09510-120. Qualidade que você merece. Peça pelo WhatsApp (11) 98200-0122."},
-  {property:"og:title",content:"Visconde Bolos Caseiros | Qualidade que você merece"},
-  {property:"og:description",content:"Converse com a Visconde Bolos Caseiros pelo WhatsApp e consulte as opções disponíveis."},
-  {property:"og:type",content:"website"},
-  {property:"og:image",content:images.hero}
- ],scripts:[{type:"application/ld+json",children:JSON.stringify({"@context":"https://schema.org","@type":"Bakery",name:business.name,telephone:"+5511982000122",address:{"@type":"PostalAddress",streetAddress:"R. Santa Catarina, 45 - Centro",addressLocality:"São Caetano do Sul",addressRegion:"SP",postalCode:"09510-120",addressCountry:"BR"},openingHoursSpecification:[{"@type":"OpeningHoursSpecification",dayOfWeek:["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],opens:"09:00",closes:"19:00"}]})}]}),
- component:Home
+const nav = [["Início", "#inicio"], ["A experiência", "#sobre"], ["Menu", "#menu"], ["Galeria", "#galeria"], ["Localização", "#localizacao"]] as const;
+
+export const Route = createFileRoute("/")({
+ head: () => ({ meta: [
+  { title: "Roi Méditerranée | Restaurante Fine Dining na Rua Haddock Lobo, São Paulo" },
+  { name: "description", content: "Descubra o Roi Méditerranée, restaurante de inspiração mediterrânea na Rua Haddock Lobo, 1626, Cerqueira César, São Paulo. Consulte o menu e fale pelo WhatsApp." },
+  { name: "theme-color", content: "#17251f" },
+  { property: "og:title", content: "Roi Méditerranée — Uma experiência à mesa" },
+  { property: "og:description", content: "Uma experiência gastronômica de inspiração mediterrânea em Cerqueira César, São Paulo." },
+  { property: "og:type", content: "website" }, { property: "og:image", content: images.hero },
+ ], scripts: [{ type: "application/ld+json", children: JSON.stringify({
+  "@context": "https://schema.org", "@type": "Restaurant", name: business.name, telephone: "+551140407622",
+  servesCuisine: ["Mediterranean", "Contemporary"],
+  address: { "@type": "PostalAddress", streetAddress: "Rua Haddock Lobo, 1626, 3° Andar - Cerqueira César", addressLocality: "São Paulo", addressRegion: "SP", postalCode: "01414-002", addressCountry: "BR" },
+  openingHoursSpecification: [{ "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], opens: "09:00", closes: "19:00" }],
+ }) }] }),
+ component: Home,
 });
-function Home(){
- const [menu,setMenu]=useState(false);
- const [scrolled,setScrolled]=useState(false);
- const [progress,setProgress]=useState(0);
- const [selected,setSelected]=useState<number|null>(null);
- useEffect(()=>{const update=()=>{setScrolled(window.scrollY>30);const max=document.documentElement.scrollHeight-window.innerHeight;setProgress(max>0?window.scrollY/max*100:0)};update();window.addEventListener("scroll",update,{passive:true});return()=>window.removeEventListener("scroll",update)},[]);
- useEffect(()=>{const onKey=(e:KeyboardEvent)=>{if(e.key==="Escape"){setSelected(null);setMenu(false)}if(selected!==null&&e.key==="ArrowRight")setSelected((selected+1)%gallery.length);if(selected!==null&&e.key==="ArrowLeft")setSelected((selected+gallery.length-1)%gallery.length)};window.addEventListener("keydown",onKey);return()=>window.removeEventListener("keydown",onKey)},[selected]);
- useEffect(()=>{if(selected===null)return;const old=document.body.style.overflow;document.body.style.overflow="hidden";return()=>{document.body.style.overflow=old}},[selected]);
- useEffect(()=>{if(window.matchMedia("(prefers-reduced-motion: reduce)").matches)return;const els=Array.from(document.querySelectorAll<HTMLElement>(".reveal"));const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add("visible");obs.unobserve(e.target)}}),{threshold:.08,rootMargin:"0px 0px -35px 0px"});els.forEach(el=>obs.observe(el));const hero=document.querySelector<HTMLElement>(".hero-photo");let frame=0;const scroll=()=>{if(frame)return;frame=requestAnimationFrame(()=>{frame=0;if(hero){const p=Math.min(1,Math.max(0,window.scrollY/window.innerHeight));hero.style.transform=`translate3d(0,${p*60}px,0) scale(${1.07+p*.08})`}})};window.addEventListener("scroll",scroll,{passive:true});return()=>{obs.disconnect();window.removeEventListener("scroll",scroll);if(frame)cancelAnimationFrame(frame);if(hero)hero.style.transform=""}},[]);
- return <div className="site">
-  <div className="progress" style={{width:`${progress}%`}} aria-hidden="true"/>
-  <header className={`header ${scrolled||menu?"scrolled":""}`}><div className="container header-inner">
-   <a href="#inicio" className="brand" aria-label="Visconde Bolos Caseiros — início" onClick={()=>setMenu(false)}><span className="brand-icon"><CakeSlice size={23}/></span><span>VISCONDE <small>BOLOS CASEIROS</small></span></a>
-   <nav className="desktop-nav" aria-label="Navegação principal">{nav.map(([name,href])=><a key={href} href={href}>{name}</a>)}<a className="btn btn-primary header-cta" href={wa()} target="_blank" rel="noopener noreferrer">FAZER PEDIDO AGORA <ArrowRight size={16}/></a></nav>
-   <button className="menu-toggle" aria-label={menu?"Fechar menu":"Abrir menu"} aria-expanded={menu} onClick={()=>setMenu(!menu)}>{menu?<X/>:<Menu/>}</button>
-  </div>{menu&&<nav className="mobile-nav" aria-label="Menu mobile">{nav.map(([name,href])=><a key={href} href={href} onClick={()=>setMenu(false)}>{name}</a>)}<a href={wa()} target="_blank" rel="noopener noreferrer" onClick={()=>setMenu(false)}>Fazer meu pedido</a></nav>}</header>
+
+function Home() {
+ const [menuOpen, setMenuOpen] = useState(false);
+ const [scrolled, setScrolled] = useState(false);
+ const [progress, setProgress] = useState(0);
+ const [selected, setSelected] = useState<number | null>(null);
+ useEffect(() => {
+  const update = () => { setScrolled(window.scrollY > 24); const max = document.documentElement.scrollHeight - window.innerHeight; setProgress(max > 0 ? window.scrollY / max * 100 : 0); };
+  update(); window.addEventListener("scroll", update, { passive: true }); return () => window.removeEventListener("scroll", update);
+ }, []);
+ useEffect(() => {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { document.querySelectorAll(".reveal").forEach(el => el.classList.add("visible")); return; }
+  const elements = Array.from(document.querySelectorAll<HTMLElement>(".reveal"));
+  const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add("visible"); observer.unobserve(entry.target); } }), { threshold: .1, rootMargin: "0px 0px -35px 0px" });
+  elements.forEach(el => observer.observe(el));
+  const hero = document.querySelector<HTMLElement>(".hero-photo"); let frame = 0;
+  const parallax = () => { if (frame) return; frame = requestAnimationFrame(() => { frame = 0; if (hero) { const amount = Math.min(1, Math.max(0, window.scrollY / Math.max(1, window.innerHeight))); hero.style.transform = `translate3d(0, ${amount * 35}px, 0) scale(${1.04 + amount * .035})`; } }); };
+  window.addEventListener("scroll", parallax, { passive: true });
+  return () => { observer.disconnect(); window.removeEventListener("scroll", parallax); if (frame) cancelAnimationFrame(frame); if (hero) hero.style.transform = ""; };
+ }, []);
+ useEffect(() => {
+  const onKey = (event: KeyboardEvent) => { if (event.key === "Escape") { setSelected(null); setMenuOpen(false); } if (selected !== null && event.key === "ArrowRight") setSelected((selected + 1) % gallery.length); if (selected !== null && event.key === "ArrowLeft") setSelected((selected + gallery.length - 1) % gallery.length); };
+  window.addEventListener("keydown", onKey); return () => window.removeEventListener("keydown", onKey);
+ }, [selected]);
+ useEffect(() => { if (selected === null) return; const old = document.body.style.overflow; document.body.style.overflow = "hidden"; return () => { document.body.style.overflow = old; }; }, [selected]);
+
+ return <div className="roi-site">
+  <div className="scroll-progress" style={{ width: `${progress}%` }} aria-hidden="true" />
+  <header className={`site-header ${scrolled || menuOpen ? "is-scrolled" : ""}`}>
+   <div className="roi-container header-inner">
+    <a href="#inicio" className="roi-brand" aria-label="Roi Méditerranée — início" onClick={() => setMenuOpen(false)}><span className="brand-mark" aria-hidden="true">R<span>·</span>M</span><span className="brand-name">ROI <small>MÉDITERRANÉE</small></span></a>
+    <nav className="desktop-nav" aria-label="Navegação principal">{nav.map(([label, href]) => <a key={href} href={href}>{label}</a>)}<a className="roi-button roi-button-gold nav-cta" href={wa("Olá! Gostaria de consultar o menu e verificar a disponibilidade para uma reserva no Roi Méditerranée.")} target="_blank" rel="noopener noreferrer">FALE CONOSCO <ArrowRight size={16} /></a></nav>
+    <button className="menu-toggle" aria-label={menuOpen ? "Fechar menu" : "Abrir menu"} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</button>
+   </div>
+   {menuOpen && <nav className="mobile-nav" aria-label="Menu mobile">{nav.map(([label, href]) => <a key={href} href={href} onClick={() => setMenuOpen(false)}>{label}</a>)}<a href={wa()} target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)}>Consultar menu pelo WhatsApp</a></nav>}
+  </header>
   <main>
-   <section className="hero" id="inicio"><img className="hero-photo" src={images.hero} alt="Fotografia editorial ilustrativa de bolo decorado em cenário de confeitaria" fetchPriority="high" decoding="async" width="1800" height="1200"/><div className="hero-overlay"/><div className="hero-decoration" aria-hidden="true">feito com carinho</div><div className="container hero-content">
-    <p className="eyebrow hero-rise"><span className="eyebrow-line"/> VISCONDE BOLOS CASEIROS</p>
-    <h1 className="hero-rise">Qualidade que você merece</h1>
-    <p className="hero-sub hero-rise">Bolos e confeitaria para tornar seu café, encontro ou celebração ainda mais especial. Consulte as opções e faça seu pedido diretamente pelo WhatsApp.</p>
-    <div className="hero-actions hero-rise"><a className="btn btn-primary" href={wa()} target="_blank" rel="noopener noreferrer">FAZER PEDIDO AGORA <ArrowRight size={18}/></a><a className="btn btn-outline" href="#galeria">VER INSPIRAÇÕES <ArrowRight size={18}/></a></div>
-    <p className="hero-note hero-rise"><Heart size={15}/> DOCE É COMPARTILHAR.</p>
-   </div><a href="#sobre" className="scroll-cue" aria-label="Rolar para conhecer a confeitaria"><span/> DESCUBRA MAIS</a></section>
-   <section className="intro-strip"><div className="container intro-grid"><div><CakeSlice size={24}/><span><strong>BOLOS CASEIROS</strong><small>Consulte as opções disponíveis</small></span></div><div><MessageCircle size={24}/><span><strong>PEDIDO PELO WHATSAPP</strong><small>Converse diretamente com a Visconde</small></span></div><div><Heart size={24}/><span><strong>UM MOMENTO ESPECIAL</strong><small>Encontre sua próxima inspiração</small></span></div></div></section>
-   <section className="section about" id="sobre"><div className="container about-grid"><div className="about-photo reveal"><img src={images.about} alt="Fotografia editorial ilustrativa de sobremesa e confeitaria" loading="lazy" decoding="async" width="1000" height="1200"/><div className="photo-outline"/><span className="photo-stamp">O SABOR DOS<br/>BONS MOMENTOS.</span></div><div className="about-copy reveal"><p className="eyebrow"><span className="eyebrow-line"/> NOSSA ESSÊNCIA</p><h2>UM CONVITE PARA <em>ADOÇAR O DIA.</em></h2><p>Um bolo pode transformar uma pausa simples em um momento para guardar na memória. É essa sensação que inspira a apresentação da Visconde Bolos Caseiros.</p><p>Para um café da tarde, para dividir com alguém especial ou para celebrar, comece contando o que procura. A equipe pode informar as opções e a disponibilidade diretamente pelo WhatsApp.</p><p>Sem complicação: você vê inspirações, entra em contato e combina os detalhes do seu pedido.</p><a className="text-link" href={wa()} target="_blank" rel="noopener noreferrer">CONVERSAR SOBRE MEU PEDIDO <ArrowRight size={18}/></a></div></div></section>
-   <section className="statement"><div className="container statement-content reveal"><p className="eyebrow"><span className="eyebrow-line"/> PEQUENOS PRAZERES</p><h2>TODO DIA MERECE <em>UM PEDAÇO DE FELICIDADE.</em></h2><p>Tem um momento especial chegando? Fale com a Visconde e consulte as opções.</p><a className="btn btn-dark" href={wa()} target="_blank" rel="noopener noreferrer">FAZER PEDIDO AGORA <ArrowRight size={18}/></a></div></section>
-   <section className="section gallery-section" id="galeria"><div className="container"><div className="section-heading reveal"><p className="eyebrow"><span className="eyebrow-line"/> GALERIA DE INSPIRAÇÕES</p><h2>DE ENCHER <em>OS OLHOS.</em></h2><p>Imagens editoriais ilustrativas do universo da confeitaria. Elas não representam necessariamente produtos, sabores ou fotografias oficiais da Visconde Bolos Caseiros. Consulte o catálogo atual pelo WhatsApp.</p></div><div className="gallery-grid">{gallery.map((item,i)=><button className={`gallery-item gallery-item-${i} reveal`} key={item.title} onClick={()=>setSelected(i)} aria-label={`Ampliar: ${item.title}`}><img src={item.src} alt={item.title+" — fotografia editorial ilustrativa"} loading="lazy" decoding="async" width="900" height="900"/><span>{item.title}<ArrowRight size={18}/></span></button>)}</div><div className="gallery-bottom reveal"><span>GOSTOU DA INSPIRAÇÃO?</span><a className="text-link" href={wa()} target="_blank" rel="noopener noreferrer">CONSULTAR O CATÁLOGO <ArrowRight size={18}/></a></div></div></section>
-   <section className="section order-section" id="pedido"><div className="container order-grid"><div className="reveal"><p className="eyebrow"><span className="eyebrow-line"/> SIMPLES ASSIM</p><h2>SEU PRÓXIMO DOCE ESTÁ A <em>UMA CONVERSA.</em></h2><div className="steps"><div><b>01</b><span><strong>CONTE O QUE PROCURA</strong><small>Envie uma mensagem e fale sobre seu pedido.</small></span></div><div><b>02</b><span><strong>CONSULTE AS OPÇÕES</strong><small>Confirme sabores, disponibilidade e valores com a equipe.</small></span></div><div><b>03</b><span><strong>COMBINE OS DETALHES</strong><small>Confirme diretamente pelo WhatsApp as condições do pedido.</small></span></div></div><a className="btn btn-primary" href={wa()} target="_blank" rel="noopener noreferrer">FAZER PEDIDO AGORA <ArrowRight size={18}/></a></div><div className="order-photo reveal"><img src={images.cake} alt="Fotografia editorial ilustrativa de bolo para celebração" loading="lazy" decoding="async" width="1000" height="1200"/><span>QUALIDADE QUE<br/>VOCÊ MERECE.</span></div></div></section>
-   <section className="banner"><div className="banner-image" style={{backgroundImage:`linear-gradient(90deg,#311b20f0,#311b20a8),url("${images.chocolate}")`}}/><div className="container banner-content reveal"><p className="eyebrow"><span className="eyebrow-line"/> É HORA DE ADOÇAR</p><h2>ESCOLHA O MOMENTO.<br/><em>O RESTO COMEÇA AQUI.</em></h2><p>Consulte os bolos disponíveis e converse sobre seu pedido.</p><a className="btn btn-primary" href={wa()} target="_blank" rel="noopener noreferrer">FAZER PEDIDO AGORA <ArrowRight size={18}/></a></div></section>
-   <section className="section location" id="localizacao"><div className="container"><div className="section-heading reveal"><p className="eyebrow"><span className="eyebrow-line"/> ONDE ESTAMOS</p><h2>VENHA CONHECER <em>A VISCONDE.</em></h2><p>{business.address}</p><p>{business.hours}</p></div><div className="map reveal"><iframe title="Mapa da Visconde Bolos Caseiros na Rua Santa Catarina, 45, Centro, São Caetano do Sul" src={mapEmbed} loading="lazy" allowFullScreen referrerPolicy="no-referrer-when-downgrade"/></div><a className="btn btn-primary" href={mapUrl} target="_blank" rel="noopener noreferrer">ABRIR NO GOOGLE MAPS <ExternalLink size={17}/></a></div></section>
-   <section className="section contact" id="contato"><div className="container contact-grid"><div className="reveal"><p className="eyebrow"><span className="eyebrow-line"/> FALE COM A VISCONDE</p><h2>VAMOS ADOÇAR <em>SEU DIA?</em></h2><p>Visite nossa localização no Centro de São Caetano do Sul ou fale pelo WhatsApp para consultar catálogo, valores e disponibilidade.</p><div className="contact-item"><MessageCircle/><div><strong>WHATSAPP / TELEFONE</strong><p><a href={wa()} target="_blank" rel="noopener noreferrer">{business.phone}</a></p></div></div><div className="contact-item"><Clock3/><div><strong>ATENDIMENTO</strong><p>{business.hours}</p></div></div><div className="contact-item"><MapPin/><div><strong>LOCALIZAÇÃO</strong><p>{business.address}</p><a href={mapUrl} target="_blank" rel="noopener noreferrer" className="map-link">Pesquisar no Google Maps <ExternalLink size={15}/></a></div></div><a className="btn btn-primary" href={wa()} target="_blank" rel="noopener noreferrer">FAZER PEDIDO AGORA <ArrowRight size={18}/></a></div><div className="contact-photo reveal"><img src={images.strawberry} alt="Fotografia editorial ilustrativa de doce decorado" loading="lazy" decoding="async" width="900" height="1100"/><span>FEITO PARA<br/>ENCANTAR.</span></div></div></section>
+   <section className="roi-hero" id="inicio">
+    <img className="hero-photo" src={images.hero} alt="Ambiente de restaurante elegante, fotografia ilustrativa" fetchPriority="high" decoding="async" width="2000" height="1333" />
+    <div className="hero-shade" /><div className="hero-orbit orbit-one" aria-hidden="true" /><div className="hero-orbit orbit-two" aria-hidden="true" />
+    <div className="roi-container hero-content">
+     <p className="roi-eyebrow hero-rise"><span /> COZINHA DE INSPIRAÇÃO MEDITERRÂNEA</p>
+     <h1 className="hero-rise">O prazer de<br /><em>sentar à mesa.</em></h1>
+     <p className="hero-lead hero-rise">Sabores que convidam a desacelerar. Descubra o Roi Méditerranée, na Rua Haddock Lobo, e transforme uma refeição em um momento para apreciar.</p>
+     <div className="hero-actions hero-rise"><a className="roi-button roi-button-gold" href={wa("Olá! Gostaria de consultar o menu e fazer um pedido no Roi Méditerranée.")} target="_blank" rel="noopener noreferrer">FAZER PEDIDO AGORA <ArrowRight size={18} /></a><a className="hero-secondary" href="#sobre">CONHEÇA A EXPERIÊNCIA <ArrowDown size={16} /></a></div>
+     <div className="hero-meta hero-rise"><span><MapPin size={15} /> CERQUEIRA CÉSAR · SÃO PAULO</span><i /><span><Sparkles size={15} /> UMA PAUSA PARA APRECIAR</span></div>
+    </div>
+    <span className="hero-side-note" aria-hidden="true">SABOR · TEMPO · ENCONTRO</span>
+   </section>
+   <section className="intro-ribbon" aria-label="Destaques"><div className="roi-container ribbon-grid"><div><UtensilsCrossed /><span><strong>GASTRONOMIA</strong><small>Inspiração mediterrânea</small></span></div><div><Wine /><span><strong>EXPERIÊNCIA</strong><small>Detalhes à mesa</small></span></div><div><Leaf /><span><strong>HARMONIA</strong><small>Sabores e ingredientes</small></span></div></div></section>
+   <section className="roi-section about-section" id="sobre"><div className="roi-container about-layout">
+    <div className="about-visual reveal"><img src={images.room} alt="Mesa posta em restaurante, fotografia ilustrativa" loading="lazy" decoding="async" width="1000" height="1200" /><div className="visual-frame" /><div className="round-seal"><span>UNE</span><b>SABOR<br />E CULTURA</b><span>À MESA</span></div><span className="image-caption">UMA EXPERIÊNCIA PARA SER SABOREADA</span></div>
+    <div className="about-text reveal"><p className="roi-eyebrow"><span /> A FILOSOFIA ROI</p><h2>Mais do que uma refeição.<br /><em>Um momento seu.</em></h2><p>A cozinha mediterrânea inspira uma maneira especial de estar à mesa: ingredientes que ganham destaque, combinações equilibradas e o prazer de compartilhar bons momentos.</p><p>No Roi Méditerranée, a proposta desta apresentação é valorizar cada detalhe da experiência — do primeiro olhar ao último sabor — em um endereço no coração de Cerqueira César.</p><p>Quer conhecer as opções disponíveis ou planejar sua visita? Nossa equipe pode orientar você diretamente pelo WhatsApp.</p><a className="roi-text-link" href={wa("Olá! Gostaria de saber mais sobre a experiência do Roi Méditerranée.")} target="_blank" rel="noopener noreferrer">CONVERSE COM NOSSA EQUIPE <ArrowRight size={17} /></a></div>
+   </div></section>
+   <section className="quote-section"><div className="quote-decoration" aria-hidden="true">“</div><div className="roi-container quote-content reveal"><p className="roi-eyebrow"><span /> A ARTE DE RECEBER</p><h2>Boa comida aproxima.<br /><em>Memórias ficam.</em></h2><p>Reserve um tempo para apreciar, conversar e descobrir novos sabores.</p><a className="roi-button roi-button-outline" href={wa("Olá! Gostaria de consultar as opções e os horários do Roi Méditerranée.")} target="_blank" rel="noopener noreferrer">PLANEJAR MINHA VISITA <ArrowRight size={17} /></a></div></section>
+   <section className="roi-section menu-section" id="menu"><div className="roi-container">
+    <div className="section-heading reveal"><p className="roi-eyebrow"><span /> MENU & EXPERIÊNCIA</p><h2>Descubra o que<br /><em>desperta seus sentidos.</em></h2><p>Uma seleção de referências da cozinha mediterrânea. Consulte a equipe para conhecer o menu atual, os ingredientes, a disponibilidade e os valores.</p></div>
+    <div className="menu-cards">
+     <article className="menu-card reveal"><div className="menu-card-image"><img src={images.seafood} alt="Prato de peixe, imagem ilustrativa" loading="lazy" decoding="async" width="800" height="600" /><span>01</span></div><div className="menu-card-copy"><p className="menu-kicker">DO MAR</p><h3>Peixes & frutos do mar</h3><p>Preparações inspiradas no litoral mediterrâneo, com atenção ao frescor e à delicadeza dos sabores.</p><a href={wa("Olá! Gostaria de consultar as opções de peixes e frutos do mar do menu atual.")} target="_blank" rel="noopener noreferrer">CONSULTAR OPÇÕES <ArrowRight size={15} /></a></div></article>
+     <article className="menu-card reveal"><div className="menu-card-image"><img src={images.pasta} alt="Massa preparada com ingredientes frescos, imagem ilustrativa" loading="lazy" decoding="async" width="800" height="600" /><span>02</span></div><div className="menu-card-copy"><p className="menu-kicker">DA TRADIÇÃO</p><h3>Massas & clássicos</h3><p>Receitas reconfortantes e combinações que celebram a simplicidade dos bons ingredientes.</p><a href={wa("Olá! Gostaria de consultar as opções de massas e pratos clássicos do menu atual.")} target="_blank" rel="noopener noreferrer">CONSULTAR OPÇÕES <ArrowRight size={15} /></a></div></article>
+     <article className="menu-card reveal"><div className="menu-card-image"><img src={images.dessert} alt="Sobremesa delicada, imagem ilustrativa" loading="lazy" decoding="async" width="800" height="600" /><span>03</span></div><div className="menu-card-copy"><p className="menu-kicker">PARA FINALIZAR</p><h3>Sobremesas & doces</h3><p>Um encerramento especial para prolongar a experiência e tornar a ocasião ainda mais marcante.</p><a href={wa("Olá! Gostaria de consultar as sobremesas disponíveis no Roi Méditerranée.")} target="_blank" rel="noopener noreferrer">CONSULTAR OPÇÕES <ArrowRight size={15} /></a></div></article>
+    </div>
+    <div className="menu-note reveal"><Sparkles size={18} /><p><strong>Menu, preços e disponibilidade</strong><br />As imagens são referências ilustrativas e não representam necessariamente os pratos servidos. Consulte a equipe para confirmar o menu e os valores atuais.</p><a className="roi-button roi-button-dark" href={wa("Olá! Poderiam me enviar o menu atual e os valores, por favor?")} target="_blank" rel="noopener noreferrer">PEDIR MENU PELO WHATSAPP <ArrowRight size={16} /></a></div>
+   </div></section>
+   <section className="gallery-section" id="galeria"><div className="roi-container"><div className="section-heading gallery-heading reveal"><p className="roi-eyebrow"><span /> UM OLHAR SOBRE A EXPERIÊNCIA</p><h2>Detalhes que contam<br /><em>uma história.</em></h2><p>Ambiente, ingredientes e momentos à mesa em uma galeria de inspiração visual.</p></div>
+    <div className="roi-gallery">{gallery.map((item, index) => <button className={`roi-gallery-item gallery-${index} reveal`} key={item.title} onClick={() => setSelected(index)} aria-label={`Ampliar imagem: ${item.title}`}><img src={item.src} alt={item.title + " — fotografia ilustrativa"} loading="lazy" decoding="async" width="900" height="900" /><span>{item.title}<ArrowRight size={17} /></span></button>)}</div><p className="gallery-disclaimer">Fotografias ilustrativas de referência; consulte os canais oficiais para informações sobre o ambiente e os pratos atuais.</p>
+   </div></section>
+   <section className="reservation-band"><div className="roi-container reservation-inner reveal"><div><p className="roi-eyebrow"><span /> SUA PRÓXIMA EXPERIÊNCIA</p><h2>A mesa está à sua espera.</h2><p>Fale com nossa equipe para consultar o menu, tirar dúvidas ou verificar a melhor forma de planejar sua visita.</p></div><a className="roi-button roi-button-gold" href={wa("Olá! Gostaria de verificar a disponibilidade e as informações para visitar o Roi Méditerranée.")} target="_blank" rel="noopener noreferrer"><CalendarDays size={18} /> CONSULTAR PELO WHATSAPP <ArrowRight size={17} /></a></div></section>
+   <section className="roi-section location-section" id="localizacao"><div className="roi-container location-layout"><div className="location-copy reveal"><p className="roi-eyebrow"><span /> VISITE O ROI</p><h2>No coração de<br /><em>Cerqueira César.</em></h2><p>Estamos na Rua Haddock Lobo, em uma das regiões mais conhecidas de São Paulo. Consulte a localização no mapa e fale com a equipe antes da visita, se precisar de informações adicionais.</p>
+    <div className="location-detail"><MapPin /><div><strong>ENDEREÇO</strong><p>{business.address}</p></div></div><div className="location-detail"><Clock3 /><div><strong>HORÁRIO INFORMADO</strong><p>{business.hours}</p></div></div><div className="location-detail"><MessageCircle /><div><strong>WHATSAPP / TELEFONE</strong><p>{business.phone}</p></div></div>
+    <div className="location-actions"><a className="roi-button roi-button-gold" href={wa()} target="_blank" rel="noopener noreferrer">FALE CONOSCO <ArrowRight size={17} /></a><a className="roi-text-link" href={mapUrl} target="_blank" rel="noopener noreferrer">ABRIR MAPA <ExternalLink size={15} /></a></div>
+   </div><div className="map-frame reveal"><iframe title="Mapa da localização do Roi Méditerranée na Rua Haddock Lobo, 1626, São Paulo" src={mapEmbed} loading="lazy" allowFullScreen referrerPolicy="no-referrer-when-downgrade" /></div></div></section>
+   <section className="final-cta"><div className="final-cta-image" /><div className="roi-container final-cta-content reveal"><p className="roi-eyebrow"><span /> ROI MÉDITERRANÉE</p><h2>Seu próximo momento<br /><em>começa à mesa.</em></h2><p>Entre em contato e descubra os detalhes da sua próxima visita.</p><a className="roi-button roi-button-gold" href={wa("Olá! Gostaria de consultar o menu e fazer um pedido no Roi Méditerranée.")} target="_blank" rel="noopener noreferrer">FAZER PEDIDO AGORA <ArrowRight size={18} /></a></div></section>
   </main>
-  <footer><div className="container footer-grid"><div><a className="footer-brand" href="#inicio"><CakeSlice size={28}/> VISCONDE <small>BOLOS CASEIROS</small></a><p>Qualidade que você merece</p><a className="btn btn-primary" href={wa()} target="_blank" rel="noopener noreferrer">FAZER PEDIDO AGORA <ArrowRight size={17}/></a></div><nav aria-label="Links rápidos">{nav.map(([name,href])=><a key={href} href={href}>{name}</a>)}</nav><div><strong>ENTRE EM CONTATO</strong><p>{business.address}</p><a href={wa()} target="_blank" rel="noopener noreferrer">{business.phone}</a></div></div><div className="container copyright">© {new Date().getFullYear()} Visconde Bolos Caseiros. Todos os direitos reservados.</div></footer>
-  <a className="floating-wa" href={wa()} target="_blank" rel="noopener noreferrer" aria-label="Fazer pedido na Visconde Bolos Caseiros pelo WhatsApp"><MessageCircle size={27}/><span>FAÇA SEU PEDIDO</span></a>
-  {selected!==null&&<div className="lightbox" role="dialog" aria-modal="true" aria-label={`Imagem ampliada: ${gallery[selected].title}`} onClick={()=>setSelected(null)}><button className="lightbox-close" onClick={()=>setSelected(null)} aria-label="Fechar imagem"><X size={24}/></button><button className="lightbox-prev" onClick={e=>{e.stopPropagation();setSelected((selected+gallery.length-1)%gallery.length)}} aria-label="Imagem anterior"><ChevronLeft/></button><img src={gallery[selected].src} alt={gallery[selected].title+" — fotografia editorial ilustrativa ampliada"} onClick={e=>e.stopPropagation()}/><button className="lightbox-next" onClick={e=>{e.stopPropagation();setSelected((selected+1)%gallery.length)}} aria-label="Próxima imagem"><ChevronRight/></button></div>}
+  <footer className="roi-footer" id="contato"><div className="roi-container footer-main">
+   <div className="footer-identity"><a href="#inicio" className="roi-brand"><span className="brand-mark">R<span>·</span>M</span><span className="brand-name">ROI <small>MÉDITERRANÉE</small></span></a><p>Uma experiência de inspiração mediterrânea em São Paulo.</p><a className="roi-button roi-button-gold" href={wa()} target="_blank" rel="noopener noreferrer">FAZER PEDIDO AGORA <ArrowRight size={16} /></a></div>
+   <nav aria-label="Links rápidos"><strong>EXPLORE</strong>{nav.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</nav>
+   <div className="footer-contact"><strong>CONTATO & VISITA</strong><p>{business.address}</p><p>{business.hours}</p><a href={wa()} target="_blank" rel="noopener noreferrer">{business.phone}</a><a href={mapUrl} target="_blank" rel="noopener noreferrer">Ver no Google Maps <ExternalLink size={14} /></a></div>
+  </div><div className="roi-container footer-bottom"><span>© {new Date().getFullYear()} Roi Méditerranée. Todos os direitos reservados.</span><a href="#inicio">VOLTAR AO TOPO ↑</a></div></footer>
+  <a className="roi-floating-wa" href={wa()} target="_blank" rel="noopener noreferrer" aria-label="Falar com o Roi Méditerranée pelo WhatsApp"><MessageCircle size={25} /><span>FALE CONOSCO</span></a>
+  {selected !== null && <div className="roi-lightbox" role="dialog" aria-modal="true" aria-label={`Imagem ampliada: ${gallery[selected].title}`} onClick={() => setSelected(null)}><button className="lightbox-close" onClick={() => setSelected(null)} aria-label="Fechar imagem"><X size={24} /></button><button className="lightbox-prev" onClick={event => { event.stopPropagation(); setSelected((selected + gallery.length - 1) % gallery.length); }} aria-label="Imagem anterior">‹</button><img src={gallery[selected].src} alt={gallery[selected].title + " — fotografia ilustrativa ampliada"} onClick={event => event.stopPropagation()} /><button className="lightbox-next" onClick={event => { event.stopPropagation(); setSelected((selected + 1) % gallery.length); }} aria-label="Próxima imagem">›</button></div>}
  </div>;
 }
