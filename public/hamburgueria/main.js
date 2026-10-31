@@ -156,7 +156,9 @@ function initScroll(){
  }
  if(window.Lenis){try{const lenis=new Lenis({duration:1.25,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),smoothWheel:true,syncTouch:false});function frame(t){lenis.raf(t);requestAnimationFrame(frame)}requestAnimationFrame(frame);window.__lenis=lenis}catch(e){}}
  const hero=$(".hero-photo");let ticking=false;
- function scrollMotion(){if(ticking)return;ticking=true;requestAnimationFrame(function(){const y=window.scrollY||0;if(hero&&y<window.innerHeight*1.3)hero.style.transform="translate3d(0,"+(y*.14)+"px,0) scale(1.06)";const n=document.documentElement;$(".nav").classList.toggle("scrolled",y>40);$(".progress").style.transform="scaleX("+(n.scrollHeight-innerHeight>0?Math.min(1,y/(n.scrollHeight-innerHeight)):0)+")";ticking=false})}
+ function scrollMotion(){if(ticking)return;ticking=true;requestAnimationFrame(function(){const y=window.scrollY||0;const vh=window.innerHeight||800;if(hero&&y<vh*1.3)hero.style.transform="translate3d(0,"+(y*.18)+"px,0) scale(1.08)";const n=document.documentElement;$(".nav").classList.toggle("scrolled",y>40);$(".progress").style.transform="scaleX("+(n.scrollHeight-innerHeight>0?Math.min(1,y/(n.scrollHeight-innerHeight)):0)+")";
+ if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches){$(".reveal.visible").forEach(function(el,i){const r=el.getBoundingClientRect();const center=r.top+r.height*.5;const delta=Math.max(-1,Math.min(1,(center-vh*.5)/(vh*.72)));const tilt=(-delta*4.5).toFixed(2);const depth=(1-Math.abs(delta))*14;const drift=(delta* -8).toFixed(2);el.style.setProperty("--scroll-tilt",tilt+"deg");el.style.setProperty("--scroll-depth",depth.toFixed(2)+"px");el.style.setProperty("--scroll-drift",drift+"px");});}
+ ticking=false})}
  window.addEventListener("scroll",scrollMotion,{passive:true});scrollMotion();
 }
 document.addEventListener("DOMContentLoaded",function(){setupConfig();renderMenu("Burgers");renderTestimonial(0);renderClientAvatars();initScroll();initContactForm();initFulfillment();startReviewCarousel();renderCart();updateStatus();setInterval(updateStatus,60000);
