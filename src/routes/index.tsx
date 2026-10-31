@@ -1,35 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { ArrowUpRight, Clock3, MapPin, Menu, MessageCircle, ShieldCheck, Sparkles, X } from "lucide-react";
-import "../styles.css";
 
-const address = "Estr. Morro Grande, 2510 - Parque Mirante da Mata, Cotia - SP, 06719-500, Brasil";
-const wa = "https://wa.me/5511914847137?text=" + encodeURIComponent("Olá! Conheci o Tubarão Lava Rápido pelo site e gostaria de solicitar um orçamento.");
-const directions = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(address);
-const map = "https://www.google.com/maps?q=" + encodeURIComponent(address) + "&z=16&output=embed";
-const photo = (id:string,w=1400) => "https://images.unsplash.com/"+id+"?auto=format&fit=crop&w="+w+"&q=85";
 export const Route = createFileRoute("/")({
- head: () => ({ meta: [
- {title:"Tubarão Lava Rápido & Estética Automotiva | Cotia SP"},
- {name:"description",content:"Tubarão Lava Rápido & Estética Automotiva na Estrada Morro Grande, 2510, Parque Mirante da Mata, Cotia. Solicite orçamento pelo WhatsApp. Seg a sáb, 9h às 19h."},
- {name:"theme-color",content:"#0F0F10"},
- {property:"og:title",content:"Tubarão Lava Rápido | Limpeza rápida, resultado impecável"},
- {property:"og:description",content:"Conheça o Tubarão Lava Rápido & Estética Automotiva em Cotia. Solicite seu orçamento pelo WhatsApp."}
- ], scripts:[{type:"application/ld+json",children:JSON.stringify({"@context":"https://schema.org","@type":"AutoWash",name:"Tubarão lava rápido & estática automotiva",telephone:"+5511914847137",address:{"@type":"PostalAddress",streetAddress:"Estr. Morro Grande, 2510 - Parque Mirante da Mata",addressLocality:"Cotia",addressRegion:"SP",postalCode:"06719-500",addressCountry:"BR"},openingHoursSpecification:[{"@type":"OpeningHoursSpecification",dayOfWeek:["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],opens:"09:00",closes:"19:00"}]})}] }),
- component: Home
+  head: () => ({
+    meta: [
+      { title: "Ultra 2 — Built beyond ordinary | Concept" },
+      { name: "description", content: "An editorial, scroll-driven concept for a rugged titanium smartwatch." },
+      { name: "theme-color", content: "#050506" },
+    ],
+  }),
+  component: AppleWatchHome,
 });
-function Home(){
- const [menu,setMenu]=useState(false);
- return <div className="tubarao">
-  <header className="topbar"><div className="wrap nav-inner"><a className="logo" href="#inicio" onClick={()=>setMenu(false)}><span className="logo-mark">T<span>✦</span></span><span>TUBARÃO<small>LAVA RÁPIDO <b>&</b> ESTÉTICA AUTOMOTIVA</small></span></a><nav className={menu?"navlinks active":"navlinks"} aria-label="Navegação principal"><a onClick={()=>setMenu(false)} href="#inicio">Início</a><a onClick={()=>setMenu(false)} href="#sobre">Sobre</a><a onClick={()=>setMenu(false)} href="#localizacao">Localização</a><a onClick={()=>setMenu(false)} className="nav-cta" href={wa} target="_blank" rel="noopener noreferrer">SOLICITAR ORÇAMENTO <ArrowUpRight size={17}/></a></nav><button className="menu-button" aria-label={menu?"Fechar menu":"Abrir menu"} aria-expanded={menu} onClick={()=>setMenu(!menu)}>{menu?<X/>:<Menu/>}</button></div></header>
-  <main>
-   <section className="hero" id="inicio"><div className="hero-image" role="img" aria-label="Fotografia ilustrativa de automóvel com acabamento brilhante"/><div className="hero-shade"/><div className="wrap hero-inner"><div className="hero-copy"><p className="overline"><span className="line"/> TUBARÃO · COTIA / SP</p><h1>Limpeza rápida,<br/><em>resultado impecável</em></h1><p className="lead">Seu carro merece uma apresentação à altura. Conheça o Tubarão Lava Rápido & Estética Automotiva e solicite seu orçamento com praticidade.</p><div className="hero-actions"><a className="btn btn-gold" href={wa} target="_blank" rel="noopener noreferrer">SOLICITAR ORÇAMENTO <ArrowUpRight size={20}/></a><a className="btn btn-outline" href="#sobre">CONHEÇA O TUBARÃO <ArrowUpRight size={19}/></a></div><div className="hero-meta"><span><MapPin size={17}/> PARQUE MIRANTE DA MATA · COTIA</span><span><Clock3 size={17}/> SEG A SÁB · 9H ÀS 19H</span></div></div></div><span className="hero-vertical" aria-hidden="true">DETALHES QUE FAZEM A DIFERENÇA — 01/03</span></section>
-   <div className="trust"><div className="wrap trust-inner"><span><Sparkles size={22}/> APRESENTAÇÃO QUE VALORIZA</span><span><ShieldCheck size={22}/> ATENDIMENTO DIRETO</span><span><MessageCircle size={22}/> ORÇAMENTO PELO WHATSAPP</span></div></div>
-   <section className="about section" id="sobre"><div className="wrap about-grid"><div className="about-media"><img src={photo("photo-1600585154340-be6161a56a0c",1200)} alt="Imagem ilustrativa de ambiente com acabamento sofisticado" loading="lazy" width="1200" height="1400"/><div className="media-frame"/><div className="media-caption">CUIDADO EM CADA DETALHE <span>✦</span></div></div><div className="about-copy"><p className="overline dark"><span className="line"/> SOBRE O TUBARÃO</p><h2>Mais que limpeza.<br/><em>Uma nova impressão.</em></h2><p>Na Estrada Morro Grande, em Cotia, o Tubarão Lava Rápido & Estética Automotiva é uma opção para quem busca cuidar da apresentação do veículo sem complicação.</p><p>Sabemos que seu carro faz parte da sua rotina. Por isso, queremos tornar simples o primeiro passo: conhecer nosso endereço, consultar informações e falar diretamente com a equipe.</p><p>Está na região do Parque Mirante da Mata? Entre em contato para conhecer as opções de atendimento e solicitar um orçamento adequado ao que você procura.</p><a className="text-cta" href={wa} target="_blank" rel="noopener noreferrer">CONVERSE COM A EQUIPE <ArrowUpRight size={20}/></a></div></div></section>
-   <section className="statement"><div className="wrap statement-inner"><p className="overline"><span className="line"/> O SEU CARRO EM DESTAQUE</p><h2>Uma boa impressão<br/>começa <em>nos detalhes.</em></h2><p>Consulte a equipe e descubra como cuidar da apresentação do seu veículo.</p><a className="btn btn-gold" href={wa} target="_blank" rel="noopener noreferrer">SOLICITAR ORÇAMENTO <ArrowUpRight size={20}/></a></div></section>
-   <section className="location section" id="localizacao"><div className="wrap location-grid"><div className="location-copy"><p className="overline dark"><span className="line"/> ONDE ESTAMOS</p><h2>Seu próximo cuidado<br/><em>começa aqui.</em></h2><p>Estamos na Estrada Morro Grande, em Cotia. Encontre o endereço e fale com nossa equipe antes de visitar.</p><div className="detail"><MapPin/><div><strong>ENDEREÇO</strong><p>{address}</p></div></div><div className="detail"><Clock3/><div><strong>HORÁRIO DE FUNCIONAMENTO</strong><p>Segunda a sábado, das 9h às 19h</p></div></div><div className="detail"><MessageCircle/><div><strong>CONTATO / WHATSAPP</strong><p>(11) 91484-7137</p></div></div><div className="location-actions"><a className="btn btn-dark" href={wa} target="_blank" rel="noopener noreferrer">SOLICITAR ORÇAMENTO <ArrowUpRight size={18}/></a><a className="text-cta" href={directions} target="_blank" rel="noopener noreferrer">VER ROTA <ArrowUpRight size={18}/></a></div></div><div className="map-shell"><div className="map-label"><MapPin size={16}/> TUBARÃO · COTIA / SP</div><iframe title="Mapa do Tubarão Lava Rápido em Cotia" src={map} loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen/></div></div></section>
-  </main>
-  <footer className="footer"><div className="wrap footer-grid"><div><a className="logo" href="#inicio"><span className="logo-mark">T<span>✦</span></span><span>TUBARÃO<small>LAVA RÁPIDO <b>&</b> ESTÉTICA AUTOMOTIVA</small></span></a><h2>Limpeza rápida,<br/><em>resultado impecável</em></h2><a className="btn btn-gold" href={wa} target="_blank" rel="noopener noreferrer">SOLICITAR ORÇAMENTO <ArrowUpRight size={18}/></a></div><div><strong>EXPLORE</strong><a href="#inicio">Início</a><a href="#sobre">Sobre</a><a href="#localizacao">Localização</a></div><div><strong>CONTATO</strong><p>{address}</p><p>Seg a sáb · 9h às 19h</p><a href={wa} target="_blank" rel="noopener noreferrer">(11) 91484-7137 <ArrowUpRight size={15}/></a></div></div><div className="wrap foot-bottom"><span>© {new Date().getFullYear()} Tubarão Lava Rápido & Estética Automotiva.</span><span>Limpeza rápida, resultado impecável</span></div></footer>
-  <a className="floating" href={wa} target="_blank" rel="noopener noreferrer" aria-label="Solicitar orçamento pelo WhatsApp"><MessageCircle size={27}/><span>FALE CONOSCO</span></a>
- </div>
+
+function AppleWatchHome() {
+  return (
+    <main style={{ width: "100%", minHeight: "100vh", margin: 0, padding: 0, background: "#050506" }}>
+      <iframe
+        title="Ultra 2 — Apple Watch concept landing page"
+        src="/apple-watch-ultra2/index.html"
+        style={{ display: "block", width: "100%", height: "100vh", minHeight: "100vh", border: 0, background: "#050506" }}
+        allow="fullscreen"
+      />
+    </main>
+  );
 }
