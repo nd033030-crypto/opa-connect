@@ -10,33 +10,63 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppleWatchUltra2RouteImport } from './routes/apple-watch-ultra2'
+import { Route as PiscinasRouteImport } from './routes/piscinas'
+import { Route as TubaraoRouteImport } from './routes/tubarao'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppleWatchUltra2Route = AppleWatchUltra2RouteImport.update({
+  id: '/apple-watch-ultra2',
+  path: '/apple-watch-ultra2',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PiscinasRoute = PiscinasRouteImport.update({
+  id: '/piscinas',
+  path: '/piscinas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TubaraoRoute = TubaraoRouteImport.update({
+  id: '/tubarao',
+  path: '/tubarao',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/apple-watch-ultra2': typeof AppleWatchUltra2Route
+  '/piscinas': typeof PiscinasRoute
+  '/tubarao': typeof TubaraoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/apple-watch-ultra2': typeof AppleWatchUltra2Route
+  '/piscinas': typeof PiscinasRoute
+  '/tubarao': typeof TubaraoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/apple-watch-ultra2': typeof AppleWatchUltra2Route
+  '/piscinas': typeof PiscinasRoute
+  '/tubarao': typeof TubaraoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/apple-watch-ultra2' | '/piscinas' | '/tubarao'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/apple-watch-ultra2' | '/piscinas' | '/tubarao'
+  id: '__root__' | '/' | '/apple-watch-ultra2' | '/piscinas' | '/tubarao'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AppleWatchUltra2Route: typeof AppleWatchUltra2Route
+  PiscinasRoute: typeof PiscinasRoute
+  TubaraoRoute: typeof TubaraoRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +78,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/apple-watch-ultra2': {
+      id: '/apple-watch-ultra2'
+      path: '/apple-watch-ultra2'
+      fullPath: '/apple-watch-ultra2'
+      preLoaderRoute: typeof AppleWatchUltra2RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/piscinas': {
+      id: '/piscinas'
+      path: '/piscinas'
+      fullPath: '/piscinas'
+      preLoaderRoute: typeof PiscinasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tubarao': {
+      id: '/tubarao'
+      path: '/tubarao'
+      fullPath: '/tubarao'
+      preLoaderRoute: typeof TubaraoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AppleWatchUltra2Route: AppleWatchUltra2Route,
+  PiscinasRoute: PiscinasRoute,
+  TubaraoRoute: TubaraoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
