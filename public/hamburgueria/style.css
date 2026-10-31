@@ -164,3 +164,6 @@ body{perspective:1200px;perspective-origin:50% 45%}
 #menu-items .product .add{position:relative;z-index:3;cursor:pointer;pointer-events:auto}
 #customize-backdrop:not([hidden]){display:flex!important;visibility:visible!important;opacity:1!important;z-index:10020!important}
 .hero-photo img{display:block!important;visibility:visible!important;opacity:1!important}
+
+/* Preserve the scroll-linked 3D tilt after the entrance animation */
+.js-ready #menu-items .product.reveal.visible{opacity:1;transform:perspective(900px) translate3d(var(--scroll-drift,0px),0,var(--scroll-depth,0px)) rotateX(var(--scroll-tilt,0deg)) scale(1)}
