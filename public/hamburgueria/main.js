@@ -40,6 +40,96 @@ function showToast(message,type="info",duration=3600){
  const timer=setTimeout(remove,Math.max(1800,Number(duration)||3600));
  toast.querySelector(".toast-close").addEventListener("click",()=>{clearTimeout(timer);remove()});
 }
+
+let activeReview=0,reviewTimer=null,confirmAction=null,confirmPreviousFocus=null;
+function renderTestimonial(index){
+ const host=$("#testimonials");if(!host)return;
+ activeReview=(index+REVIEWS.length)%REVIEWS.length;
+ const r=REVIEWS[activeReview];
+ host.innerHTML='<article class="testimonial testimonial-active" aria-live="polite"><div class="person"><span class="initials">'+esc(r[0])+'</span><div><h3>'+esc(r[1])+'</h3><small>'+esc(r[2])+'</small></div></div><p class="stars" aria-label="5 de 5 estrelas">★★★★★</p><blockquote>'+esc(r[3])+'</blockquote><small>'+esc(r[4])+'</small><p class="verified">✓ Depoimento demonstrativo</p></article><div class="review-dots" aria-label="Escolher depoimento">'+REVIEWS.map((_,i)=>'<button type="button" class="review-dot '+(i===activeReview?'active':'')+'" data-review-index="'+i+'" aria-label="Mostrar depoimento '+(i+1)+'" aria-pressed="'+(i===activeReview)+'"></button>').join("")+'</div>';
+}
+function renderClientAvatars(){
+ const host=$("#client-avatars");if(!host)return;
+ const shown=REVIEWS.slice(0,4),remaining=Math.max(0,REVIEWS.length-shown.length);
+ host.innerHTML=shown.map((r,i)=>'<span class="client-avatar" title="'+esc(r[1])+'" style="--avatar-index:'+i+'">'+esc(r[0])+'</span>').join("")+(remaining?'<span class="client-avatar client-more" aria-label="'+remaining+' clientes a mais">+'+remaining+'</span>':"");
+}
+function startReviewCarousel(){
+ if(reviewTimer)clearInterval(reviewTimer);
+ if(REVIEWS.length>1)reviewTimer=setInterval(()=>renderTestimonial(activeReview+1),4000);
+ const host=$("#testimonials");if(!host)return;
+ host.addEventListener("mouseenter",()=>{if(reviewTimer){clearInterval(reviewTimer);reviewTimer=null}});
+ host.addEventListener("mouseleave",()=>{if(!reviewTimer)reviewTimer=setInterval(()=>renderTestimonial(activeReview+1),4000)});
+ host.addEventListener("focusin",()=>{if(reviewTimer){clearInterval(reviewTimer);reviewTimer=null}});
+ host.addEventListener("focusout",()=>{if(!reviewTimer)reviewTimer=setInterval(()=>renderTestimonial(activeReview+1),4000)});
+ host.addEventListener("click",e=>{const b=e.target.closest("[data-review-index]");if(b)renderTestimonial(Number(b.dataset.reviewIndex))});
+}
+function openConfirm({title="Confirmar ação",description="Tem certeza de que deseja continuar?",confirmText="Confirmar",onConfirm}={}){
+ const back=$("#confirm-backdrop");if(!back)return;
+ confirmAction=typeof onConfirm==="function"?onConfirm:null;confirmPreviousFocus=document.activeElement;
+ $("#confirm-title").textContent=title;$("#confirm-description").textContent=description;$(".confirm-accept").textContent=confirmText;
+ back.hidden=false;document.body.classList.add("lock");$(".confirm-cancel").focus();
+}
+function closeConfirm(){
+ const back=$("#confirm-backdrop");if(!back)return;
+ back.hidden=true;confirmAction=null;document.body.classList.remove("lock");
+ if(confirmPreviousFocus&&typeof confirmPreviousFocus.focus==="function")confirmPreviousFocus.focus();
+}
+function fieldError(input,message){
+ const error=$("#err-"+input.name);input.classList.toggle("invalid",!!message);input.setAttribute("aria-invalid",String(!!message));
+ if(error)error.textContent=message||"";
+ return !message;
+}
+function validateContactField(input){
+ const value=input.value.trim();let error="";
+ if(input.name==="contact-name"&&(value.length<2||!/^[\p{L}][\p{L}\p{M} .'-]{1,79}$/u.test(value)))error="Digite um nome válido (mínimo de 2 letras).";
+ if(input.name==="contact-email"&&!/^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/.test(value))error="Digite um e-mail válido, como nome@email.com.";
+ if(input.name==="contact-phone"){const digits=value.replace(/\D/g,"");if(digits.length<10||digits.length>13)error="Digite um telefone com DDD e número válido.";}
+ if(input.name==="contact-message"&&(value.length<10||value.length>1000))error="A mensagem deve ter entre 10 e 1.000 caracteres.";
+ return fieldError(input,error);
+}
+function initContactForm(){
+ const form=$("#contact-form");if(!form)return;
+ const fields=Array.from(form.querySelectorAll("input,textarea"));
+ fields.forEach(input=>{input.addEventListener("input",()=>{if(input.dataset.touched==="1"||input.value.trim())validateContactField(input);});input.addEventListener("blur",()=>{input.dataset.touched="1";validateContactField(input)})});
+ form.addEventListener("submit",e=>{
+  e.preventDefault();let valid=true;
+  fields.forEach(input=>{input.dataset.touched="1";if(!validateContactField(input))valid=false});
+  if(!valid){$("#contact-feedback").textContent="Revise os campos destacados antes de continuar.";showToast("Há campos inválidos no formulário de contato.","warning");const first=form.querySelector(".invalid");if(first)first.focus();return}
+  const d=new FormData(form),msg="Olá, "+CONFIG.name+"! Vim pelo site.\n\nNome: "+d.get("contact-name")+"\nE-mail: "+d.get("contact-email")+"\nTelefone: "+d.get("contact-phone")+"\nMensagem: "+d.get("contact-message");
+  const opened=window.open(wa(msg),"_blank","noopener,noreferrer");
+  if(opened){$("#contact-feedback").textContent="Mensagem preparada. Conclua o envio pelo WhatsApp.";showToast("Formulário validado! Continue pelo WhatsApp.","success")}
+  else{$("#contact-feedback").textContent="O navegador bloqueou a abertura. Permita pop-ups e tente novamente.";showToast("Não foi possível abrir o WhatsApp. Permita pop-ups.","error")}
+ });
+}
+function initFulfillment(){
+ const form=$(".checkout");if(!form)return;
+ form.querySelectorAll('input[name="fulfillment"]').forEach(input=>input.addEventListener("change",()=>{
+  updateFulfillment();renderCart();
+  showToast(input.value==="pickup"?"Retirada selecionada: sem taxa de entrega.":"Entrega rápida selecionada.", "info",2600);
+ }));
+ form.querySelector('[name="customer"]').addEventListener("input",e=>validateCheckoutField(e.target));
+ form.querySelector('[name="address"]').addEventListener("input",e=>{if(e.target.value.trim())validateCheckoutField(e.target)});
+ form.querySelector('[name="customer"]').addEventListener("blur",e=>validateCheckoutField(e.target));
+ form.querySelector('[name="address"]').addEventListener("blur",e=>{if(isDelivery())validateCheckoutField(e.target)});
+ updateFulfillment();
+}
+function isDelivery(){const selected=$('.checkout input[name="fulfillment"]:checked');return !selected||selected.value==="delivery"}
+function updateFulfillment(){
+ const address=$('.checkout [name="address"]'),label=$(".address-field"),delivery=isDelivery();
+ if(address){address.required=delivery;address.disabled=!delivery;if(!delivery){address.value="";fieldError(address,"")}}
+ if(label)label.hidden=!delivery;
+ const fee=delivery?(Number(CONFIG.deliveryFee)||0):0;
+ const el=$("[data-delivery-fee]");if(el)el.textContent=cash(fee);
+ const mins=$("[data-delivery-minutes]");if(mins)mins.textContent=CONFIG.deliveryMinutes;
+ const feeRow=$("[data-cart-fee]");if(feeRow&&cart.length)feeRow.textContent=cash(fee);
+ const feedback=$("#cart-feedback");if(feedback)feedback.textContent=delivery?"Entrega rápida: taxa aplicada ao pedido.":"Retirada no local: sem taxa de entrega.";
+}
+function validateCheckoutField(input){
+ const value=input.value.trim();let error="";
+ if(input.name==="customer"&&(value.length<2||!/^[\p{L}][\p{L}\p{M} .'-]{1,79}$/u.test(value)))error="Informe seu nome completo (mínimo de 2 letras).";
+ if(input.name==="address"&&isDelivery()&&value.length<5)error="Informe rua, número e bairro para a entrega.";
+ fieldError(input,error);return !error;
+}
 function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function setupConfig(){
  $$("[data-name]").forEach(e=>e.textContent=CONFIG.name);$$("[data-minutes]").forEach(e=>e.textContent=CONFIG.deliveryMinutes);$$("[data-address]").forEach(e=>e.textContent=CONFIG.address+", "+CONFIG.city);$$("[data-phone]").forEach(e=>e.textContent=CONFIG.whatsapp);$$("[data-area]").forEach(e=>e.textContent=CONFIG.deliveryArea);$$("[data-fee]").forEach(e=>e.textContent=cash(CONFIG.deliveryFee));$$("[data-year]").forEach(e=>e.textContent=CONFIG.foundedYear);$$("[data-current-year]").forEach(e=>e.textContent=new Date().getFullYear());
@@ -52,10 +142,10 @@ function renderMenu(category){const root=$("#menu-items"),items=MENU.filter(p=>p
 function saveCart(){try{localStorage.setItem("burger-cart",JSON.stringify(cart))}catch(e){}}
 function addProduct(id,addons){const p=MENU.find(x=>x.id===id);if(!p){showToast("Não foi possível adicionar esse item. Tente novamente.","error");return;}const key=id+"|"+addons.map(a=>a.name).sort().join("|"),same=cart.find(x=>x.key===key);if(same)same.qty++;else cart.push({key:key,id:id,name:p.name,price:p.price,addons:addons,qty:1});saveCart();renderCart();openCart();showToast(p.name+" adicionado ao carrinho.","success")}
 function lineTotal(x){return (x.price+x.addons.reduce((s,a)=>s+a.price,0))*x.qty}
-function renderCart(){const root=$(".cart-items");root.innerHTML=cart.map(function(x){return '<div class="cart-line"><div><h3>'+esc(x.name)+'</h3><small>'+(x.addons.length?x.addons.map(a=>esc(a.name)).join(", "):"Sem adicionais")+'</small><small>'+cash(lineTotal(x))+'</small><button class="remove" data-remove="'+esc(x.key)+'">Remover</button></div><div class="qty"><button data-qty="'+esc(x.key)+'" data-delta="-1" aria-label="Diminuir">−</button><b>'+x.qty+'</b><button data-qty="'+esc(x.key)+'" data-delta="1" aria-label="Aumentar">+</button></div></div>'}).join("");const count=cart.reduce((s,x)=>s+x.qty,0),sub=cart.reduce((s,x)=>s+lineTotal(x),0),fee=count?Number(CONFIG.deliveryFee)||0:0,total=sub+fee;$(".count").textContent=count;$("[data-subtotal]").textContent=cash(sub);$("[data-cart-fee]").textContent=cash(fee);$("[data-total]").textContent=cash(total);$(".empty").hidden=count>0;$(".checkout").hidden=count===0;$(".checkout-btn").disabled=count===0;const bar=$(".mobile-cart");bar.hidden=count===0;bar.querySelector("b").textContent=cash(total)}
+function renderCart(){const root=$(".cart-items");root.innerHTML=cart.map(function(x){return '<div class="cart-line"><div><h3>'+esc(x.name)+'</h3><small>'+(x.addons.length?x.addons.map(a=>esc(a.name)).join(", "):"Sem adicionais")+'</small><small>'+cash(lineTotal(x))+'</small><button class="remove" data-remove="'+esc(x.key)+'">Remover</button></div><div class="qty"><button data-qty="'+esc(x.key)+'" data-delta="-1" aria-label="Diminuir">−</button><b>'+x.qty+'</b><button data-qty="'+esc(x.key)+'" data-delta="1" aria-label="Aumentar">+</button></div></div>'}).join("");const count=cart.reduce((s,x)=>s+x.qty,0),sub=cart.reduce((s,x)=>s+lineTotal(x),0),fee=count&&isDelivery()?(Number(CONFIG.deliveryFee)||0):0,total=sub+fee;$(".count").textContent=count;$("[data-subtotal]").textContent=cash(sub);$("[data-cart-fee]").textContent=cash(fee);$("[data-total]").textContent=cash(total);$(".empty").hidden=count>0;$(".checkout").hidden=count===0;$(".checkout-btn").disabled=count===0;updateFulfillment();const bar=$(".mobile-cart");bar.hidden=count===0;bar.querySelector("b").textContent=cash(total)}
 function openCart(){$(".drawer").classList.add("open");$(".drawer").setAttribute("aria-hidden","false");$(".overlay").hidden=false;document.body.classList.add("lock");$(".close").focus()}
 function closeCart(){$(".drawer").classList.remove("open");$(".drawer").setAttribute("aria-hidden","true");$(".overlay").hidden=true;document.body.classList.remove("lock")}
-function checkout(){if(!cart.length){showToast("Adicione pelo menos um hambúrguer antes de finalizar.","warning");return;}const f=$(".checkout");if(!f.reportValidity()){showToast("Confira os campos obrigatórios para continuar.","warning");return;}const d=new FormData(f),sub=cart.reduce((s,x)=>s+lineTotal(x),0),fee=Number(CONFIG.deliveryFee)||0,lines=cart.map(x=>"• "+x.qty+"x "+x.name+(x.addons.length?" ("+x.addons.map(a=>a.name).join(", ")+")":"")+" — "+cash(lineTotal(x))).join("\n"),msg="Olá, "+CONFIG.name+"! Quero fazer um pedido:\n\n"+lines+"\n\nSubtotal: "+cash(sub)+"\nEntrega: "+cash(fee)+"\nTOTAL: "+cash(sub+fee)+"\n\nNome: "+d.get("customer")+"\nEndereço: "+d.get("address")+"\nPagamento: "+d.get("payment")+"\nObservações: "+(d.get("notes")||"Nenhuma");const orderWindow=window.open(wa(msg),"_blank","noopener,noreferrer");if(orderWindow){showToast("Pedido preparado! Continue o envio pelo WhatsApp.","success",4500)}else{showToast("O navegador bloqueou a abertura do WhatsApp. Permita pop-ups e tente novamente.","error",5000)}}
+function checkout(){if(!cart.length){showToast("Adicione pelo menos um hambúrguer antes de finalizar.","warning");return;}const f=$(".checkout");if(!f.reportValidity()){showToast("Confira os campos obrigatórios para continuar.","warning");return;}const d=new FormData(f);if(!validateCheckoutField(f.elements.customer)||(isDelivery()&&!validateCheckoutField(f.elements.address))){showToast("Corrija os campos destacados no carrinho.","warning");return}const sub=cart.reduce((s,x)=>s+lineTotal(x),0),fee=isDelivery()?(Number(CONFIG.deliveryFee)||0):0,fulfillment=isDelivery()?"Entrega rápida":"Retirada no local",lines=cart.map(x=>"• "+x.qty+"x "+x.name+(x.addons.length?" ("+x.addons.map(a=>a.name).join(", ")+")":"")+" — "+cash(lineTotal(x))).join("\n"),msg="Olá, "+CONFIG.name+"! Quero fazer um pedido:\n\n"+lines+"\n\nModalidade: "+fulfillment+"\nSubtotal: "+cash(sub)+"\nEntrega: "+cash(fee)+"\nTOTAL: "+cash(sub+fee)+"\n\nNome: "+d.get("customer")+"\n"+(isDelivery()?"Endereço: "+d.get("address")+"\n":"")+"Pagamento: "+d.get("payment")+"\nObservações: "+(d.get("notes")||"Nenhuma");const orderWindow=window.open(wa(msg),"_blank","noopener,noreferrer");if(orderWindow){showToast("Pedido preparado! Continue o envio pelo WhatsApp.","success",4500)}else{showToast("O navegador bloqueou a abertura do WhatsApp. Permita pop-ups e tente novamente.","error",5000)}}
 function initScroll(){
  document.documentElement.classList.add("js-ready");
  if("IntersectionObserver" in window){
@@ -69,7 +159,7 @@ function initScroll(){
  function scrollMotion(){if(ticking)return;ticking=true;requestAnimationFrame(function(){const y=window.scrollY||0;if(hero&&y<window.innerHeight*1.3)hero.style.transform="translate3d(0,"+(y*.14)+"px,0) scale(1.06)";const n=document.documentElement;$(".nav").classList.toggle("scrolled",y>40);$(".progress").style.transform="scaleX("+(n.scrollHeight-innerHeight>0?Math.min(1,y/(n.scrollHeight-innerHeight)):0)+")";ticking=false})}
  window.addEventListener("scroll",scrollMotion,{passive:true});scrollMotion();
 }
-document.addEventListener("DOMContentLoaded",function(){setupConfig();renderMenu("Burgers");$("#testimonials").innerHTML=REVIEWS.map(function(r){return '<article class="testimonial reveal"><div class="person"><span class="initials">'+r[0]+'</span><div><h3>'+r[1]+'</h3><small>'+r[2]+'</small></div></div><p class="stars">★★★★★</p><p>'+r[3]+'</p><small>'+r[4]+'</small><p class="verified">✓ Pedido verificado · EXEMPLO</p></article>'}).join("");initScroll();renderCart();updateStatus();setInterval(updateStatus,60000);
- document.addEventListener("click",function(e){const tab=e.target.closest("[data-cat]");if(tab){showToast("Cardápio: "+tab.textContent.trim()+".","info",2200);$(".tab").forEach(function(b){b.classList.toggle("active",b===tab);b.setAttribute("aria-selected",String(b===tab))});renderMenu(tab.dataset.cat);return}const addon=e.target.closest("[data-addon]");if(addon){addon.classList.toggle("selected");addon.setAttribute("aria-pressed",String(addon.classList.contains("selected")));return}const add=e.target.closest("[data-add]");if(add){const card=add.closest(".product"),p=MENU.find(x=>x.id===add.dataset.add),addons=$$(".addon.selected",card).map(b=>p.addons[Number(b.dataset.index)]).filter(Boolean);addProduct(p.id,addons);return}const qty=e.target.closest("[data-qty]");if(qty){const item=cart.find(x=>x.key===qty.dataset.qty);if(item){item.qty+=Number(qty.dataset.delta);if(item.qty<1)cart=cart.filter(x=>x!==item);saveCart();renderCart()}return}const rm=e.target.closest("[data-remove]");if(rm){cart=cart.filter(x=>x.key!==rm.dataset.remove);saveCart();renderCart();return}if(e.target.closest(".cart-open")||e.target.closest(".mobile-cart")){openCart();return}if(e.target.closest(".close")||e.target===$(".overlay")){closeCart();return}if(e.target.closest(".hamb")){const open=$(".links").classList.toggle("open");$(".hamb").setAttribute("aria-expanded",String(open));$(".hamb").setAttribute("aria-label",open?"Fechar menu":"Abrir menu");return}if(e.target.closest(".links a")){$(".links").classList.remove("open");$(".hamb").setAttribute("aria-expanded","false")}const a=e.target.closest('a[href^="#"]');if(a){const target=document.querySelector(a.getAttribute("href"));if(target){e.preventDefault();if(window.__lenis)window.__lenis.scrollTo(target,{offset:-82});else window.scrollTo({top:target.getBoundingClientRect().top+scrollY-82,behavior:reduced?"auto":"smooth"})}}});
- $(".checkout-btn").addEventListener("click",checkout);document.addEventListener("keydown",function(e){if(e.key==="Escape")closeCart()});let busy=false;window.addEventListener("scroll",function(){if(busy)return;busy=true;requestAnimationFrame(function(){const n=document.documentElement;$(".nav").classList.toggle("scrolled",scrollY>40);$(".progress").style.transform="scaleX("+(n.scrollHeight-innerHeight>0?Math.min(1,scrollY/(n.scrollHeight-innerHeight)):0)+")";busy=false})},{passive:true});
+document.addEventListener("DOMContentLoaded",function(){setupConfig();renderMenu("Burgers");renderTestimonial(0);renderClientAvatars();initScroll();initContactForm();initFulfillment();startReviewCarousel();renderCart();updateStatus();setInterval(updateStatus,60000);
+ document.addEventListener("click",function(e){const tab=e.target.closest("[data-cat]");if(tab){showToast("Cardápio: "+tab.textContent.trim()+".","info",2200);$(".tab").forEach(function(b){b.classList.toggle("active",b===tab);b.setAttribute("aria-selected",String(b===tab))});renderMenu(tab.dataset.cat);return}const addon=e.target.closest("[data-addon]");if(addon){addon.classList.toggle("selected");addon.setAttribute("aria-pressed",String(addon.classList.contains("selected")));return}const add=e.target.closest("[data-add]");if(add){const card=add.closest(".product"),p=MENU.find(x=>x.id===add.dataset.add),addons=$$(".addon.selected",card).map(b=>p.addons[Number(b.dataset.index)]).filter(Boolean);addProduct(p.id,addons);return}const qty=e.target.closest("[data-qty]");if(qty){const item=cart.find(x=>x.key===qty.dataset.qty);if(item){item.qty+=Number(qty.dataset.delta);if(item.qty<1){openConfirm({title:"Remover produto?",description:"A quantidade chegou a zero. Deseja remover "+item.name+" do carrinho?",confirmText:"Remover produto",onConfirm:()=>{cart=cart.filter(x=>x!==item);saveCart();renderCart();showToast("Produto removido do carrinho.","success")}});item.qty=1}else{saveCart();renderCart();showToast("Quantidade atualizada.","success",1800)}}return}const rm=e.target.closest("[data-remove]");if(rm){const item=cart.find(x=>x.key===rm.dataset.remove);if(item)openConfirm({title:"Remover produto?",description:"Deseja remover "+item.name+" do seu carrinho? Essa ação não pode ser desfeita.",confirmText:"Sim, remover",onConfirm:()=>{cart=cart.filter(x=>x!==item);saveCart();renderCart();showToast("Produto removido do carrinho.","success")}});return}if(e.target.closest(".cart-open")||e.target.closest(".mobile-cart")){openCart();return}if(e.target.closest(".close")||e.target===$(".overlay")){closeCart();return}if(e.target.closest(".hamb")){const open=$(".links").classList.toggle("open");$(".hamb").setAttribute("aria-expanded",String(open));$(".hamb").setAttribute("aria-label",open?"Fechar menu":"Abrir menu");return}if(e.target.closest(".links a")){$(".links").classList.remove("open");$(".hamb").setAttribute("aria-expanded","false")}const a=e.target.closest('a[href^="#"]');if(a){const target=document.querySelector(a.getAttribute("href"));if(target){e.preventDefault();if(window.__lenis)window.__lenis.scrollTo(target,{offset:-82});else window.scrollTo({top:target.getBoundingClientRect().top+scrollY-82,behavior:reduced?"auto":"smooth"})}}});
+ $(".checkout-btn").addEventListener("click",checkout);$(".confirm-cancel").addEventListener("click",closeConfirm);$(".confirm-x").addEventListener("click",closeConfirm);$("#confirm-backdrop").addEventListener("click",e=>{if(e.target===$("#confirm-backdrop"))closeConfirm()});$(".confirm-accept").addEventListener("click",()=>{const action=confirmAction;closeConfirm();if(action)action()});document.addEventListener("keydown",function(e){if(e.key==="Escape"){if(!$("#confirm-backdrop").hidden)closeConfirm();else closeCart()}});let busy=false;window.addEventListener("scroll",function(){if(busy)return;busy=true;requestAnimationFrame(function(){const n=document.documentElement;$(".nav").classList.toggle("scrolled",scrollY>40);$(".progress").style.transform="scaleX("+(n.scrollHeight-innerHeight>0?Math.min(1,scrollY/(n.scrollHeight-innerHeight)):0)+")";busy=false})},{passive:true});
 });
