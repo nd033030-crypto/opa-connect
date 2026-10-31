@@ -126,3 +126,10 @@ body{perspective:1200px;perspective-origin:50% 45%}
 @keyframes loaderProgress{0%{transform:translateX(-120%)}100%{transform:translateX(350%)}}
 @keyframes loaderDots{0%{width:0}100%{width:18px}}
 @media(prefers-reduced-motion:reduce){.loader-mark,.loader-track span,.loader-dots{animation:none}}
+
+/* Readable, premium loader typography and spacing */
+.site-loader{padding:clamp(24px,6vw,56px);gap:0;box-sizing:border-box}
+.site-loader .loader-kicker{max-width:100%;font-size:clamp(9px,2.2vw,11px);line-height:1.6;letter-spacing:.16em;margin:26px 0 18px;overflow-wrap:anywhere}
+.site-loader h2{display:block;width:100%;max-width:720px;margin:0 auto;font-size:clamp(36px,8vw,72px);line-height:1.12;letter-spacing:-.025em;word-spacing:normal;white-space:normal;overflow-wrap:normal}
+.site-loader h2 span{display:inline-block;margin-top:5px;line-height:1.15;letter-spacing:-.02em}
+.site-loader .loader-status{font-size:12px;line-height:1.8;letter-spacing:.12em;margin-top:2px}
