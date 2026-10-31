@@ -71,7 +71,7 @@ function openConfirm({title="Confirmar ação",description="Tem certeza de que d
 }
 function closeConfirm(){
  const back=$("#confirm-backdrop");if(!back)return;
- back.hidden=true;confirmAction=null;document.body.classList.remove("lock");
+ back.hidden=true;confirmAction=null;if($(".drawer").classList.contains("open"))document.body.classList.add("lock");else document.body.classList.remove("lock");
  if(confirmPreviousFocus&&typeof confirmPreviousFocus.focus==="function")confirmPreviousFocus.focus();
 }
 function fieldError(input,message){
@@ -83,7 +83,7 @@ function validateContactField(input){
  const value=input.value.trim();let error="";
  if(input.name==="contact-name"&&(value.length<2||!/^[\p{L}][\p{L}\p{M} .'-]{1,79}$/u.test(value)))error="Digite um nome válido (mínimo de 2 letras).";
  if(input.name==="contact-email"&&!/^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/.test(value))error="Digite um e-mail válido, como nome@email.com.";
- if(input.name==="contact-phone"){const digits=value.replace(/\D/g,"");if(digits.length<10||digits.length>13)error="Digite um telefone com DDD e número válido.";}
+ if(input.name==="contact-phone"){const digits=value.replace(/\D/g,"");if(!/^[0-9+().\s-]+$/.test(value)||digits.length<10||digits.length>13)error="Digite um telefone válido com DDD (somente números, espaços, +, parênteses ou hífen).";}
  if(input.name==="contact-message"&&(value.length<10||value.length>1000))error="A mensagem deve ter entre 10 e 1.000 caracteres.";
  return fieldError(input,error);
 }
