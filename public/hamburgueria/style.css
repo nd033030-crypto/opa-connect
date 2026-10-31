@@ -110,3 +110,19 @@ body{perspective:1200px;perspective-origin:50% 45%}
 .customize-total{display:flex;justify-content:space-between;align-items:center;margin:18px 0;padding-top:14px;border-top:1px solid var(--border);font-size:12px}.customize-total strong{font-size:19px;color:var(--amber)}.customize-add{width:100%;cursor:pointer}
 @media(max-width:480px){.customize-modal{padding:21px 16px}.customize-option{grid-template-columns:minmax(0,1fr) auto 20px;padding:10px 8px}.customize-product{grid-template-columns:80px minmax(0,1fr)}.customize-product-image{height:78px}}
 @media(prefers-reduced-motion:reduce){.hero-photo img.scroll-motion-img,.photo img.scroll-motion-img,.story-photo img.scroll-motion-img,.gallery figure img.scroll-motion-img{transition:none!important}}
+
+/* Premium initial loading screen */
+.site-loader{position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px;background:radial-gradient(ellipse at 50% 42%,#392116 0%,#1b100c 46%,#100b09 100%);color:var(--cream,#fff4e8);opacity:1;visibility:visible;transition:opacity .65s ease,visibility .65s ease}
+.site-loader.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+.loader-mark{display:grid;place-items:center;width:62px;height:62px;border:1px solid rgba(224,160,83,.65);border-radius:50%;color:#e9a44f;font-size:32px;box-shadow:0 0 38px rgba(224,160,83,.12);animation:loaderPulse 1.35s ease-in-out infinite}
+.loader-kicker{margin:28px 0 12px;color:#e9a44f;font-size:10px;letter-spacing:.28em;font-weight:800}
+.site-loader h2{margin:0;font-family:var(--display,Georgia,serif);font-size:clamp(38px,8vw,70px);line-height:.98;letter-spacing:-.04em}
+.site-loader h2 span{color:#e9a44f;font-style:italic}
+.loader-track{width:min(250px,65vw);height:3px;margin:28px 0 13px;overflow:hidden;background:#ffffff20;border-radius:10px}
+.loader-track span{display:block;width:40%;height:100%;background:linear-gradient(90deg,#b46b2b,#ffe0a3,#b46b2b);border-radius:10px;animation:loaderProgress 1.15s ease-in-out infinite}
+.loader-status{margin:0;color:#e8d7c8;font-size:12px;letter-spacing:.14em}
+.loader-dots{display:inline-block;width:18px;text-align:left;animation:loaderDots 1.2s steps(4,end) infinite;overflow:hidden;vertical-align:bottom}
+@keyframes loaderPulse{0%,100%{transform:scale(1);box-shadow:0 0 20px #e9a44f10}50%{transform:scale(1.07);box-shadow:0 0 36px #e9a44f38}}
+@keyframes loaderProgress{0%{transform:translateX(-120%)}100%{transform:translateX(350%)}}
+@keyframes loaderDots{0%{width:0}100%{width:18px}}
+@media(prefers-reduced-motion:reduce){.loader-mark,.loader-track span,.loader-dots{animation:none}}
