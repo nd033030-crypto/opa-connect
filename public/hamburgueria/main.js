@@ -39,10 +39,13 @@ function openCart(){$(".drawer").classList.add("open");$(".drawer").setAttribute
 function closeCart(){$(".drawer").classList.remove("open");$(".drawer").setAttribute("aria-hidden","true");$(".overlay").hidden=true;document.body.classList.remove("lock")}
 function checkout(){if(!cart.length)return;const f=$(".checkout");if(!f.reportValidity())return;const d=new FormData(f),sub=cart.reduce((s,x)=>s+lineTotal(x),0),fee=Number(CONFIG.deliveryFee)||0,lines=cart.map(x=>"• "+x.qty+"x "+x.name+(x.addons.length?" ("+x.addons.map(a=>a.name).join(", ")+")":"")+" — "+cash(lineTotal(x))).join("\n"),msg="Olá, "+CONFIG.name+"! Quero fazer um pedido:\n\n"+lines+"\n\nSubtotal: "+cash(sub)+"\nEntrega: "+cash(fee)+"\nTOTAL: "+cash(sub+fee)+"\n\nNome: "+d.get("customer")+"\nEndereço: "+d.get("address")+"\nPagamento: "+d.get("payment")+"\nObservações: "+(d.get("notes")||"Nenhuma");window.open(wa(msg),"_blank","noopener,noreferrer")}
 function initScroll(){
- if(reduced)return;
  document.documentElement.classList.add("js-ready");
- observer=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add("visible");observer.unobserve(e.target)}})},{threshold:.12,rootMargin:"0px 0px -35px 0px"});
- $(".reveal").forEach(function(e,i){e.style.setProperty("--delay",(i%4*90)+"ms");observer.observe(e)});
+ if("IntersectionObserver" in window){
+  observer=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add("visible");observer.unobserve(e.target)}})},{threshold:.08,rootMargin:"0px 0px -20px 0px"});
+  $$(".reveal").forEach(function(e,i){e.style.setProperty("--delay",(i%4*75)+"ms");observer.observe(e)});
+ }else{
+  $$(".reveal").forEach(function(e){e.classList.add("visible")});
+ }
  if(window.Lenis){try{const lenis=new Lenis({duration:1.25,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),smoothWheel:true,syncTouch:false});function frame(t){lenis.raf(t);requestAnimationFrame(frame)}requestAnimationFrame(frame);window.__lenis=lenis}catch(e){}}
  const hero=$(".hero-photo");let ticking=false;
  function scrollMotion(){if(ticking)return;ticking=true;requestAnimationFrame(function(){const y=window.scrollY||0;if(hero&&y<window.innerHeight*1.3)hero.style.transform="translate3d(0,"+(y*.14)+"px,0) scale(1.06)";const n=document.documentElement;$(".nav").classList.toggle("scrolled",y>40);$(".progress").style.transform="scaleX("+(n.scrollHeight-innerHeight>0?Math.min(1,y/(n.scrollHeight-innerHeight)):0)+")";ticking=false})}
