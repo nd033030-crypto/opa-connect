@@ -79,3 +79,14 @@
 @keyframes confirm-enter{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
 @media(max-width:600px){.contact-fields{grid-template-columns:1fr}.contact-fields .message-field{grid-column:auto}.client-social-proof{align-items:flex-start}.testimonial{padding:25px 18px;min-height:290px}.confirm-actions{flex-direction:column-reverse}.confirm-actions .btn{width:100%}}
 @media(prefers-reduced-motion:reduce){.testimonial{animation:none}.review-dot{transition:none}.confirm-modal{animation:none}}
+
+/* Scroll 3D motion: perspective, depth and subtle tilt while moving through sections */
+html{scroll-behavior:smooth}
+body{perspective:1200px;perspective-origin:50% 45%}
+.reveal{transform-style:preserve-3d;backface-visibility:hidden;will-change:transform,opacity}
+.js-ready .reveal{transform:perspective(1000px) translate3d(0,34px,-28px) rotateX(5deg) scale(.975);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1),filter .8s ease;transition-delay:var(--delay,0ms)}
+.js-ready .reveal.visible{opacity:1;transform:perspective(1000px) translate3d(var(--scroll-drift,0px),0,var(--scroll-depth,0px)) rotateX(var(--scroll-tilt,0deg)) scale(1);filter:blur(0)}
+.menu-grid .reveal,.testimonials .testimonial,.story-grid .reveal,.contact-grid .reveal,.contact-form.reveal{transform-origin:50% 50%;transform-style:preserve-3d}
+.hero-photo{transform-style:preserve-3d;will-change:transform}
+@media(max-width:768px){body{perspective:900px}.js-ready .reveal{transform:perspective(900px) translate3d(0,26px,-16px) rotateX(3deg) scale(.985)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}body{perspective:none}.reveal,.js-ready .reveal,.js-ready .reveal.visible{transform:none!important;filter:none!important;transition:none!important}}
