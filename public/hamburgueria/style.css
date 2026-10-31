@@ -145,3 +145,14 @@ body{perspective:1200px;perspective-origin:50% 45%}
 .product .photo img{width:100%;height:100%;min-height:240px;object-fit:cover}
 .js-ready .product.reveal{opacity:0;transform:perspective(900px) translate3d(0,42px,-20px) rotateX(5deg) scale(.975);transition:opacity .7s ease,transform .8s cubic-bezier(.2,.8,.2,1),filter .7s ease}
 .js-ready .product.reveal.visible{opacity:1;transform:perspective(900px) translate3d(var(--scroll-drift,0px),0,var(--scroll-depth,0px)) rotateX(var(--scroll-tilt,0deg)) scale(1);filter:none}
+
+/* Correções de robustez: garantir a imagem principal e o espaço visual do cardápio */
+.hero-photo{background:#21130d url("https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=2000&q=90") center 52%/cover no-repeat!important}
+.hero-photo img{display:block!important;visibility:visible!important;opacity:1!important;z-index:0!important;object-fit:cover!important;object-position:62% center!important;width:100%!important;height:100%!important}
+.hero-photo:after{z-index:1!important;pointer-events:none}
+.menu-grid{align-items:stretch}
+.product{min-width:0;min-height:100%;display:flex;flex-direction:column}
+.product .photo{height:270px;min-height:220px;flex-shrink:0}
+.product .photo img{display:block;width:100%;height:100%;min-height:100%;object-fit:cover}
+.product .body{display:flex;flex:1;flex-direction:column}
+.product-foot{margin-top:auto}
