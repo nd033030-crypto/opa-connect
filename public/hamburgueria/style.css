@@ -90,3 +90,10 @@ body{perspective:1200px;perspective-origin:50% 45%}
 .hero-photo{transform-style:preserve-3d;will-change:transform}
 @media(max-width:768px){body{perspective:900px}.js-ready .reveal{transform:perspective(900px) translate3d(0,26px,-16px) rotateX(3deg) scale(.985)}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}body{perspective:none}.reveal,.js-ready .reveal,.js-ready .reveal.visible{transform:none!important;filter:none!important;transition:none!important}}
+
+/* Scroll-linked image parallax: image pixels move subtly as the viewport passes */
+.photo,.story-photo,.gallery figure,.hero-photo{overflow:hidden;isolation:isolate}
+.scroll-motion-img{display:block;will-change:transform;transform-origin:50% 50%;backface-visibility:hidden;transition:filter .35s ease}
+.photo .scroll-motion-img,.story-photo .scroll-motion-img,.gallery figure .scroll-motion-img{height:110%;min-height:110%;width:100%;object-fit:cover}
+.hero-photo .scroll-motion-img{height:100%;width:100%;object-fit:cover}
+@media(prefers-reduced-motion:reduce){.scroll-motion-img{transform:none!important;will-change:auto}}
